@@ -1,5 +1,7 @@
 import pygame
 from config import *
+from sprites.Background import Background
+from sprites.Player import Player
 from pygame.locals import (
     KEYDOWN,
     K_ESCAPE,
@@ -16,9 +18,10 @@ clock = pygame.time.Clock()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 # background
-bg = pygame.Surface((2000, 2000))
-x = 0
-y = 0
+bg = Background()
+
+# player
+player = Player()
 
 # game loop
 running = True
@@ -32,14 +35,18 @@ while running:
         elif event.type == QUIT:
             running = False
     
-    # background
-    bg.fill(BG_COLOR)
-
+    # screen
     screen.fill(BLACK)
 
-    screen.blit(bg, (x, y))
-    x -= 10
-    y -= 10
+    # add player and background
+    screen.blit(bg.surf, (bg.location.x, bg.location.y))
+    screen.blit(player.surf, player.rect)
+
+    # player and background upadting and movement
+    keys_pressed = pygame.key.get_pressed()
+    player.update(keys_pressed=keys_pressed)
+    bg.update(player_x=player.pos.x, player_y=player.pos.y)
+
     # display
     pygame.display.flip()
 

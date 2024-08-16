@@ -1,5 +1,6 @@
 import pygame
 from config import *
+from classes.Point import Point
 
 class Background(pygame.sprite.Sprite):
     def __init__(self):
@@ -9,18 +10,9 @@ class Background(pygame.sprite.Sprite):
         self.rect = self.surf.get_rect()
 
         # for determining position of background
-        self.x = BG_WIDTH/2 - SCREEN_WIDTH/2
-        self.y = BG_HEIGHT/2 - SCREEN_HEIGHT/2
+        self.location = Point(SCREEN_WIDTH/2 - BG_WIDTH/2, SCREEN_HEIGHT/2 - BG_HEIGHT/2)
 
     def update(self, player_x, player_y):
-        # correct x and y
-        x = self.x + SCREEN_WIDTH/2
-        y = self.y - SCREEN_HEIGHT/2
-
-        # check playeris in correct position
-        if player_x == self.x and player_y == self.y:
-            return
-        
-        # move background if else 
-        self.x = player_x
-        self.y = player_y
+        # the player x and y represent where the center of the screen should be
+        self.location.x = SCREEN_WIDTH/2 - player_x
+        self.location.y = SCREEN_HEIGHT/2 - player_y
