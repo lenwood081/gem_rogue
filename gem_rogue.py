@@ -9,8 +9,16 @@ from pygame.locals import (
 # initiate game
 pygame.init()
 
+# game clock
+clock = pygame.time.Clock()
+
 # basic screen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+# background
+bg = pygame.Surface((2000, 2000))
+x = 0
+y = 0
 
 # game loop
 running = True
@@ -25,9 +33,17 @@ while running:
             running = False
     
     # background
-    screen.fill(BG_COLOR)
-    
+    bg.fill(BG_COLOR)
+
+    screen.fill(BLACK)
+
+    screen.blit(bg, (x, y))
+    x -= 10
+    y -= 10
     # display
     pygame.display.flip()
+
+    # framerate
+    clock.tick(30)
 
 pygame.quit()

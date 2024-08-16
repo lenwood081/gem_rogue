@@ -4,3 +4,6 @@ SCREEN_HEIGHT = 800
 
 # background
 BG_COLOR = (0, 138, 0)
+BLACK = (0, 0, 0)
+BG_WIDTH = 2000
+BG_HEIGHT = 2000
