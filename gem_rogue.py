@@ -51,11 +51,13 @@ while running:
     for em in enemies:
         screen.blit(em.surf, (em.pos.x + bg.location.x, em.pos.y + bg.location.y)) 
     
-
     # player and background upadting and movement
     keys_pressed = pygame.key.get_pressed()
     player.update(keys_pressed=keys_pressed)
     bg.update(player_pos=player.pos)
+
+    for em in enemies:
+        em.update(player.pos)
 
     # display
     pygame.display.flip()

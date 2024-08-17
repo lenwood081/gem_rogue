@@ -9,6 +9,9 @@ only thing special is that it will have a radius turn
 class BlockFodder(Enemy):
     def __init__(self, x, y):
         super(BlockFodder, self).__init__(x, y, 30, 30)
+        
 
-    def update(self):
-        pass
+    def update(self, player_pos):
+        dir = self.move_towards_player(player_pos)
+        self.pos.x += self.speed * dir.x
+        self.pos.y += self.speed * dir.y
