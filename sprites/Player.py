@@ -25,13 +25,13 @@ class Player(pygame.sprite.Sprite):
     def update(self, keys_pressed):
         # player movement
         if keys_pressed[K_s]:
-            self.pos.move(0, 5)
+            self.pos.move(0, PL_SPEED)
         if keys_pressed[K_w]:
-            self.pos.move(0, -5)
+            self.pos.move(0, -PL_SPEED)
         if keys_pressed[K_d]:
-            self.pos.move(5, 0)
+            self.pos.move(PL_SPEED, 0)
         if keys_pressed[K_a]:
-            self.pos.move(-5, 0)
+            self.pos.move(-PL_SPEED, 0)
 
         # movement restriction (BG_WIDTH and BG_HEIGHT)
         if self.pos.x > BG_WIDTH - PL_WIDTH/2:
