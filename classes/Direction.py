@@ -15,7 +15,6 @@ class Direction():
     @staticmethod
     def rotate(start, target, object):
         angle = target - start
-
         object = pygame.transform.rotate(object, math.degrees(angle))
         return object
 
