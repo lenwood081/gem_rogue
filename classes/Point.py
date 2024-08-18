@@ -1,4 +1,5 @@
 import math
+from classes.Direction import Direction
 
 # makes easier to control position
 class Point:
@@ -24,3 +25,12 @@ class Point:
         move_dir.y = y/magnitude
         
         return move_dir
+    
+    @staticmethod
+    def direction_to_point(pos1, pos2):
+        direction = Direction(0.0)
+        x=pos1.x-pos2.x
+        y=pos1.y-pos2.y
+        angle = math.atan2(y, x)
+        direction.dir = angle
+        return direction

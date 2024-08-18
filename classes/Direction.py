@@ -1,15 +1,22 @@
 import math
+import pygame
 
 class Direction():
     def __init__(self, dir):
         """
-        follows unit circle conventions
-        right is 0 
-        up 90
-        left 180
-        down 270
+        up is -90
+        right is 0
+        left is -180 or 180
+        down is 90
         """
         self.dir = dir
+
+    @staticmethod
+    def rotate(start, target, object):
+        angle = target - start
+
+        object = pygame.transform.rotate(object, math.degrees(angle))
+        return object
 
     def normal(self):
         while self.dir < 0:
