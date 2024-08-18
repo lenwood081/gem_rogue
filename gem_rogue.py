@@ -47,9 +47,9 @@ while running:
     # add player and background
     screen.blit(bg.surf, (bg.location.x, bg.location.y))
     screen.blit(player.surf, player.rect)
+
     # blit enemies
     for em in enemies:
-        # y is negative so that I can use normal y and x
         screen.blit(em.surf, (em.pos.x + bg.location.x, -em.pos.y + bg.location.y)) 
     
     # player and background upadting and movement

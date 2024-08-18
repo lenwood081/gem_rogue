@@ -7,6 +7,7 @@ from pygame.locals import (
     K_s,
     K_d,
 )
+import math
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
@@ -23,15 +24,25 @@ class Player(pygame.sprite.Sprite):
         
 
     def update(self, keys_pressed):
+        x = 0
+        y = 0
+
         # player movement
         if keys_pressed[K_s]:
-            self.pos.move(0, -PL_SPEED)
+            y = -PL_SPEED
         if keys_pressed[K_w]:
-            self.pos.move(0, PL_SPEED)
+            y = PL_SPEED
         if keys_pressed[K_d]:
-            self.pos.move(PL_SPEED, 0)
+            x = PL_SPEED
         if keys_pressed[K_a]:
-            self.pos.move(-PL_SPEED, 0)
+            x = -PL_SPEED
+
+        # check for diagonal speed irregularity
+        if x != 0 and y != 0:
+            x /= math.sqrt(2)
+            y /= math.sqrt(2)
+
+        self.pos.move(x, y)
 
         # movement restriction (BG_WIDTH and BG_HEIGHT)
         if self.pos.x > BG_WIDTH - PL_WIDTH/2:
