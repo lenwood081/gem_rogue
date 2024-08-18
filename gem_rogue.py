@@ -26,7 +26,7 @@ player = Player()
 
 # enemies
 enemies = pygame.sprite.Group()
-bl = BlockFodder(10, 10)
+bl = BlockFodder(1000, 1500)
 enemies.add(bl)
 
 # game loop
