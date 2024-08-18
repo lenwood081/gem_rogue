@@ -1,4 +1,5 @@
 import pygame
+import math
 from classes.Point import Point
 from classes.Direction import Direction
 from config import *
@@ -10,9 +11,8 @@ class Enemy(pygame.sprite.Sprite):
 
         self.surf = pygame.image.load(image_path).convert_alpha()
         self.surf_base = self.surf
-        self.hitbox_rect = self.surf.get_rect(center=(self.pos.x, self.pos.y))
+        self.hitbox_rect = self.surf.get_rect()
         self.rect = self.hitbox_rect.copy()
-        self.hitbox_rect = self.surf_base.get_rect(center=self.rect.center)
 
         self.speed = 5
         self.health = 5
@@ -37,9 +37,9 @@ class Enemy(pygame.sprite.Sprite):
         player_unit_vector = Point.unit_vector(player_pos, self.pos)
         # rotate to face player
         player_dir = Point.direction_to_point(player_pos, self.pos)
-        self.surf = Direction.rotate(self.front.dir, player_dir.dir, self.surf_base)
-        
-        self.front = player_dir
+        self.surf = Direction.rotate(player_dir.dir + math.pi/2, self.surf_base)
+        self.rect = self.surf.get_rect(center=self.hitbox_rect.center)
+        self.front.dir = player_dir.dir
         return player_unit_vector
 
 

@@ -13,10 +13,9 @@ class Direction():
         self.dir = dir
 
     @staticmethod
-    def rotate(start, target, object):
-        angle = target - start
-        object = pygame.transform.rotate(object, math.degrees(angle))
-        return object
+    def rotate(target, object):
+        new_object = pygame.transform.rotate(object, math.degrees(target))
+        return new_object
 
     def normal(self):
         while self.dir < -180:

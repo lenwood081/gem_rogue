@@ -20,7 +20,7 @@ class Player(pygame.sprite.Sprite):
         ))
 
         # position reletive to background (centered)
-        self.pos = Point(BG_WIDTH/2, -BG_HEIGHT/2)
+        self.pos = Point(BG_WIDTH/2 + PL_WIDTH/2, -BG_HEIGHT/2 - PL_HEIGHT/2)
         
 
     def update(self, keys_pressed):

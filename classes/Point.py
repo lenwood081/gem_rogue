@@ -21,6 +21,10 @@ class Point:
 
         # make unit vector
         magnitude = math.sqrt(x*x+y*y)
+        if magnitude == 0:
+            move_dir.x = 0
+            move_dir.y = 0
+            return move_dir
         move_dir.x = x/magnitude
         move_dir.y = y/magnitude
         
