@@ -21,6 +21,36 @@ class Player(pygame.sprite.Sprite):
 
         # position reletive to background (centered)
         self.pos = Point(BG_WIDTH/2 + PL_WIDTH/2, -BG_HEIGHT/2 - PL_HEIGHT/2)
+
+        # health and armour
+        self.health = 10
+        self.armour = 0
+        self.immune = False
+        self.immunity_frames = 0
+        self.immunity_frames_gained = 30
+        self.sheild = 0
+
+    # death method
+    def death(self):
+        # reset to game screen
+        self.kill()
+
+    # for taking damage
+    def take_damage(self, damage):
+        if self.immune:
+            self.immunity_frames -= 1
+            if self.immunity_frames == 0:
+                self.immune = False   
+            return
+
+        self.health -= damage - damage*(self.armour * 0.01)
+        if self.health <= 0:
+            self.death()
+            return
+        
+        # damage immunity frame?
+        self.immune = True
+        self.immunity_frames = self.immunity_frames_gained
         
 
     def update(self, keys_pressed):
