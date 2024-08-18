@@ -5,14 +5,16 @@ from classes.Direction import Direction
 from config import *
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, x, y, size_w, size_h):
+    def __init__(self, x, y, size_w, size_h, image_path):
         super(Enemy, self).__init__()
         self.pos = Point(x, y)
+
         self.surf = pygame.Surface((size_w, size_h))
         self.surf_base = self.surf
         self.surf.fill(BLACK)
         self.rect = self.surf.get_rect()
         self.hitbox_rect = self.surf_base.get_rect(center=self.rect.center)
+
         self.speed = 5
         self.health = 5
         self.armour = 0
@@ -34,11 +36,8 @@ class Enemy(pygame.sprite.Sprite):
     def move_towards_player(self, player_pos):
         # make unit vector
         player_unit_vector = Point.unit_vector(player_pos, self.pos)
-        # 0 -> -180, 180 -> 0
-        player_dir = Point.direction_to_point(player_pos, self.pos)
         # rotate to face player
-        self.surf = Direction.rotate(self.front.dir, player_dir.dir, self.surf_base)
-        self.rect = self.surf.get_rect(center = self.hitbox_rect.center)
+
         return player_unit_vector
 
 

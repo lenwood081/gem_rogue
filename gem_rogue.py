@@ -26,7 +26,7 @@ player = Player()
 
 # enemies
 enemies = pygame.sprite.Group()
-bl = BlockFodder(1000, 1500)
+bl = BlockFodder(1000, -1500)
 enemies.add(bl)
 
 # game loop
@@ -49,7 +49,8 @@ while running:
     screen.blit(player.surf, player.rect)
     # blit enemies
     for em in enemies:
-        screen.blit(em.surf, (em.pos.x + bg.location.x, em.pos.y + bg.location.y)) 
+        # y is negative so that I can use normal y and x
+        screen.blit(em.surf, (em.pos.x + bg.location.x, -em.pos.y + bg.location.y)) 
     
     # player and background upadting and movement
     keys_pressed = pygame.key.get_pressed()

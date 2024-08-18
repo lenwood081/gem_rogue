@@ -15,4 +15,4 @@ class Background(pygame.sprite.Sprite):
     def update(self, player_pos):
         # the player x and y represent where the center of the screen should be
         self.location.x = SCREEN_WIDTH/2 - player_pos.x
-        self.location.y = SCREEN_HEIGHT/2 - player_pos.y
+        self.location.y = SCREEN_HEIGHT/2 + player_pos.y

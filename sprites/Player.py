@@ -19,15 +19,15 @@ class Player(pygame.sprite.Sprite):
         ))
 
         # position reletive to background (centered)
-        self.pos = Point(BG_WIDTH/2, BG_HEIGHT/2)
+        self.pos = Point(BG_WIDTH/2, -BG_HEIGHT/2)
         
 
     def update(self, keys_pressed):
         # player movement
         if keys_pressed[K_s]:
-            self.pos.move(0, PL_SPEED)
-        if keys_pressed[K_w]:
             self.pos.move(0, -PL_SPEED)
+        if keys_pressed[K_w]:
+            self.pos.move(0, PL_SPEED)
         if keys_pressed[K_d]:
             self.pos.move(PL_SPEED, 0)
         if keys_pressed[K_a]:
@@ -38,7 +38,7 @@ class Player(pygame.sprite.Sprite):
             self.pos.x = BG_WIDTH - PL_WIDTH/2
         if self.pos.x < PL_WIDTH/2:
             self.pos.x = PL_WIDTH/2
-        if self.pos.y > BG_HEIGHT - PL_HEIGHT/2:
-            self.pos.y = BG_HEIGHT - PL_HEIGHT/2
-        if self.pos.y < PL_HEIGHT/2:
-            self.pos.y = PL_HEIGHT/2
+        if self.pos.y < -BG_HEIGHT + PL_HEIGHT/2:
+            self.pos.y = -BG_HEIGHT + PL_HEIGHT/2
+        if self.pos.y > -PL_HEIGHT/2:
+            self.pos.y = -PL_HEIGHT/2
