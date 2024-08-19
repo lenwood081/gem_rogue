@@ -3,6 +3,7 @@ from config import *
 from sprites.Background import Background
 from sprites.Player import Player
 from sprites.enemies.BlockFodder import BlockFodder
+from sprites.HealthBar import HealthBar
 from pygame.locals import (
     KEYDOWN,
     K_ESCAPE,
@@ -24,6 +25,9 @@ bg = Background()
 # player
 player = Player()
 
+# UI
+health = HealthBar(player.max_health)
+
 # enemies
 enemies = pygame.sprite.Group()
 b1 = BlockFodder(1000, -1500)
@@ -39,6 +43,7 @@ enemies.add(b1)
 # game loop
 running = True
 while running:
+    keys_pressed = pygame.key.get_pressed()
     # event handeler
     for event in pygame.event.get():
         # quit checks
@@ -59,19 +64,21 @@ while running:
             em.pos.x + bg.location.x, 
             -em.pos.y + bg.location.y))
         screen.blit(em.surf, em.hitbox_rect) 
+    # health bar
+    screen.blit(health.inner_surf, (health.screen_pos.x + 10, health.screen_pos.y))
+    screen.blit(health.outer_surf, (health.screen_pos.x, health.screen_pos.y))
     
     # check collisions
     for em in enemies:
         if pygame.Rect.colliderect(em.hitbox_rect, player.rect):
             player.take_damage(em.attack())
-            print(player.health)
 
     # updates
-    keys_pressed = pygame.key.get_pressed()
-    player.update(keys_pressed=keys_pressed)
-    bg.update(player_pos=player.pos)
+    player.update(keys_pressed)
+    bg.update(player.pos)
     for em in enemies:
         em.update(player.pos)
+    health.update(player.current_health, player.max_health)
 
     # display
     pygame.display.flip()

@@ -23,11 +23,12 @@ class Player(pygame.sprite.Sprite):
         self.pos = Point(BG_WIDTH/2 + PL_WIDTH/2, -BG_HEIGHT/2 - PL_HEIGHT/2)
 
         # health and armour
-        self.health = 10
+        self.max_health = 10
+        self.current_health = self.max_health
         self.armour = 0
         self.immune = False
         self.immunity_frames = 0
-        self.immunity_frames_gained = 30
+        self.immunity_frames_gained = 15
         self.sheild = 0
 
     # death method
@@ -43,8 +44,8 @@ class Player(pygame.sprite.Sprite):
                 self.immune = False   
             return
 
-        self.health -= damage - damage*(self.armour * 0.01)
-        if self.health <= 0:
+        self.current_health -= damage - damage*(self.armour * 0.01)
+        if self.current_health <= 0:
             self.death()
             return
         

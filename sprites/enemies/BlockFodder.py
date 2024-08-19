@@ -15,11 +15,6 @@ class BlockFodder(Enemy):
         self.attack_damage = 1
         self.hit_damage = self.attack_damage
 
-    # occurs when colliding with a player
-    # if in an attck then does more damage
-    def attack(self):
-        return self.attack_damage
-
     def update(self, player_pos):
         dir = self.move_towards_player(player_pos)
         self.pos.x += self.speed * dir.x
