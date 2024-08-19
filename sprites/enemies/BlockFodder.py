@@ -1,5 +1,4 @@
 import pygame
-import random
 from sprites.Enemy import Enemy
 
 """
@@ -19,3 +18,11 @@ class BlockFodder(Enemy):
         dir = self.move_towards_player(player_pos)
         self.pos.x += self.speed * dir.x
         self.pos.y += self.speed * dir.y
+
+    # TODO REMOVE blit calls from game entry to streamline for loop through different enemies
+    def draw(self, screen, bg_pos):
+        self.hitbox_rect = self.surf.get_rect(center=(
+            self.pos.x + bg_pos.x, 
+            -self.pos.y + bg_pos.y))
+        screen.blit(self.surf, self.hitbox_rect) 
+        pass

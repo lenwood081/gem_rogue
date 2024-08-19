@@ -19,6 +19,10 @@ class HealthBar(pygame.sprite.Sprite):
         self.max_health = health
         self.health = health
 
+    def draw(self, screen):
+        screen.blit(self.inner_surf, (self.screen_pos.x + 10, self.screen_pos.y))
+        screen.blit(self.outer_surf, (self.screen_pos.x, self.screen_pos.y))
+
 
     def update(self, health, max_health):
         if self.width > SCREEN_WIDTH - 40:

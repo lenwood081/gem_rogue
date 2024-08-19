@@ -39,14 +39,15 @@ enemies.add(b1)
 
 # ----------------------------------- code for functions that run in main loop -----------------------------------
 
-def event_handler():
+def quit_handler():
     for event in pygame.event.get():
         # quit checks
         if event.type == KEYDOWN:
             if event.key == K_ESCAPE:
-                running = False
+                return False
         elif event.type == QUIT:
-            running = False
+            return False
+    return True
 
 def blit_entiites():
     # screen
@@ -56,13 +57,9 @@ def blit_entiites():
     screen.blit(bg.surf, (bg.location.x, bg.location.y))
     screen.blit(player.surf, player.rect)
     for em in enemies:
-        em.hitbox_rect = em.surf.get_rect(center=(
-            em.pos.x + bg.location.x, 
-            -em.pos.y + bg.location.y))
-        screen.blit(em.surf, em.hitbox_rect) 
+        em.draw(screen, bg.location)
     # health bar
-    screen.blit(health.inner_surf, (health.screen_pos.x + 10, health.screen_pos.y))
-    screen.blit(health.outer_surf, (health.screen_pos.x, health.screen_pos.y))
+    health.draw(screen)
     
 def colliosions():
     # player being attacked
@@ -82,7 +79,7 @@ def updates():
 
 while running:
     # event handeler
-    event_handler()
+    running = quit_handler()
 
     # blit to screen
     blit_entiites()
