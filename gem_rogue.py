@@ -13,11 +13,15 @@ from pygame.locals import (
 # initiate game
 pygame.init()
 
+# game loop
+running = True
+
 # game clock
 clock = pygame.time.Clock()
 
 # basic screen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption("Gem Rogue")
 
 # background
 bg = Background()
@@ -31,20 +35,11 @@ health = HealthBar(player.max_health)
 # enemies
 enemies = pygame.sprite.Group()
 b1 = BlockFodder(1000, -1500)
-#b2 = BlockFodder(1000, -1200)
-#b3 = BlockFodder(500, -1500)
-#b4 = BlockFodder(1000, -300)
 enemies.add(b1)
-#enemies.add(b2)
-#enemies.add(b3)
-#enemies.add(b4)
 
+# ----------------------------------- code for functions that run in main loop -----------------------------------
 
-# game loop
-running = True
-while running:
-    keys_pressed = pygame.key.get_pressed()
-    # event handeler
+def event_handler():
     for event in pygame.event.get():
         # quit checks
         if event.type == KEYDOWN:
@@ -52,7 +47,8 @@ while running:
                 running = False
         elif event.type == QUIT:
             running = False
-    
+
+def blit_entiites():
     # screen
     screen.fill(BLACK)
 
@@ -68,22 +64,39 @@ while running:
     screen.blit(health.inner_surf, (health.screen_pos.x + 10, health.screen_pos.y))
     screen.blit(health.outer_surf, (health.screen_pos.x, health.screen_pos.y))
     
-    # check collisions
+def colliosions():
+    # player being attacked
     for em in enemies:
         if pygame.Rect.colliderect(em.hitbox_rect, player.rect):
             player.take_damage(em.attack())
 
-    # updates
+def updates():
+    keys_pressed = pygame.key.get_pressed()
     player.update(keys_pressed)
     bg.update(player.pos)
     for em in enemies:
         em.update(player.pos)
     health.update(player.current_health, player.max_health)
 
+# ----------------------------------- main loop ------------------------------------------------------------------
+
+while running:
+    # event handeler
+    event_handler()
+
+    # blit to screen
+    blit_entiites()
+    
+    # collisions
+    colliosions()
+
+    # updates
+    updates()
+
     # display
-    pygame.display.flip()
+    pygame.display.update()
 
     # framerate
-    clock.tick(30)
+    clock.tick(FRAMERATE)
 
 pygame.quit()
