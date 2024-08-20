@@ -1,5 +1,6 @@
 import pygame
 from config import *
+import random
 from sprites.Background import Background
 from sprites.Player import Player
 from sprites.enemies.BlockFodder import BlockFodder
@@ -40,6 +41,8 @@ class Game:
         b1 = BlockFodder(1000, -1500)
         enemies.add(b1)
 
+        # count
+        count = 0
 
         # ----------------------------------- code for functions that run in main loop -----------------------------------
         
@@ -79,6 +82,13 @@ class Game:
                 em.update(player.pos)
             health.update(player.current_health, player.max_health)
 
+        def spawn_enemies(count):
+            if count > 3 * FRAMERATE:
+                count = 0
+                new_enemy = BlockFodder(random.randint(0, BG_WIDTH), random.randint(-BG_HEIGHT, 0))
+                enemies.add(new_enemy)
+            count += 1
+            return count
         # ----------------------------------- main loop ------------------------------------------------------------------
         
         while running:
@@ -93,6 +103,9 @@ class Game:
 
             # updates
             updates()
+
+            # spawn enemies
+            count = spawn_enemies(count)
 
             # player death
             if len(players) == 0:

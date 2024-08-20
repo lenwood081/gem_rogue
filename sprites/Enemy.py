@@ -6,11 +6,11 @@ from classes.Direction import Direction
 from config import *
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, x, y, image_path):
+    def __init__(self, x, y, image_path, width, height):
         super(Enemy, self).__init__()
-        self.pos = Point(x, y)
+        self.pos = Point(x, y)  
 
-        self.surf = pygame.image.load(image_path).convert_alpha()
+        self.surf = pygame.transform.scale(pygame.image.load(image_path).convert_alpha(), (width, height))
         self.surf_base = self.surf
         self.hitbox_rect = self.surf.get_rect()
         self.rect = self.hitbox_rect.copy()

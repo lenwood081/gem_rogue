@@ -38,10 +38,7 @@ class Player(pygame.sprite.Sprite):
 
     # for taking damage
     def take_damage(self, damage):
-        if self.immune:
-            self.immunity_frames -= 1
-            if self.immunity_frames == 0:
-                self.immune = False   
+        if self.immune:  
             return
 
         self.current_health -= damage - damage*(self.armour * 0.01)
@@ -55,6 +52,11 @@ class Player(pygame.sprite.Sprite):
         
     # update loop
     def update(self, keys_pressed):
+        if self.immune:
+            self.immunity_frames -= 1
+            if self.immunity_frames == 0:
+                self.immune = False
+
         x = 0
         y = 0
 
