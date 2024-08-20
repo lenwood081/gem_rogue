@@ -4,6 +4,7 @@ from sprites.Background import Background
 from sprites.Player import Player
 from sprites.enemies.BlockFodder import BlockFodder
 from sprites.HealthBar import HealthBar
+from Menu import Menu
 from pygame.locals import (
     KEYDOWN,
     K_ESCAPE,
@@ -29,13 +30,16 @@ bg = Background()
 # player
 player = Player()
 
-# UI
+# HUD
 health = HealthBar(player.max_health)
 
 # enemies
 enemies = pygame.sprite.Group()
 b1 = BlockFodder(1000, -1500)
 enemies.add(b1)
+
+# main menu
+main_menu = Menu()
 
 # ----------------------------------- code for functions that run in main loop -----------------------------------
 
@@ -89,6 +93,9 @@ while running:
 
     # updates
     updates()
+
+    if player.current_health <= 3:
+        running = main_menu.start_menu(screen)
 
     # display
     pygame.display.update()
