@@ -22,6 +22,8 @@ class Enemy(pygame.sprite.Sprite):
 
         # direction and turning
         self.front = Direction(0.0) 
+        self.pos_to_player = Point(self.pos.x, self.pos.y)
+        self.turn_pixels = 5
         self.VARIATION = 50
         self.target_variation = random.uniform(-self.VARIATION, self.VARIATION)
         self.lock_on_dist = 70      
@@ -62,10 +64,11 @@ class Enemy(pygame.sprite.Sprite):
             player_pos_cpy.x += self.target_variation
             player_pos_cpy.y += self.target_variation
 
-        # make unit vector
+        # make unit vector for point to travel to
         player_unit_vector = Point.unit_vector(player_pos_cpy, self.pos)
+
         # rotate to face player
-        player_dir = Point.direction_to_point(player_pos, self.pos)
+        player_dir = Point.direction_to_point(player_pos_cpy, self.pos)
         self.surf = Direction.rotate(player_dir.dir + math.pi/2, self.surf_base)
         self.rect = self.surf.get_rect(center=self.hitbox_rect.center)
         self.front.dir = player_dir.dir
