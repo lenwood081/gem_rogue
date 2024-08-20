@@ -42,6 +42,8 @@ class HealthBar(pygame.sprite.Sprite):
         if health != self.health:
             self.health = health
             self.percentage = health/max_health
+            if self.percentage < 0:
+                self.percentage == 0
             self.inner_surf = pygame.Surface((self.percentage * self.width, self.height))
 
         self.inner_surf.fill((255, 0, 0))

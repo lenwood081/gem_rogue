@@ -20,8 +20,6 @@ class Menu:
     # method for the menu loop
     # all buttons and every thing must be declared before this
     def start_menu(self, screen):
-        pygame.init()
-
         # clock
         clock = pygame.time.Clock()
 
@@ -33,9 +31,9 @@ class Menu:
                 # quit checks
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
-                        running = False
+                        return False
                 elif event.type == QUIT:
-                    running = False
+                    return False
 
             # set back screen color
             screen.fill(self.back_color)
@@ -47,6 +45,7 @@ class Menu:
             # update buttons
             for button in self.buttons:
                 if button.update(e):
+                    print("click")
                     running = False
 
             # update screen
@@ -55,11 +54,5 @@ class Menu:
             # framerate
             clock.tick(FRAMERATE)
 
-        pygame.quit()
-
-        if running:
-            # start new game
-            return True
-        
-        return False
+        return True
 

@@ -4,7 +4,6 @@ from sprites.Background import Background
 from sprites.Player import Player
 from sprites.enemies.BlockFodder import BlockFodder
 from sprites.HealthBar import HealthBar
-from Menu import Menu
 from pygame.locals import (
     KEYDOWN,
     K_ESCAPE,
@@ -14,28 +13,24 @@ from pygame.locals import (
 
 class Game:
     def __init__(self):
+        #self.modifiers
         pass
-    
-    @staticmethod
-    def run_game_loop():
-        # initiate game
-        pygame.init()
 
+    # main game loop
+    def run_game_loop(self, screen):
         # game loop
         running = True
 
         # game clock
         clock = pygame.time.Clock()
 
-        # basic screen
-        screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-        pygame.display.set_caption("Gem Rogue")
-
         # background
         bg = Background()
 
         # player
+        players = pygame.sprite.Group()
         player = Player()
+        players.add(player)
 
         # HUD
         health = HealthBar(player.max_health)
@@ -45,9 +40,6 @@ class Game:
         b1 = BlockFodder(1000, -1500)
         enemies.add(b1)
 
-        # main menu
-        main_menu = Menu()
-        main_menu.add_button("assets/UI/buttons/Enter.png", 500, 500, 300, 100)
 
         # ----------------------------------- code for functions that run in main loop -----------------------------------
         
@@ -102,17 +94,12 @@ class Game:
             # updates
             updates()
 
-            # TESTING for menu
-            if player.current_health < player.max_health:
-                running = main_menu.start_menu(screen)
+            # player death
+            if len(players) == 0:
+                running = False
 
             # display
             pygame.display.update()
 
             # framerate
             clock.tick(FRAMERATE)
-        Game.close_game_instance()
-
-    @staticmethod
-    def close_game_instance():
-        pygame.quit()

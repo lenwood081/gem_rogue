@@ -7,7 +7,8 @@ class Button(pygame.sprite.Sprite):
         self.width = width
         self.height = height
         self.pos = Point(x, y)
-        self.image = pygame.transform.scale(pygame.image.load(image_url).convert_alpha(), (self.width, self.height))
+        self.base_image = pygame.transform.scale(pygame.image.load(image_url).convert_alpha(), (self.width, self.height))
+        self.image = self.base_image
         self.rect = self.image.get_rect(center=(
             self.pos.x,
             self.pos.y,
@@ -24,6 +25,7 @@ class Button(pygame.sprite.Sprite):
     def die(self):
         self.kill()
 
+    # checking if button is pressed, TODO added incresing size for hover
     def update(self, events):
         # if mouse is over object
         mx, my = pygame.mouse.get_pos()
@@ -31,12 +33,14 @@ class Button(pygame.sprite.Sprite):
             if self.hover:
                 # return to noraml size
                 self.hover = False
+                self.image = self.base_image
                 pass
             return False
 
         # if over slightly enlarge or change button
         if self.hover == False:
             self.hover = True
+            self.image = pygame.transform.scale_by(self.base_image, 1.05)
             # enlarge button
 
         # if mouse is pressed over object

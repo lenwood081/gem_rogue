@@ -53,7 +53,7 @@ class Player(pygame.sprite.Sprite):
         self.immune = True
         self.immunity_frames = self.immunity_frames_gained
         
-
+    # update loop
     def update(self, keys_pressed):
         x = 0
         y = 0
