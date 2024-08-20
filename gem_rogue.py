@@ -11,6 +11,8 @@ from pygame.locals import (
     QUIT,
 )
 
+# ----------- TODO MAKE MAIN RUNNING A CLASS IN ITSELF!!! not important till later -------------
+
 # initiate game
 pygame.init()
 
@@ -40,6 +42,7 @@ enemies.add(b1)
 
 # main menu
 main_menu = Menu()
+main_menu.add_button("assets/UI/buttons/Enter.png", 500, 500, 300, 100)
 
 # ----------------------------------- code for functions that run in main loop -----------------------------------
 
@@ -94,7 +97,8 @@ while running:
     # updates
     updates()
 
-    if player.current_health <= 3:
+    # TESTING for menu
+    if player.current_health <= player.max_health:
         running = main_menu.start_menu(screen)
 
     # display
