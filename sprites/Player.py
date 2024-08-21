@@ -2,6 +2,7 @@ import pygame
 from config import *
 from classes.Point import Point
 from classes.Direction import Direction
+from classes.Glow import Glow
 from pygame.locals import (
     K_w,
     K_a,
@@ -13,6 +14,7 @@ import math
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super(Player, self).__init__()
+        # base image
         self.base_image = pygame.transform.scale(pygame.image.load("assets/player/Player.png").convert_alpha(), (PL_WIDTH, PL_HEIGHT))
         self.image = self.base_image
         self.hitbox_rect = self.base_image.get_rect(center=(
@@ -21,9 +23,16 @@ class Player(pygame.sprite.Sprite):
         ))
         self.rect = self.hitbox_rect.copy()
 
+        # glow
+        self.radius = PL_WIDTH
+        self.glow_rate = 0.5
+        self.max_diff = 10
+        self.current = 0
+        self.increasing = 1
+
         # position reletive to background (centered)
         self.pos = Point(BG_WIDTH/2 + PL_WIDTH/2, -BG_HEIGHT/2 - PL_HEIGHT/2)
-        self.pos_screen = Point(SCREEN_WIDTH/2, -SCREEN_HEIGHT/2)
+        self.pos_screen = Point(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
         self.front = Direction(0)
 
         # health and armour
@@ -38,6 +47,17 @@ class Player(pygame.sprite.Sprite):
     # blit player
     def draw(self, screen):
         screen.blit(self.image, self.rect)
+
+        # glow breath
+        radius = self.radius * 10 + self.current
+        if self.current >= self.max_diff:
+            self.increasing = -1
+        elif self.current <= self.max_diff * -1:
+            self.increasing = 1
+        self.current += self.increasing * self.glow_rate
+        for i in range(5):
+            screen.blit(Glow.circle_surf(radius, (10, 10, 10)), (self.pos_screen.x - radius, self.pos_screen.y - radius), special_flags=pygame.BLEND_RGB_ADD)
+            radius /= 1.5
 
     # death method
     def death(self):
@@ -64,7 +84,9 @@ class Player(pygame.sprite.Sprite):
         mx, my = pygame.mouse.get_pos()
         mouse_pos = Point(mx, -my)
 
-        mouse_dir = Point.direction_to_point(mouse_pos, self.pos_screen)
+        # y must be reversed 
+        temp_pos =  Point(self.pos_screen.x, -self.pos_screen.y)
+        mouse_dir = Point.direction_to_point(mouse_pos, temp_pos)
         self.image = Direction.rotate(mouse_dir.dir, self.base_image)
         self.rect = self.image.get_rect(center=self.hitbox_rect.center)
         self.front = mouse_dir

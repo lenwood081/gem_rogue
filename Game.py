@@ -64,13 +64,17 @@ class Game:
             screen.fill(BLACK)
 
             # blit calls
-            screen.blit(bg.surf, (bg.location.x, bg.location.y))
-            player.draw(screen)
+            bg.draw(screen)
+            
             for em in enemies:
                 em.draw(screen, bg.location)
             # health bar
+            bg.draw_after(screen)
             health.draw(screen)
+            
+            player.draw(screen)
             gun.draw(screen)
+            
             
         def colliosions():
             # player being attacked
