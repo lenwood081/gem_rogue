@@ -27,4 +27,3 @@ class BlockFodder(Enemy):
             self.pos.x + bg_pos.x, 
             -self.pos.y + bg_pos.y))
         screen.blit(self.surf, self.hitbox_rect) 
-        pass

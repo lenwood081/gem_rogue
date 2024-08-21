@@ -26,6 +26,7 @@ class Player(pygame.sprite.Sprite):
         # glow
         self.radius = PL_WIDTH
         self.glow_rate = 0.5
+        self.num_glows = 5
         self.max_diff = 10
         self.current = 0
         self.increasing = 1
@@ -49,13 +50,13 @@ class Player(pygame.sprite.Sprite):
         screen.blit(self.image, self.rect)
 
         # glow breath
-        radius = self.radius * 10 + self.current
+        radius = self.radius * (self.num_glows*2) + self.current
         if self.current >= self.max_diff:
             self.increasing = -1
         elif self.current <= self.max_diff * -1:
             self.increasing = 1
         self.current += self.increasing * self.glow_rate
-        for i in range(5):
+        for i in range(self.num_glows):
             screen.blit(Glow.circle_surf(radius, (10, 10, 10)), (self.pos_screen.x - radius, self.pos_screen.y - radius), special_flags=pygame.BLEND_RGB_ADD)
             radius /= 1.5
 
