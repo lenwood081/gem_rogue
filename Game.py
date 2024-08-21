@@ -62,7 +62,7 @@ class Game:
 
             # blit calls
             screen.blit(bg.surf, (bg.location.x, bg.location.y))
-            screen.blit(player.surf, player.rect)
+            player.draw(screen)
             for em in enemies:
                 em.draw(screen, bg.location)
             # health bar

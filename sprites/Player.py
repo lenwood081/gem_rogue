@@ -12,9 +12,8 @@ import math
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super(Player, self).__init__()
-        self.surf = pygame.Surface((PL_WIDTH, PL_HEIGHT))
-        self.surf.fill((255, 255, 255))
-        self.rect = self.surf.get_rect(center=(
+        self.image = pygame.transform.scale(pygame.image.load("assets/player/Player.png").convert_alpha(), (PL_WIDTH, PL_HEIGHT))
+        self.rect = self.image.get_rect(center=(
             SCREEN_WIDTH/2,
             SCREEN_HEIGHT/2,
         ))
@@ -30,6 +29,10 @@ class Player(pygame.sprite.Sprite):
         self.immunity_frames = 0
         self.immunity_frames_gained = 15
         self.sheild = 0
+
+    # blit player
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
 
     # death method
     def death(self):
