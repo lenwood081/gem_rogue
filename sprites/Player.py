@@ -1,6 +1,7 @@
 import pygame
 from config import *
 from classes.Point import Point
+from classes.Direction import Direction
 from pygame.locals import (
     K_w,
     K_a,
@@ -22,6 +23,8 @@ class Player(pygame.sprite.Sprite):
 
         # position reletive to background (centered)
         self.pos = Point(BG_WIDTH/2 + PL_WIDTH/2, -BG_HEIGHT/2 - PL_HEIGHT/2)
+        self.pos_screen = Point(SCREEN_WIDTH/2, -SCREEN_HEIGHT/2)
+        self.front = Direction(0)
 
         # health and armour
         self.max_health = 10
@@ -57,7 +60,14 @@ class Player(pygame.sprite.Sprite):
 
     # rotating player
     def face_mouse(self):
-        pass
+        # find mouse pos
+        mx, my = pygame.mouse.get_pos()
+        mouse_pos = Point(mx, -my)
+
+        mouse_dir = Point.direction_to_point(mouse_pos, self.pos_screen)
+        self.image = Direction.rotate(mouse_dir.dir, self.base_image)
+        self.rect = self.image.get_rect(center=self.hitbox_rect.center)
+        self.front = mouse_dir
         
     # update loop
     def update(self, keys_pressed):
@@ -95,5 +105,7 @@ class Player(pygame.sprite.Sprite):
             self.pos.y = -BG_HEIGHT + PL_HEIGHT/2
         if self.pos.y > -PL_HEIGHT/2:
             self.pos.y = -PL_HEIGHT/2
+
+        self.face_mouse()
 
         
