@@ -8,7 +8,7 @@ class Background(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(pygame.image.load("assets/background/pebble-rock-ground.png").convert_alpha(), (BG_WIDTH, BG_HEIGHT))
         self.rect = self.image.get_rect()
         self.surf = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
-        self.surf.fill((100, 100, 100))
+        self.surf.fill(BG_HORROR_SHADE)
 
         # for determining position of background
         self.location = Point(SCREEN_WIDTH/2 - BG_WIDTH/2, SCREEN_HEIGHT/2 - BG_HEIGHT/2)
