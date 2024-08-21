@@ -23,10 +23,10 @@ class Enemy(pygame.sprite.Sprite):
         # direction and turning
         self.front = Direction(0.0) 
         self.pos_to_player = Point(self.pos.x, self.pos.y)
-        self.turn_pixels = 5
-        self.VARIATION = 50
+        self.turn_pixels = 6
+        self.VARIATION = 60
         self.target_variation = random.uniform(-self.VARIATION, self.VARIATION)
-        self.lock_on_dist = 70      
+        self.lock_on_dist = 100      
 
         # slightly random speed
         self.base_speed = 4
@@ -64,6 +64,29 @@ class Enemy(pygame.sprite.Sprite):
             player_pos_cpy.x += self.target_variation
             player_pos_cpy.y += self.target_variation
 
+        # add turning circle another day``
+        """pos_to_player = self.pos_to_player
+
+        # change to player direction slowly
+        if math.fabs(pos_to_player.y - player_pos_cpy.y) < self.turn_pixels:
+            pos_to_player.y = player_pos_cpy.y
+        if math.fabs(pos_to_player.x - player_pos_cpy.x) < self.turn_pixels:
+            pos_to_player.x = player_pos_cpy.x
+        
+        # Y (remember all negative values)
+        if pos_to_player.y < player_pos_cpy.y:
+            pos_to_player.y += self.turn_pixels
+        elif pos_to_player.y > player_pos_cpy.y:
+            pos_to_player.y -= self.turn_pixels
+        
+        # X 
+        if pos_to_player.x < player_pos_cpy.x:
+            pos_to_player.x += self.turn_pixels
+        elif pos_to_player.x > player_pos_cpy.x:
+            pos_to_player.x -= self.turn_pixels
+
+        self.pos_to_player = pos_to_player"""
+            
         # make unit vector for point to travel to
         player_unit_vector = Point.unit_vector(player_pos_cpy, self.pos)
 
