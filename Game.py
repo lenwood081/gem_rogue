@@ -5,6 +5,7 @@ from sprites.Background import Background
 from sprites.Player import Player
 from sprites.enemies.BlockFodder import BlockFodder
 from sprites.HealthBar import HealthBar
+from sprites.weapons.BasicGun import BasicGun
 from pygame.locals import (
     KEYDOWN,
     K_ESCAPE,
@@ -32,6 +33,8 @@ class Game:
         players = pygame.sprite.Group()
         player = Player()
         players.add(player)
+
+        gun = BasicGun(player.pos_screen.x, player.pos_screen.y)
 
         # HUD
         health = HealthBar(player.max_health)
@@ -67,6 +70,7 @@ class Game:
                 em.draw(screen, bg.location)
             # health bar
             health.draw(screen)
+            gun.draw(screen)
             
         def colliosions():
             # player being attacked
@@ -81,6 +85,7 @@ class Game:
             for em in enemies:
                 em.update(player.pos)
             health.update(player.current_health, player.max_health)
+            gun.update(player.front)
 
         def spawn_enemies(count):
             if count > 3 * FRAMERATE:
