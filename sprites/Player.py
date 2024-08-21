@@ -12,11 +12,13 @@ import math
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super(Player, self).__init__()
-        self.image = pygame.transform.scale(pygame.image.load("assets/player/Player.png").convert_alpha(), (PL_WIDTH, PL_HEIGHT))
-        self.rect = self.image.get_rect(center=(
+        self.base_image = pygame.transform.scale(pygame.image.load("assets/player/Player.png").convert_alpha(), (PL_WIDTH, PL_HEIGHT))
+        self.image = self.base_image
+        self.hitbox_rect = self.base_image.get_rect(center=(
             SCREEN_WIDTH/2,
             SCREEN_HEIGHT/2,
         ))
+        self.rect = self.hitbox_rect.copy()
 
         # position reletive to background (centered)
         self.pos = Point(BG_WIDTH/2 + PL_WIDTH/2, -BG_HEIGHT/2 - PL_HEIGHT/2)
@@ -52,6 +54,10 @@ class Player(pygame.sprite.Sprite):
         # damage immunity frame?
         self.immune = True
         self.immunity_frames = self.immunity_frames_gained
+
+    # rotating player
+    def face_mouse(self):
+        pass
         
     # update loop
     def update(self, keys_pressed):
@@ -89,3 +95,5 @@ class Player(pygame.sprite.Sprite):
             self.pos.y = -BG_HEIGHT + PL_HEIGHT/2
         if self.pos.y > -PL_HEIGHT/2:
             self.pos.y = -PL_HEIGHT/2
+
+        
