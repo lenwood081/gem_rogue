@@ -16,7 +16,7 @@ class Enemy(pygame.sprite.Sprite):
         self.rect = self.hitbox_rect.copy()
         
         # health and damage taken
-        self.health = 100
+        self.health = 10
         self.armour = 0
         self.immune = False
 
