@@ -73,9 +73,8 @@ class Game:
             health.draw(screen)
             
             player.draw(screen)
-            gun.draw(screen)
-            
-            
+            gun.draw(screen, bg.location)
+                    
         def colliosions():
             # player being attacked
             for em in enemies:
@@ -89,7 +88,7 @@ class Game:
             for em in enemies:
                 em.update(player.pos)
             health.update(player.current_health, player.max_health)
-            gun.update(player.front)
+            gun.update(player.front, player.mouse_unit_vector)
 
         def spawn_enemies(count):
             if count > 3 * FRAMERATE:

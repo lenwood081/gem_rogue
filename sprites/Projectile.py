@@ -5,7 +5,7 @@ from classes.Point import Point
 class Projectile(pygame.sprite.Sprite):
     def __init__(self, start_x, start_y, dist, target_unit_vector, target_dir, image_url, width, height):
         super(Projectile, self).__init__()
-        self.pos = (start_x, start_y)
+        self.pos = Point(start_x, start_y)
         self.base_image = pygame.transform.scale(pygame.image.load(image_url).convert_alpha(), (width, height))
         self.image = self.base_image
         self.hitbox_rect = self.base_image.get_rect()
@@ -14,6 +14,7 @@ class Projectile(pygame.sprite.Sprite):
         # target point      
         self.target_unit_vector = target_unit_vector
         self.dir = target_dir
+        self.dist = dist
 
         # health
         self.start_health = 1
@@ -23,7 +24,7 @@ class Projectile(pygame.sprite.Sprite):
         self.damage = 1
 
         # speed
-        self.speed = 5
+        self.speed = 1
         self.falloff = 0
         self.time_alive = 0
     
@@ -53,8 +54,11 @@ class Projectile(pygame.sprite.Sprite):
         self.pos.x += self.speed * self.target_unit_vector.x
         self.pos.y += self.speed * self.target_unit_vector.y
 
+        # decrement dist
+        self.dist -= self.speed
+
     def update(self):
-        self.move(self)
+        self.move()
 
         # check for collisions
         

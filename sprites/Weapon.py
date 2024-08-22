@@ -24,11 +24,6 @@ class Weapon(pygame.sprite.Sprite):
         self.pos = Point(x, y)
         self.front = Direction(0)
 
-    # blit weapon to screen
-    def draw(self, screen):
-        # change center to top left
-        screen.blit(self.image, self.rect)
-
     # face target
     def face_target(self, target_dir):
         # copy target direction

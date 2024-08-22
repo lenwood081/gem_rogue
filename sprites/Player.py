@@ -35,6 +35,7 @@ class Player(pygame.sprite.Sprite):
         self.pos = Point(BG_WIDTH/2 + PL_WIDTH/2, -BG_HEIGHT/2 - PL_HEIGHT/2)
         self.pos_screen = Point(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
         self.front = Direction(0)
+        self.mouse_unit_vector = Point(0, 0)
 
         # health and armour
         self.max_health = 10
@@ -88,6 +89,9 @@ class Player(pygame.sprite.Sprite):
         # y must be reversed 
         temp_pos =  Point(self.pos_screen.x, -self.pos_screen.y)
         mouse_dir = Point.direction_to_point(mouse_pos, temp_pos)
+
+        # make unit vector for point to travel to
+        self.mouse_unit_vector = Point.unit_vector(mouse_pos, temp_pos)
         self.image = Direction.rotate(mouse_dir.dir, self.base_image)
         self.rect = self.image.get_rect(center=self.hitbox_rect.center)
         self.front = mouse_dir
