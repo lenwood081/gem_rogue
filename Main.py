@@ -3,6 +3,8 @@ from config import *
 from Game import Game
 from Menu import Menu
 
+# --------------- TODO need to clean and normilise position -----------------------
+
 # initate game
 pygame.init()
 
