@@ -34,7 +34,7 @@ class Game:
         player = Player()
         players.add(player)
 
-        gun = BasicGun(player.pos_screen.x, player.pos_screen.y)
+        gun = BasicGun(player.pos_screen, player.pos)
 
         # HUD
         health = HealthBar(player.max_health)
@@ -88,7 +88,7 @@ class Game:
             for em in enemies:
                 em.update(player.pos)
             health.update(player.current_health, player.max_health)
-            gun.update(player.front, player.mouse_unit_vector)
+            gun.update(player.front, player.mouse_unit_vector, player.pos)
 
         def spawn_enemies(count):
             if count > 3 * FRAMERATE:

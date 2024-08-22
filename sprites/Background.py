@@ -10,11 +10,12 @@ class Background(pygame.sprite.Sprite):
         self.surf = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.surf.fill(BG_HORROR_SHADE)
 
-        # for determining position of background
+        # for determining position of background 
         self.location = Point(SCREEN_WIDTH/2 - BG_WIDTH/2, SCREEN_HEIGHT/2 - BG_HEIGHT/2)
 
     def draw(self, screen):
         screen.blit(self.image, (self.location.x, self.location.y))
+
 
     def draw_after(self, screen):
         screen.blit(self.surf, (0,0), special_flags=pygame.BLEND_RGB_SUB)

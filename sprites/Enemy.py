@@ -36,6 +36,10 @@ class Enemy(pygame.sprite.Sprite):
         self.hit_damage = 1
         self.attack_damage = 2
 
+        # width and height
+        self.width = width
+        self.height = height
+
     # occurs when colliding with a player
     # if in an attck then does more damage
     def attack(self):

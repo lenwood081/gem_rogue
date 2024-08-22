@@ -8,9 +8,7 @@ only thing special is that it will have a radius turn
 
 class BlockFodder(Enemy):
     def __init__(self, x, y):
-        self.width = 40
-        self.height = 40
-        super(BlockFodder, self).__init__(x, y, "assets/enemies/blockfodder/base.png", self.height, self.width)
+        super(BlockFodder, self).__init__(x, y, "assets/enemies/blockfodder/base.png", 40, 40)
 
         # personal stats to blockfodder
         self.attack_damage = 1
