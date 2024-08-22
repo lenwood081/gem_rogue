@@ -2,7 +2,7 @@ import pygame
 import math
 from classes.Point import Point
 from classes.Direction import Direction
-
+from config import FRAMERATE
 
 class Weapon(pygame.sprite.Sprite):
     def __init__(self, pos, image_url, width, height, bg_pos):
@@ -25,8 +25,11 @@ class Weapon(pygame.sprite.Sprite):
 
         # damage
         self.damage = 5
+        self.fire_rate = 1
+        self.frame_till_fire = 0
 
-        
+        # autofire
+        self.autofire = False
 
     # face target
     def face_target(self, target_dir):
@@ -36,6 +39,26 @@ class Weapon(pygame.sprite.Sprite):
         # move image
         self.image = Direction.rotate(self.front.dir, self.base_image)
         self.rect = self.image.get_rect(center=self.hitbox_rect.center)
+
+    # check if can attack
+    def can_attack(self):
+        fire_rate = FRAMERATE * 1/self.fire_rate
+
+        if self.frame_till_fire <= 0:
+            self.frame_till_fire = fire_rate
+            return True
+        
+        self.frame_till_fire -= 1
+        return False
+    
+    # check if need to attack
+    def do_attack(self, fire_key):
+        if self.autofire:
+            return True
+        
+        if fire_key:
+            return True
+        
 
 
 

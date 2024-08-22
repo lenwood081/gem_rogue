@@ -2,7 +2,7 @@ import pygame
 import math
 from classes.Direction import Direction
 from classes.Point import Point 
-
+ 
 class Projectile(pygame.sprite.Sprite):
     def __init__(self, start_pos, target_unit_vector, target_dir, image_url, width, height):
         super(Projectile, self).__init__()
@@ -11,6 +11,8 @@ class Projectile(pygame.sprite.Sprite):
         self.image = self.base_image
         self.hitbox_rect = self.base_image.get_rect()
         self.rect = self.hitbox_rect.copy()
+        self.width = width
+        self.height = height
 
         # target point      
         self.target_unit_vector = target_unit_vector
