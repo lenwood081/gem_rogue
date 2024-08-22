@@ -1,34 +1,33 @@
 import pygame
 from classes.Point import Point
 from sprites.Weapon import Weapon
-from sprites.Projectile import Projectile
+from sprites.projectiles.WhiteBullet import WhiteBullet
+
 
 class BasicGun(Weapon):
-    def __init__(self, pos_screen, pos):
-        self.pos_screen = Point(pos_screen.x, pos_screen.y)
-        self.pos = Point(pos.x, pos.y)
-        super(BasicGun, self).__init__(pos_screen, pos, "assets/player/Basic_gun.png", 70, 100) 
+    def __init__(self, pos, bg_pos):
+        super(BasicGun, self).__init__(pos, "assets/player/Basic_gun.png", 70, 100, bg_pos) 
         self.projectiles = pygame.sprite.Group()
-
+        self.damage = 1
 
     # blit weapon to screen
     def draw(self, screen, bg_pos):
+        self.rect = self.image.get_rect(center=(
+            self.pos.x + bg_pos.x, 
+            -self.pos.y + bg_pos.y))
         # change center to top left
         screen.blit(self.image, self.rect)
 
         # blit all projectiles
         for projectile in self.projectiles:
-            print("drawing")
             projectile.draw(screen, bg_pos)
 
     def shoot(self, player_dir, target_unit_vector):
-        if len(self.projectiles) > 1: 
-            return
-        new_projectile = Projectile(self.pos.x, self.pos.y, 300, target_unit_vector, player_dir, "assets/Projectiles/White_bullet.png", 6, 12)
+        new_projectile = WhiteBullet(self.pos, target_unit_vector, player_dir, 1)
         self.projectiles.add(new_projectile)
 
     # update gun
-    def update(self, player_dir, target_unit_vector, player_pos):
+    def update(self, player_dir, target_unit_vector, player_pos, enemie_group):
         self.pos.x = player_pos.x
         self.pos.y = player_pos.y
 
@@ -39,4 +38,4 @@ class BasicGun(Weapon):
 
         # update projectiles
         for projectile in self.projectiles:
-            projectile.update()
+            projectile.update(enemie_group)

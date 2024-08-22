@@ -38,3 +38,7 @@ class Point:
         angle = math.atan2(y, x)
         direction.dir = angle
         return direction
+    
+    def copy(self):
+        new_point = Point(self.x, self.y)
+        return new_point

@@ -5,21 +5,28 @@ from classes.Direction import Direction
 
 
 class Weapon(pygame.sprite.Sprite):
-    def __init__(self, pos_screen, pos, image_url, width, height):
+    def __init__(self, pos, image_url, width, height, bg_pos):
         super(Weapon, self).__init__()
+
+        # center
+        self.pos = Point(pos.x, pos.y)
+        self.front = Direction(0)
+
         self.base_image = pygame.transform.scale(pygame.image.load(image_url).convert_alpha(), (width, height))
         self.image = self.base_image
-        self.hit_rect = self.base_image.get_rect(center=(
-            pos_screen.x,
-            pos_screen.y,
+        self.hitbox_rect = self.base_image.get_rect(center=(
+            self.pos.x + bg_pos.x, 
+            -self.pos.y + bg_pos.y
         ))
-        self.rect = self.hit_rect.copy()
+        self.rect = self.hitbox_rect.copy()
+        
         self.width = width
         self.height = height
 
-        # center
-        self.pos_screen = Point(pos_screen.x, pos_screen.y)
-        self.front = Direction(0)
+        # damage
+        self.damage = 5
+
+        
 
     # face target
     def face_target(self, target_dir):
@@ -28,7 +35,7 @@ class Weapon(pygame.sprite.Sprite):
 
         # move image
         self.image = Direction.rotate(self.front.dir, self.base_image)
-        self.rect = self.image.get_rect(center=self.hit_rect.center)
+        self.rect = self.image.get_rect(center=self.hitbox_rect.center)
 
 
 

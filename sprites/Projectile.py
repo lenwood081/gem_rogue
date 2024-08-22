@@ -1,11 +1,12 @@
 import pygame
+import math
 from classes.Direction import Direction
 from classes.Point import Point 
 
 class Projectile(pygame.sprite.Sprite):
-    def __init__(self, start_x, start_y, dist, target_unit_vector, target_dir, image_url, width, height):
+    def __init__(self, start_pos, target_unit_vector, target_dir, image_url, width, height):
         super(Projectile, self).__init__()
-        self.pos = Point(start_x, start_y)
+        self.pos = start_pos.copy()
         self.base_image = pygame.transform.scale(pygame.image.load(image_url).convert_alpha(), (width, height))
         self.image = self.base_image
         self.hitbox_rect = self.base_image.get_rect()
@@ -14,7 +15,7 @@ class Projectile(pygame.sprite.Sprite):
         # target point      
         self.target_unit_vector = target_unit_vector
         self.dir = target_dir
-        self.dist = dist
+        self.dist = 300
 
         # health
         self.start_health = 1
@@ -24,16 +25,17 @@ class Projectile(pygame.sprite.Sprite):
         self.damage = 1
 
         # speed
-        self.speed = 1
+        self.speed = 10
         self.falloff = 0
         self.time_alive = 0
-    
-    # blit to screen
-    def draw(self, screen, bg_pos):
-        self.hitbox_rect = self.image.get_rect(center=(
-            self.pos.x + bg_pos.x, 
-            -self.pos.y + bg_pos.y))
-        screen.blit(self.image, self.hitbox_rect) 
+
+        # rotate
+        self.rotate()
+
+    # check bullet health
+    def check_health(self):
+        if self.current_health <= 0:
+            self.expire()
 
     # when health is zero or is too much distance
     def expire(self):
@@ -41,7 +43,8 @@ class Projectile(pygame.sprite.Sprite):
 
     # rotate to target direction
     def rotate(self):
-        pass
+        self.image = Direction.rotate(self.dir.dir + math.pi/2, self.base_image)
+        self.rect = self.image.get_rect(center=self.hitbox_rect.center)
 
     # move towards target
     def move(self):
@@ -57,10 +60,7 @@ class Projectile(pygame.sprite.Sprite):
         # decrement dist
         self.dist -= self.speed
 
-    def update(self):
-        self.move()
-
-        # check for collisions
+    
         
 
 
