@@ -5,16 +5,23 @@ from classes.Point import Point
 from classes.Direction import Direction
 from config import *
 
+# TODO impliment knoockbacl with target unnit vector and strength
+
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, x, y, image_path, width, height):
         super(Enemy, self).__init__()
         self.pos = Point(x, y)  
 
-        self.surf = pygame.transform.scale(pygame.image.load(image_path).convert_alpha(), (width, height))
-        self.surf_base = self.surf
-        self.hitbox_rect = self.surf.get_rect()
+        # base image
+        self.image = pygame.transform.scale(pygame.image.load(image_path).convert_alpha(), (width, height))
+        self.image_base = self.image
+        self.hitbox_rect = self.image.get_rect()
         self.rect = self.hitbox_rect.copy()
-        
+
+        # hurt image
+        self.being_hurt = False
+        self.time_refresh_currect = self.time_refresh = 7
+
         # health and damage taken
         self.health = 10
         self.armour = 0
@@ -55,6 +62,8 @@ class Enemy(pygame.sprite.Sprite):
             return
 
         self.health -= damage - damage*(self.armour * 0.01)
+        self.being_hurt = True
+        self.time_refresh_currect = self.time_refresh
         if self.health <= 0:
             self.death()
 
@@ -68,35 +77,19 @@ class Enemy(pygame.sprite.Sprite):
             player_pos_cpy.x += self.target_variation
             player_pos_cpy.y += self.target_variation
 
-        # add turning circle another day``
-        """pos_to_player = self.pos_to_player
-
-        # change to player direction slowly
-        if math.fabs(pos_to_player.y - player_pos_cpy.y) < self.turn_pixels:
-            pos_to_player.y = player_pos_cpy.y
-        if math.fabs(pos_to_player.x - player_pos_cpy.x) < self.turn_pixels:
-            pos_to_player.x = player_pos_cpy.x
-        
-        # Y (remember all negative values)
-        if pos_to_player.y < player_pos_cpy.y:
-            pos_to_player.y += self.turn_pixels
-        elif pos_to_player.y > player_pos_cpy.y:
-            pos_to_player.y -= self.turn_pixels
-        
-        # X 
-        if pos_to_player.x < player_pos_cpy.x:
-            pos_to_player.x += self.turn_pixels
-        elif pos_to_player.x > player_pos_cpy.x:
-            pos_to_player.x -= self.turn_pixels
-
-        self.pos_to_player = pos_to_player"""
-            
         # make unit vector for point to travel to
         player_unit_vector = Point.unit_vector(player_pos_cpy, self.pos)
 
         # rotate to face player
         player_dir = Point.direction_to_point(player_pos_cpy, self.pos)
-        self.surf = Direction.rotate(player_dir.dir + math.pi/2, self.surf_base)
-        self.rect = self.surf.get_rect(center=self.hitbox_rect.center)
-        self.front.dir = player_dir.dir
+        self.image = Direction.rotate(player_dir.dir + math.pi/2, self.image_base)
+        self.rect = self.image.get_rect(center=self.hitbox_rect.center)
+        self.front.dir = player_dir.dir + math.pi/2
         return player_unit_vector
+    
+    # check for being hit
+    def being_hit(self):
+        self.time_refresh_currect -= 1
+        if self.time_refresh_currect <= 0:
+            self.being_hurt = False
+            self.time_refresh_currect = self.time_refresh

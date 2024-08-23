@@ -71,10 +71,10 @@ class Game:
             
             for em in enemies:
                 em.draw(screen, bg.location)
-            # health bar
+
+            # health bar bg and player
             bg.draw_after(screen)
             health.draw(screen)
-            
             player.draw(screen)
                     
         def colliosions():

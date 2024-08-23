@@ -1,5 +1,6 @@
 import pygame
 from sprites.Enemy import Enemy
+from classes.Direction import Direction
 
 """
 this is the main basic enemy in the game, should just move towards the player,
@@ -10,11 +11,18 @@ class BlockFodder(Enemy):
     def __init__(self, x, y):
         super(BlockFodder, self).__init__(x, y, "assets/enemies/blockfodder/base.png", 40, 40)
 
+        # being hurt
+        self.image_hurt_base = pygame.transform.scale(pygame.image.load("assets/enemies/blockfodder/hurt.png").convert_alpha(), (self.width, self.height))
+        self.image_hurt = self.image_hurt_base
+
         # personal stats to blockfodder
         self.attack_damage = 1
         self.hit_damage = self.attack_damage
 
+    # update loop
     def update(self, player_pos):
+        self.being_hit()
+
         dir = self.move_towards_player(player_pos)
         self.pos.x += self.speed * dir.x
         self.pos.y += self.speed * dir.y
@@ -22,7 +30,14 @@ class BlockFodder(Enemy):
 
     # TODO REMOVE blit calls from game entry to streamline for loop through different enemies
     def draw(self, screen, bg_pos):
-        self.hitbox_rect = self.surf.get_rect(center=(
+        self.hitbox_rect = self.image.get_rect(center=(
             self.pos.x + bg_pos.x, 
             -self.pos.y + bg_pos.y))
-        screen.blit(self.surf, self.hitbox_rect) 
+
+        if self.being_hurt:
+            #rotate hurt image
+            self.image_hurt = Direction.rotate(self.front.dir, self.image_hurt_base)
+            screen.blit(self.image_hurt, self.hitbox_rect)
+            return
+
+        screen.blit(self.image, self.hitbox_rect) 
