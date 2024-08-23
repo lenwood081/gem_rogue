@@ -52,11 +52,11 @@ class Weapon(pygame.sprite.Sprite):
         return False
     
     # check if need to attack
-    def do_attack(self, fire_key):
+    def do_attack(self, fire):
         if self.autofire:
             return True
         
-        if fire_key:
+        if fire:
             return True
         
 

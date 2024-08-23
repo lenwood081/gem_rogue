@@ -31,10 +31,8 @@ class Game:
 
         # player
         players = pygame.sprite.Group()
-        player = Player()
+        player = Player(bg.location)
         players.add(player)
-
-        gun = BasicGun(player.pos, bg.location)
 
         # HUD
         health = HealthBar(player.max_health)
@@ -73,7 +71,6 @@ class Game:
             health.draw(screen)
             
             player.draw(screen)
-            gun.draw(screen, bg.location)
                     
         def colliosions():
             # player being attacked
@@ -82,13 +79,15 @@ class Game:
                     player.take_damage(em.attack())
 
         def updates():
+            # player and background 
             keys_pressed = pygame.key.get_pressed()
             player.update(keys_pressed)
             bg.update(player.pos)
+            player.update_after_background(keys_pressed, bg.location, enemies)
+
             for em in enemies:
                 em.update(player.pos)
             health.update(player.current_health, player.max_health)
-            gun.update(player.front, player.mouse_unit_vector, player.pos, enemies)
 
         def spawn_enemies(count):
             if count > 3 * FRAMERATE:

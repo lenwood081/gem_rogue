@@ -34,10 +34,30 @@ class Projectile(pygame.sprite.Sprite):
         # rotate
         self.rotate()
 
+        # move away from sprite
+        self.move()
+        self.move()
+        self.move()
+
     # check bullet health
     def check_health(self):
         if self.current_health <= 0:
             self.expire()
+
+    # collisions
+    def collisions(self, sprite_group):
+        for sprite in sprite_group:
+            if pygame.Rect.colliderect(self.rect, sprite.rect):
+                self.deal_damage(sprite)
+                self.take_damage(1)
+
+    # deal damage to objects
+    def deal_damage(self, sprite):
+        sprite.take_damage(self.damage)
+
+    # take damage from hitting objects
+    def take_damage(self, damage):
+        self.current_health -= damage
 
     # when health is zero or is too much distance
     def expire(self):
@@ -45,7 +65,7 @@ class Projectile(pygame.sprite.Sprite):
 
     # rotate to target direction
     def rotate(self):
-        self.image = Direction.rotate(self.dir.dir + math.pi/2, self.base_image)
+        self.image = Direction.rotate(self.dir.dir, self.base_image)
         self.rect = self.image.get_rect(center=self.hitbox_rect.center)
 
     # move towards target
@@ -62,6 +82,20 @@ class Projectile(pygame.sprite.Sprite):
         # decrement dist
         self.dist -= self.speed
 
+    # -------------------- Method for interacting and changing projectile values ----------------
+    
+    def increase_damage(self, damage):
+        self.damage += damage
+
+    def increase_speed(self, speed):
+        self.speed += speed
+
+    def increase_distance(self, dist):
+        self.dist += dist
+
+    def increase_health(self, health):
+        self.start_health += health
+        self.current_health = self.start_health
     
         
 

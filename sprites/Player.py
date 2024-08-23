@@ -3,16 +3,18 @@ from config import *
 from classes.Point import Point
 from classes.Direction import Direction
 from classes.Glow import Glow
+from sprites.weapons.BasicGun import BasicGun
 from pygame.locals import (
     K_w,
     K_a,
     K_s,
     K_d,
+    K_e,
 )
 import math
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, bg_pos):
         super(Player, self).__init__()
         # base image
         self.base_image = pygame.transform.scale(pygame.image.load("assets/player/Player.png").convert_alpha(), (PL_WIDTH, PL_HEIGHT))
@@ -34,6 +36,7 @@ class Player(pygame.sprite.Sprite):
         # position reletive to background (centered)
         self.pos = Point(BG_WIDTH/2 + PL_WIDTH/2, -BG_HEIGHT/2 - PL_HEIGHT/2)
         self.pos_screen = Point(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
+        self.bg_pos = bg_pos.copy()
         self.front = Direction(0)
         self.mouse_unit_vector = Point(0, 0)
 
@@ -46,9 +49,21 @@ class Player(pygame.sprite.Sprite):
         self.immunity_frames_gained = 15
         self.sheild = 0
 
-    # blit player
+        # weapons
+        self.weapons = pygame.sprite.Group()
+        self.weapon_assit_array = []
+        self.fire_key = K_e
+
+        # added Basic gun
+        self.add_BasicGun(self.fire_key)
+
+
+    # blit player and weapon
     def draw(self, screen):
         screen.blit(self.image, self.rect)
+
+        # draw weapon
+        self.draw_weapons(screen)
 
         # glow breath
         radius = self.radius * (self.num_glows*2) + self.current
@@ -98,6 +113,8 @@ class Player(pygame.sprite.Sprite):
         
     # update loop
     def update(self, keys_pressed):
+        
+
         if self.immune:
             self.immunity_frames -= 1
             if self.immunity_frames == 0:
@@ -136,3 +153,32 @@ class Player(pygame.sprite.Sprite):
         self.face_mouse()
 
         
+    
+    def update_after_background(self, keys_pressed, bg_pos, enemy_group):
+        # updates store of bg.location
+        self.bg_pos = bg_pos.copy()
+
+        # weapon update
+        self.update_weapons(enemy_group, keys_pressed)
+
+
+        
+# ------------------------ For Weapon Code ---------------------------
+
+    def add_BasicGun(self, fire_key):
+        # add key to correct position
+        self.weapon_assit_array.append(fire_key)
+        gun = BasicGun(self.pos, self.bg_pos)
+        self.weapons.add(gun)
+
+    def update_weapons(self, enemy_group, keys_pressed):
+        for  i, weapon in enumerate(self.weapons):
+            fire = False
+            if keys_pressed[self.weapon_assit_array[i]]:
+                fire = True
+            weapon.update(self.front, self.mouse_unit_vector, self.pos, enemy_group, fire)
+
+    def draw_weapons(self, screen):
+        for weapon in self.weapons:
+            weapon.draw(screen, self.bg_pos)
+

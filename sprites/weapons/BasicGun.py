@@ -27,20 +27,20 @@ class BasicGun(Weapon):
             projectile.draw(screen, bg_pos)
 
     # shoots a bullet
-    def shoot(self, player_dir, target_unit_vector):
-        if self.can_attack():
+    def shoot(self, player_dir, target_unit_vector, fire):
+        if self.can_attack() and self.do_attack(fire):
             new_projectile = WhiteBullet(self.pos, target_unit_vector, player_dir, 1, self.bullet_speed)
             self.projectiles.add(new_projectile)
 
     # update gun
-    def update(self, player_dir, target_unit_vector, player_pos, enemie_group):
+    def update(self, player_dir, target_unit_vector, player_pos, enemie_group, fire):
         self.pos.x = player_pos.x
         self.pos.y = player_pos.y
 
         # point in correct direction
         self.face_target(player_dir)
 
-        self.shoot(player_dir, target_unit_vector)
+        self.shoot(player_dir, target_unit_vector, fire)
 
         # update projectiles
         for projectile in self.projectiles:

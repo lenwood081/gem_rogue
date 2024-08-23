@@ -11,9 +11,6 @@ class Glow:
         return surf
     
     @staticmethod
-    def oval_surf(height, width, color):
-        surf = pygame.Surface((width*2, height*2))
-        rect = surf.get_rect()
-        pygame.draw.ellipse(surf, color, rect, width)
-        surf.set_colorkey((0, 0, 0))
-        return surf
+    def bullet_surf(height, width):
+        image = pygame.transform.scale(pygame.image.load("assets/player/bullet_glow_1.png").convert_alpha(), (width*2, height*2))
+        return image
