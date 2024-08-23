@@ -30,6 +30,7 @@ class Weapon(pygame.sprite.Sprite):
 
         # autofire
         self.autofire = False
+        self.fire = False
 
     # face target
     def face_target(self, target_dir):
@@ -42,10 +43,7 @@ class Weapon(pygame.sprite.Sprite):
 
     # check if can attack
     def can_attack(self):
-        fire_rate = FRAMERATE * 1/self.fire_rate
-
         if self.frame_till_fire <= 0:
-            self.frame_till_fire = fire_rate
             return True
         
         self.frame_till_fire -= 1
@@ -53,11 +51,11 @@ class Weapon(pygame.sprite.Sprite):
     
     # check if need to attack
     def do_attack(self, fire):
-        if self.autofire:
+        if fire or self.autofire:
+            fire_rate = FRAMERATE * 1/self.fire_rate
+            self.frame_till_fire = fire_rate
             return True
-        
-        if fire:
-            return True
+        return False
         
 
 

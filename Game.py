@@ -45,10 +45,15 @@ class Game:
         # count
         count = 0
 
+        # event varibles
+        events = pygame.event.get()
+        keys_pressed = pygame.key.get_pressed()
+        mouse_pressed = pygame.mouse.get_pressed()
+
         # ----------------------------------- code for functions that run in main loop -----------------------------------
         
         def quit_handler():
-            for event in pygame.event.get():
+            for event in events:
                 # quit checks
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
@@ -80,10 +85,10 @@ class Game:
 
         def updates():
             # player and background 
-            keys_pressed = pygame.key.get_pressed()
+            
             player.update(keys_pressed)
             bg.update(player.pos)
-            player.update_after_background(keys_pressed, bg.location, enemies)
+            player.update_after_background(keys_pressed, mouse_pressed, bg.location, enemies)
 
             for em in enemies:
                 em.update(player.pos)
@@ -99,6 +104,10 @@ class Game:
         # ----------------------------------- main loop ------------------------------------------------------------------
         
         while running:
+            events = pygame.event.get()
+            keys_pressed = pygame.key.get_pressed()
+            mouse_pressed = pygame.mouse.get_pressed()
+
             # event handeler
             running = quit_handler()
 

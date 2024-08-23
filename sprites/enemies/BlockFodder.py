@@ -19,7 +19,6 @@ class BlockFodder(Enemy):
         self.pos.x += self.speed * dir.x
         self.pos.y += self.speed * dir.y
 
-  
 
     # TODO REMOVE blit calls from game entry to streamline for loop through different enemies
     def draw(self, screen, bg_pos):

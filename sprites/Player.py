@@ -13,6 +13,8 @@ from pygame.locals import (
 )
 import math
 
+MOUSE = 'mouse1'
+
 class Player(pygame.sprite.Sprite):
     def __init__(self, bg_pos):
         super(Player, self).__init__()
@@ -52,10 +54,9 @@ class Player(pygame.sprite.Sprite):
         # weapons
         self.weapons = pygame.sprite.Group()
         self.weapon_assit_array = []
-        self.fire_key = K_e
 
         # added Basic gun
-        self.add_BasicGun(self.fire_key)
+        self.add_BasicGun(MOUSE)
 
 
     # blit player and weapon
@@ -113,8 +114,6 @@ class Player(pygame.sprite.Sprite):
         
     # update loop
     def update(self, keys_pressed):
-        
-
         if self.immune:
             self.immunity_frames -= 1
             if self.immunity_frames == 0:
@@ -152,14 +151,13 @@ class Player(pygame.sprite.Sprite):
 
         self.face_mouse()
 
-        
-    
-    def update_after_background(self, keys_pressed, bg_pos, enemy_group):
+    # secound update for things that require background pos to be updated
+    def update_after_background(self, keys_pressed, mouse_pressed, bg_pos, enemy_group):
         # updates store of bg.location
         self.bg_pos = bg_pos.copy()
 
         # weapon update
-        self.update_weapons(enemy_group, keys_pressed)
+        self.update_weapons(enemy_group, keys_pressed, mouse_pressed)
 
 
         
@@ -171,10 +169,14 @@ class Player(pygame.sprite.Sprite):
         gun = BasicGun(self.pos, self.bg_pos)
         self.weapons.add(gun)
 
-    def update_weapons(self, enemy_group, keys_pressed):
+    # using mouse_pressed and key_pressed as faster and allows for holddown input
+    def update_weapons(self, enemy_group, keys_pressed, mouse_pressed):
         for  i, weapon in enumerate(self.weapons):
             fire = False
-            if keys_pressed[self.weapon_assit_array[i]]:
+            if self.weapon_assit_array[i] == MOUSE:
+                if mouse_pressed[0]:
+                    fire = True
+            elif keys_pressed[self.weapon_assit_array[i]]:
                 fire = True
             weapon.update(self.front, self.mouse_unit_vector, self.pos, enemy_group, fire)
 

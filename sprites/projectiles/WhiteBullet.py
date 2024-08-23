@@ -9,7 +9,7 @@ class WhiteBullet(Projectile):
     def __init__(self, start_pos, target_unit_vector, target_dir, damage, speed):
         super(WhiteBullet, self).__init__(start_pos, target_unit_vector, target_dir, "assets/Projectiles/simple_bullet.png", 16, 8)
 
-        self.dist = 300
+        self.dist = 500
         self.speed = speed
         self.damage = damage
 

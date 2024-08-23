@@ -1,5 +1,4 @@
 import pygame
-from classes.Point import Point
 from sprites.Weapon import Weapon
 from sprites.projectiles.WhiteBullet import WhiteBullet
 
@@ -13,6 +12,9 @@ class BasicGun(Weapon):
         self.damage = 1
         self.bullet_speed = 20
         self.fire_rate = 5
+
+        # offeset from player (for basic gun this is zero due to the way it is drawn)
+        self.offset = 0
 
     # blit weapon to screen
     def draw(self, screen, bg_pos):
@@ -28,18 +30,21 @@ class BasicGun(Weapon):
 
     # shoots a bullet
     def shoot(self, player_dir, target_unit_vector, fire):
-        if self.can_attack() and self.do_attack(fire):
-            new_projectile = WhiteBullet(self.pos, target_unit_vector, player_dir, 1, self.bullet_speed)
-            self.projectiles.add(new_projectile)
+        if self.can_attack(): 
+            if self.do_attack(fire):
+                new_projectile = WhiteBullet(self.pos, target_unit_vector, player_dir, 1, self.bullet_speed)
+                self.projectiles.add(new_projectile)
+                
 
     # update gun
     def update(self, player_dir, target_unit_vector, player_pos, enemie_group, fire):
-        self.pos.x = player_pos.x
-        self.pos.y = player_pos.y
+        self.pos.x = player_pos.x + self.offset * target_unit_vector.x
+        self.pos.y = player_pos.y + self.offset * target_unit_vector.y
 
         # point in correct direction
         self.face_target(player_dir)
-
+        
+        # run shooting script
         self.shoot(player_dir, target_unit_vector, fire)
 
         # update projectiles
