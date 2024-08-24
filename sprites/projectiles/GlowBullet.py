@@ -2,8 +2,6 @@ import pygame
 from sprites.Projectile import Projectile
 
 # for plasma guns
-
-# TODO add a offset to the initial shooting position, also adding a glow would look good 
 class GlowBullet(Projectile):
     def __init__(self, start_pos, target_unit_vector, target_dir, damage, speed):
         super(GlowBullet, self).__init__(start_pos, target_unit_vector, target_dir, "assets/Projectiles/bullet_glow_1.png", 50, 20)
@@ -13,6 +11,9 @@ class GlowBullet(Projectile):
         self.damage = damage
 
         self.knockback = 0
+
+        # hits all sprites affected not just one
+        self.area_hit = True
 
     # blit to screen
     def draw(self, screen, bg_pos):

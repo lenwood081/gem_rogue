@@ -22,6 +22,7 @@ class Projectile(pygame.sprite.Sprite):
         # health
         self.start_health = 1
         self.current_health = 1
+        self.area_hit = False
 
         # damage
         self.damage = 1
@@ -35,7 +36,7 @@ class Projectile(pygame.sprite.Sprite):
         # rotate
         self.rotate()
 
-        # move away from sprite
+        # move away from sprite for initial fire
         self.move()
         self.move()
         self.move()
@@ -51,6 +52,8 @@ class Projectile(pygame.sprite.Sprite):
             if pygame.Rect.colliderect(self.rect, sprite.rect):
                 self.deal_damage(sprite)
                 self.take_damage(1)
+                if self.area_hit == False:
+                    return
 
     # deal damage to objects
     def deal_damage(self, sprite):

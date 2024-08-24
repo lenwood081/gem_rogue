@@ -58,6 +58,7 @@ class Player(pygame.sprite.Sprite):
 
         # added Basic gun
         self.add_BasicGun(MOUSE)
+        #self.add_PlasmaGun(MOUSE)
 
 
     # blit player and weapon
