@@ -1,20 +1,20 @@
 import pygame
 from sprites.Weapon import Weapon
-from sprites.projectiles.WhiteBullet import WhiteBullet
+from sprites.projectiles.GlowBullet import GlowBullet
 
 
-class BasicGun(Weapon):
+class PlasmaGun(Weapon):
     def __init__(self, pos, bg_pos):
-        super(BasicGun, self).__init__(pos, "assets/weapons/Basic_gun.png", 70, 100, bg_pos) 
+        super(PlasmaGun, self).__init__(pos, "assets/weapons/PlasmaGun.png", 32, 28, bg_pos) 
 
         # white bullets
         self.projectiles = pygame.sprite.Group()
-        self.damage = 1
+        self.damage = 2
         self.bullet_speed = 20
-        self.fire_rate = 5
+        self.fire_rate = 4
 
         # offeset from player (for basic gun this is zero due to the way it is drawn)
-        self.offset = 0
+        self.offset = 30
 
     # blit weapon to screen
     def draw(self, screen, bg_pos):
@@ -32,7 +32,7 @@ class BasicGun(Weapon):
     def shoot(self, player_dir, target_unit_vector, fire):
         if self.can_attack(): 
             if self.do_attack(fire):
-                new_projectile = WhiteBullet(self.pos, target_unit_vector, player_dir, self.damage, self.bullet_speed)
+                new_projectile = GlowBullet(self.pos, target_unit_vector, player_dir, self.damage, self.bullet_speed)
                 self.projectiles.add(new_projectile)
                 
 

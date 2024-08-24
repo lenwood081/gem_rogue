@@ -4,6 +4,7 @@ from classes.Point import Point
 from classes.Direction import Direction
 from classes.Glow import Glow
 from sprites.weapons.BasicGun import BasicGun
+from sprites.weapons.PlasmaGun import PlasmaGun
 from pygame.locals import (
     K_w,
     K_a,
@@ -19,7 +20,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, bg_pos):
         super(Player, self).__init__()
         # base image
-        self.base_image = pygame.transform.scale(pygame.image.load("assets/player/Player.png").convert_alpha(), (PL_WIDTH, PL_HEIGHT))
+        self.base_image = pygame.transform.scale(pygame.image.load("assets/player/Player_concept1.png").convert_alpha(), (PL_WIDTH, PL_HEIGHT))
         self.image = self.base_image
         self.hitbox_rect = self.base_image.get_rect(center=(
             SCREEN_WIDTH/2,
@@ -28,7 +29,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.hitbox_rect.copy()
 
         # glow
-        self.radius = PL_WIDTH
+        self.radius = PL_WIDTH * 0.8
         self.glow_rate = 0.5
         self.num_glows = 5
         self.max_diff = 10
@@ -61,11 +62,6 @@ class Player(pygame.sprite.Sprite):
 
     # blit player and weapon
     def draw(self, screen):
-        screen.blit(self.image, self.rect)
-
-        # draw weapon
-        self.draw_weapons(screen)
-
         # glow breath
         radius = self.radius * (self.num_glows*2) + self.current
         if self.current >= self.max_diff:
@@ -74,10 +70,14 @@ class Player(pygame.sprite.Sprite):
             self.increasing = 1
         self.current += self.increasing * self.glow_rate
 
+        # draw glow
         screen.blit(Glow.circle_image_add(radius), (self.pos_screen.x - radius, self.pos_screen.y - radius), special_flags=pygame.BLEND_RGBA_ADD)
-        #for i in range(self.num_glows):
-        #    screen.blit(Glow.circle_surf(radius, (10, 10, 10)), (self.pos_screen.x - radius, self.pos_screen.y - radius), special_flags=pygame.BLEND_RGB_ADD)
-        #    radius /= 1.5
+
+        # draw player
+        screen.blit(self.image, self.rect)
+
+        # draw weapon
+        self.draw_weapons(screen)
 
     # death method
     def death(self):
@@ -164,11 +164,18 @@ class Player(pygame.sprite.Sprite):
 
         
 # ------------------------ For Weapon Code ---------------------------
-
+    # add basic gun
     def add_BasicGun(self, fire_key):
         # add key to correct position
         self.weapon_assit_array.append(fire_key)
         gun = BasicGun(self.pos, self.bg_pos)
+        self.weapons.add(gun)
+
+    # add plasma gun
+    def add_PlasmaGun(self, fire_key):
+        # add key to correct position
+        self.weapon_assit_array.append(fire_key)
+        gun = PlasmaGun(self.pos, self.bg_pos)
         self.weapons.add(gun)
 
     # using mouse_pressed and key_pressed as faster and allows for holddown input
