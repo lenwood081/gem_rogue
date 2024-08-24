@@ -38,7 +38,7 @@ class Weapon(pygame.sprite.Sprite):
         self.front.dir = target_dir.dir
 
         # move image
-        self.image = Direction.rotate(self.front.dir, self.base_image)
+        self.image = Direction.rotate_with_flip(self.front.dir, self.base_image)
         self.rect = self.image.get_rect(center=self.hitbox_rect.center)
 
     # check if can attack

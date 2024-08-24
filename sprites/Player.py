@@ -73,9 +73,11 @@ class Player(pygame.sprite.Sprite):
         elif self.current <= self.max_diff * -1:
             self.increasing = 1
         self.current += self.increasing * self.glow_rate
-        for i in range(self.num_glows):
-            screen.blit(Glow.circle_surf(radius, (10, 10, 10)), (self.pos_screen.x - radius, self.pos_screen.y - radius), special_flags=pygame.BLEND_RGB_ADD)
-            radius /= 1.5
+
+        screen.blit(Glow.circle_image_add(radius), (self.pos_screen.x - radius, self.pos_screen.y - radius), special_flags=pygame.BLEND_RGBA_ADD)
+        #for i in range(self.num_glows):
+        #    screen.blit(Glow.circle_surf(radius, (10, 10, 10)), (self.pos_screen.x - radius, self.pos_screen.y - radius), special_flags=pygame.BLEND_RGB_ADD)
+        #    radius /= 1.5
 
     # death method
     def death(self):
@@ -108,7 +110,7 @@ class Player(pygame.sprite.Sprite):
 
         # make unit vector for point to travel to
         self.mouse_unit_vector = Point.unit_vector(mouse_pos, temp_pos)
-        self.image = Direction.rotate(mouse_dir.dir, self.base_image)
+        self.image = Direction.rotate_with_flip(mouse_dir.dir, self.base_image)
         self.rect = self.image.get_rect(center=self.hitbox_rect.center)
         self.front = mouse_dir
         

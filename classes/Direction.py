@@ -16,6 +16,15 @@ class Direction():
     def rotate(target, object):
         new_object = pygame.transform.rotate(object, math.degrees(target))
         return new_object
+    
+    @staticmethod
+    def rotate_with_flip(target, object):
+        # flip in x direction
+        if target < -math.pi/2 or target > math.pi/2:
+            new_object = pygame.transform.flip(object, False, True)
+            return pygame.transform.rotate(new_object, math.degrees(target))
+        new_object = pygame.transform.rotate(object, math.degrees(target))
+        return new_object
 
     def normal(self):
         while self.dir < -180:

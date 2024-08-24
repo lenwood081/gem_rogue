@@ -66,7 +66,7 @@ class Projectile(pygame.sprite.Sprite):
 
     # rotate to target direction
     def rotate(self):
-        self.image = Direction.rotate(self.dir.dir, self.base_image)
+        self.image = Direction.rotate_with_flip(self.dir.dir, self.base_image)
         self.rect = self.image.get_rect(center=self.hitbox_rect.center)
 
     # move towards target
