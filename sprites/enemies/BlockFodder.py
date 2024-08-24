@@ -8,8 +8,8 @@ only thing special is that it will have a radius turn
 """
 
 class BlockFodder(Enemy):
-    def __init__(self, x, y):
-        super(BlockFodder, self).__init__(x, y, "assets/enemies/blockfodder/base.png", 40, 40)
+    def __init__(self, x, y, experiance_group):
+        super(BlockFodder, self).__init__(x, y, "assets/enemies/blockfodder/base.png", 40, 40, experiance_group)
 
         # being hurt
         self.image_hurt_base = pygame.transform.scale(pygame.image.load("assets/enemies/blockfodder/hurt.png").convert_alpha(), (self.width, self.height))

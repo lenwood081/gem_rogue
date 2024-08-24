@@ -53,6 +53,12 @@ class Point:
             angle = -angle
         return Point.rotate_unit_vector(unit_vector, angle)
     
+    # calculate ecuclidian distance
+    @staticmethod
+    def euclidian_dist(pos1, pos2):
+        return math.sqrt((pos1.x - pos2.x)**2 + (pos1.y - pos2.y)**2)
+    
+    # duplicates with new reference
     def copy(self):
         new_point = Point(self.x, self.y)
         return new_point

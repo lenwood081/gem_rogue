@@ -4,8 +4,8 @@ import random
 from sprites.Background import Background
 from sprites.Player import Player
 from sprites.enemies.BlockFodder import BlockFodder
-from sprites.HealthBar import HealthBar
-from sprites.weapons.BasicGun import BasicGun
+from drops.ExperianceControl import ExperianceControl
+from HUD.HealthBar import HealthBar
 from pygame.locals import (
     KEYDOWN,
     K_ESCAPE,
@@ -40,6 +40,9 @@ class Game:
         # enemies
         enemies = pygame.sprite.Group()
 
+        # experiance
+        experiance = ExperianceControl(players)
+
         # count
         count = 0
 
@@ -56,6 +59,9 @@ class Game:
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         return False
+                    # for debugging
+                    # elif event.key == pygame.K_c:
+                    #    experiance.clear()
                 elif event.type == QUIT:
                     return False
             return True
@@ -66,12 +72,16 @@ class Game:
 
             # blit calls
             bg.draw(screen)
+
+            experiance.draw(screen, bg.location)
             
             for em in enemies:
                 em.draw(screen, bg.location)
 
             # health bar bg and player
             player.draw(screen)
+
+            # after rendering effects
             bg.draw_after(screen)
             
             # hud
@@ -92,18 +102,21 @@ class Game:
 
             for em in enemies:
                 em.update(player.pos)
+
+            experiance.update()
             health.update(player.current_health, player.max_health)
 
         def spawn_enemies(count):
             if count > 2 * FRAMERATE:
                 count = 0
-                new_enemy = BlockFodder(random.randint(0, BG_WIDTH), random.randint(-BG_HEIGHT, 0))
+                new_enemy = BlockFodder(random.randint(0, BG_WIDTH), random.randint(-BG_HEIGHT, 0), experiance.get_group())
                 enemies.add(new_enemy)
             count += 1
             return count
         # ----------------------------------- main loop ------------------------------------------------------------------
         
         while running:
+            # get inputs
             events = pygame.event.get()
             keys_pressed = pygame.key.get_pressed()
             mouse_pressed = pygame.mouse.get_pressed()

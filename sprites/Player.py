@@ -52,13 +52,17 @@ class Player(pygame.sprite.Sprite):
         self.immunity_frames_gained = 15
         self.sheild = 0
 
+        # drops
+        self.collect_range = 60
+
         # weapons
         self.weapons = pygame.sprite.Group()
         self.weapon_assit_array = []
 
         # added Basic gun
         self.add_BasicGun(MOUSE, 0)
-        self.add_PlasmaGun(MOUSE, math.pi/5)
+        self.add_PlasmaGun(K_e, math.pi/5)
+
 
 
     # blit player and weapon

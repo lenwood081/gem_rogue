@@ -3,12 +3,13 @@ import random
 import math
 from classes.Point import Point
 from classes.Direction import Direction
+from drops.Experiance import Experiance
 from config import *
 
 # TODO impliment knoockbacl with target unnit vector and strength
 
 class Enemy(pygame.sprite.Sprite):
-    def __init__(self, x, y, image_path, width, height):
+    def __init__(self, x, y, image_path, width, height, experiance_group):
         super(Enemy, self).__init__()
         self.pos = Point(x, y)  
 
@@ -50,6 +51,10 @@ class Enemy(pygame.sprite.Sprite):
         self.height = height
         self.weight = 1
 
+        # drops
+        self.exp = 3
+        self.experiance_group = experiance_group
+
     # occurs when colliding with a player
     # if in an attck then does more damage
     def attack(self):
@@ -58,6 +63,11 @@ class Enemy(pygame.sprite.Sprite):
     # death function
     def death(self):
         self.kill()
+        
+        # drop experiance
+        exp = Experiance(self.pos, self.exp)
+        self.experiance_group.add(exp)
+
 
     # for taking damage
     def take_damage(self, damage, unit_vector, knockback):

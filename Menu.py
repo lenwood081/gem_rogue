@@ -45,7 +45,6 @@ class Menu:
             # update buttons
             for button in self.buttons:
                 if button.update(e):
-                    print("click")
                     running = False
 
             # update screen
