@@ -19,9 +19,11 @@ class Weapon(pygame.sprite.Sprite):
             -self.pos.y + bg_pos.y
         ))
         self.rect = self.hitbox_rect.copy()
-        
+
+        # general
         self.width = width
         self.height = height
+        self.angle_on_player = 0
 
         # damage
         self.damage = 5

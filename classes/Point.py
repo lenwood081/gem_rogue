@@ -39,6 +39,20 @@ class Point:
         direction.dir = angle
         return direction
     
+    # rotate a unit vector by radians 
+    @staticmethod
+    def rotate_unit_vector(unit_vector, angle):
+        x = (unit_vector.x*math.cos(angle) - unit_vector.y*math.sin(angle))
+        y = (unit_vector.x*math.sin(angle) + unit_vector.y*math.cos(angle))
+        return Point(x, y)
+    
+    # rotate a unit vector by radians with flip
+    @staticmethod
+    def rotate_unit_vector_flip(unit_vector, angle, dir):
+        if dir < -math.pi/2 or dir > math.pi/2:
+            angle = -angle
+        return Point.rotate_unit_vector(unit_vector, angle)
+    
     def copy(self):
         new_point = Point(self.x, self.y)
         return new_point

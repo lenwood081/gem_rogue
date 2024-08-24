@@ -57,8 +57,8 @@ class Player(pygame.sprite.Sprite):
         self.weapon_assit_array = []
 
         # added Basic gun
-        self.add_BasicGun(MOUSE)
-        #self.add_PlasmaGun(MOUSE)
+        self.add_BasicGun(MOUSE, 0)
+        self.add_PlasmaGun(MOUSE, math.pi/5)
 
 
     # blit player and weapon
@@ -166,27 +166,29 @@ class Player(pygame.sprite.Sprite):
         
 # ------------------------ For Weapon Code ---------------------------
     # add basic gun
-    def add_BasicGun(self, fire_key):
+    def add_BasicGun(self, fire_key, angle):
         # add key to correct position
-        self.weapon_assit_array.append(fire_key)
+        self.weapon_assit_array.append((fire_key, angle))
         gun = BasicGun(self.pos, self.bg_pos)
+        gun.angle_on_player = angle
         self.weapons.add(gun)
 
     # add plasma gun
-    def add_PlasmaGun(self, fire_key):
+    def add_PlasmaGun(self, fire_key, angle):
         # add key to correct position
-        self.weapon_assit_array.append(fire_key)
+        self.weapon_assit_array.append((fire_key, angle))
         gun = PlasmaGun(self.pos, self.bg_pos)
+        gun.angle_on_player = angle
         self.weapons.add(gun)
 
     # using mouse_pressed and key_pressed as faster and allows for holddown input
     def update_weapons(self, enemy_group, keys_pressed, mouse_pressed):
         for  i, weapon in enumerate(self.weapons):
             fire = False
-            if self.weapon_assit_array[i] == MOUSE:
+            if self.weapon_assit_array[i][0] == MOUSE:
                 if mouse_pressed[0]:
                     fire = True
-            elif keys_pressed[self.weapon_assit_array[i]]:
+            elif keys_pressed[self.weapon_assit_array[i][0]]:
                 fire = True
             weapon.update(self.front, self.mouse_unit_vector, self.pos, enemy_group, fire)
 

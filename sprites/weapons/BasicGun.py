@@ -1,4 +1,5 @@
 import pygame
+from classes.Point import Point
 from sprites.Weapon import Weapon
 from sprites.projectiles.WhiteBullet import WhiteBullet
 
@@ -38,8 +39,9 @@ class BasicGun(Weapon):
 
     # update gun
     def update(self, player_dir, target_unit_vector, player_pos, enemie_group, fire):
-        self.pos.x = player_pos.x + self.offset * target_unit_vector.x
-        self.pos.y = player_pos.y + self.offset * target_unit_vector.y
+        unit_vector = Point.rotate_unit_vector_flip(target_unit_vector, self.angle_on_player, self.front.dir)
+        self.pos.x = player_pos.x + self.offset * unit_vector.x
+        self.pos.y = player_pos.y + self.offset * unit_vector.y
 
         # point in correct direction
         self.face_target(player_dir)
