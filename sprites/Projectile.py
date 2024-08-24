@@ -25,6 +25,7 @@ class Projectile(pygame.sprite.Sprite):
 
         # damage
         self.damage = 1
+        self.knockback = 3
 
         # speed
         self.speed = 10
@@ -53,7 +54,7 @@ class Projectile(pygame.sprite.Sprite):
 
     # deal damage to objects
     def deal_damage(self, sprite):
-        sprite.take_damage(self.damage)
+        sprite.take_damage(self.damage, self.target_unit_vector, self.knockback)
 
     # take damage from hitting objects
     def take_damage(self, damage):

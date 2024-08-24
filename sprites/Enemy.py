@@ -26,6 +26,8 @@ class Enemy(pygame.sprite.Sprite):
         self.health = 10
         self.armour = 0
         self.immune = False
+        self.stunned = False
+        self.time_stunned = self.recover_time = 3
 
         # direction and turning
         self.front = Direction(0.0) 
@@ -43,9 +45,10 @@ class Enemy(pygame.sprite.Sprite):
         self.hit_damage = 1
         self.attack_damage = 2
 
-        # width and height
+        # width and height adn weight
         self.width = width
         self.height = height
+        self.weight = 1
 
     # occurs when colliding with a player
     # if in an attck then does more damage
@@ -57,9 +60,20 @@ class Enemy(pygame.sprite.Sprite):
         self.kill()
 
     # for taking damage
-    def take_damage(self, damage):
+    def take_damage(self, damage, unit_vector, knockback):
         if self.immune:
             return
+
+        # calculate knockback
+        knockback_dist = 0
+        if knockback >= self.weight:
+            self.stunned = True
+            knockback_dist = knockback * 10 / self.weight 
+
+        # preform knockback
+        if knockback_dist > 0:
+            self.pos.x += unit_vector.x * knockback_dist
+            self.pos.y += unit_vector.y * knockback_dist
 
         self.health -= damage - damage*(self.armour * 0.01)
         self.being_hurt = True
@@ -69,6 +83,16 @@ class Enemy(pygame.sprite.Sprite):
 
     # 1 point direction eg 90 degrees would be (1, 0)
     def move_towards_player(self, player_pos):
+        if self.stunned:
+            # stop from moveing
+            new_dir = Point(0,0)
+            if self.time_stunned <= 0:
+                self.stunned = False
+                self.time_stunned = self.recover_time
+            else:
+                self.time_stunned -= 1
+            return new_dir
+
         player_pos_cpy = Point(player_pos.x, player_pos.y)
 
         # target variation is until a certain distance the enemy will vary its approach

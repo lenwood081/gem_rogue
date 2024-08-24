@@ -39,8 +39,6 @@ class Game:
 
         # enemies
         enemies = pygame.sprite.Group()
-        b1 = BlockFodder(1000, -1500)
-        enemies.add(b1)
 
         # count
         count = 0
