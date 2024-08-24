@@ -2,7 +2,7 @@ import pygame
 from sprites.Weapon import Weapon
 from sprites.projectiles.GlowBullet import GlowBullet
 
-
+# TODO make plasma bullets hit bigger (normal need to be made to only hit once)
 class PlasmaGun(Weapon):
     def __init__(self, pos, bg_pos):
         super(PlasmaGun, self).__init__(pos, "assets/weapons/PlasmaGun.png", 32, 28, bg_pos) 
