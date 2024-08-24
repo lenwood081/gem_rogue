@@ -71,9 +71,11 @@ class Game:
                 em.draw(screen, bg.location)
 
             # health bar bg and player
-            bg.draw_after(screen)
-            health.draw(screen)
             player.draw(screen)
+            bg.draw_after(screen)
+            
+            # hud
+            health.draw(screen)
                     
         def colliosions():
             # player being attacked
@@ -93,7 +95,7 @@ class Game:
             health.update(player.current_health, player.max_health)
 
         def spawn_enemies(count):
-            if count > 3 * FRAMERATE:
+            if count > 2 * FRAMERATE:
                 count = 0
                 new_enemy = BlockFodder(random.randint(0, BG_WIDTH), random.randint(-BG_HEIGHT, 0))
                 enemies.add(new_enemy)

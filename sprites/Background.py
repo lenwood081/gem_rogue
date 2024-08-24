@@ -11,7 +11,7 @@ class Background(pygame.sprite.Sprite):
         self.surf = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.surf.fill(BG_HORROR_SHADE)
         self.surf2 = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
-        self.surf2.fill((50, 50, 50))
+        self.surf2.fill(BG_OVERLAY_SHADE)
 
         # for determining position of background 
         self.location = Point(SCREEN_WIDTH/2 - BG_WIDTH/2, SCREEN_HEIGHT/2 - BG_HEIGHT/2)

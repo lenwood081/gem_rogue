@@ -106,7 +106,7 @@ class Enemy(pygame.sprite.Sprite):
 
         # rotate to face player
         player_dir = Point.direction_to_point(player_pos_cpy, self.pos)
-        self.image = Direction.rotate_with_flip(player_dir.dir + math.pi/2, self.image_base)
+        self.image = Direction.rotate(player_dir.dir + math.pi/2, self.image_base)
         self.rect = self.image.get_rect(center=self.hitbox_rect.center)
         self.front.dir = player_dir.dir + math.pi/2
         return player_unit_vector
