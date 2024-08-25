@@ -1,21 +1,18 @@
 import pygame
 from classes.Point import Point
-from sprites.Weapon import Weapon
-from sprites.projectiles.WhiteBullet import WhiteBullet
+from sprites.weapons.Weapon import Weapon
 
+class Gun(Weapon):
+    def __init__(self, pos, bg_pos, image_url, size):
+        super(Gun, self).__init__(pos, image_url, size[0], size[1], bg_pos)
 
-class BasicGun(Weapon):
-    def __init__(self, pos, bg_pos):
-        super(BasicGun, self).__init__(pos, "assets/weapons/Basic_gun.png", 70, 100, bg_pos) 
-
-        # white bullets
+        # projectiles
         self.projectiles = pygame.sprite.Group()
         self.gun_damage_mod = 1
         self.bullet_speed = 20
         self.fire_rate = 5
 
-        # offeset from player (for basic gun this is zero due to the way it is drawn)
-        self.offset = 0
+        # offset from player
 
     # blit weapon to screen
     def draw(self, screen, bg_pos):
@@ -28,14 +25,6 @@ class BasicGun(Weapon):
         # blit all projectiles
         for projectile in self.projectiles:
             projectile.draw(screen, bg_pos)
-
-    # shoots a bullet
-    def shoot(self, player_dir, target_unit_vector, fire):
-        if self.can_attack(): 
-            if self.do_attack(fire):
-                new_projectile = WhiteBullet(self.pos, target_unit_vector, player_dir, self.bullet_speed)
-                self.projectiles.add(new_projectile)
-                
 
     # update gun
     def update(self, player_dir, target_unit_vector, player_pos, enemie_group, fire, damage):

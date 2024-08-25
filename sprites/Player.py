@@ -3,8 +3,8 @@ from config import *
 from classes.Point import Point
 from classes.Direction import Direction
 from classes.Glow import Glow
-from sprites.weapons.BasicGun import BasicGun
-from sprites.weapons.PlasmaGun import PlasmaGun
+from sprites.weapons.Guns.BasicGun import BasicGun
+from sprites.weapons.Guns.PlasmaGun import PlasmaGun
 from sprites.ItemHolder import ItemHolder
 from pygame.locals import (
     K_w,
