@@ -33,12 +33,12 @@ class Enemy(ItemHolder):
 
         # direction and turning
         self.front = Direction(0.0) 
-        self.pos_to_player = Point(self.pos.x, self.pos.y)
+        self.dist_player = 0
         self.target_unit_vector = Point(0, 0)
         self.turn_pixels = 6
         self.VARIATION = 60
         self.target_variation = random.uniform(-self.VARIATION, self.VARIATION)
-        self.lock_on_dist = 100      
+        self.lock_on_dist = 300
     
         # drops
         self.experiance_group = experiance_group
@@ -75,11 +75,11 @@ class Enemy(ItemHolder):
                 self.time_stunned -= 1
             return new_dir
 
-        player_pos_cpy = Point(player_pos.x, player_pos.y)
+        player_pos_cpy = player_pos.copy()
 
         # target variation is until a certain distance the enemy will vary its approach
-        magnitude_sq = (self.pos.x-player_pos_cpy.x)**2 + (self.pos.y-player_pos_cpy.y)**2
-        if magnitude_sq > self.lock_on_dist**2:
+        self.dist_player = Point.euclidian_dist(player_pos_cpy, self.pos)
+        if self.dist_player > self.lock_on_dist:
             player_pos_cpy.x += self.target_variation
             player_pos_cpy.y += self.target_variation
 
@@ -107,13 +107,16 @@ class Enemy(ItemHolder):
 
         unit_vector = self.move_towards_player(player_pos)
         self.move(unit_vector)
+        self.check_boundarys()
 
     # move towards unit vector
     def move(self, unit_vector):
-        # run checks to prevent going out of bounds
         self.pos.x += self.speed * unit_vector.x
         self.pos.y += self.speed * unit_vector.y
 
+        
+    # run checks to prevent going out of bounds
+    def check_boundarys(self):
         # movement restriction (BG_WIDTH and BG_HEIGHT)
         if self.pos.x > BG_WIDTH - self.width/2:
             self.pos.x = BG_WIDTH - self.width/2

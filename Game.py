@@ -4,6 +4,7 @@ import random
 from sprites.Background import Background
 from sprites.Player import Player
 from sprites.enemies.BlockFodder import BlockFodder
+from sprites.enemies.BlockRanged import BlockRanged
 from drops.ExperianceControl import ExperianceControl
 from HUD.HealthBar import HealthBar
 from HUD.ExpBar import ExpBar
@@ -114,7 +115,7 @@ class Game:
         def spawn_enemies(count):
             if count > 2 * FRAMERATE:
                 count = 0
-                new_enemy = BlockFodder(Point(random.randint(0, BG_WIDTH), random.randint(-BG_HEIGHT, 0)), experiance.get_group())
+                new_enemy = BlockRanged(Point(random.randint(0, BG_WIDTH), random.randint(-BG_HEIGHT, 0)), experiance.get_group())
                 enemies.add(new_enemy)
             count += 1
             return count
@@ -129,14 +130,15 @@ class Game:
             # event handeler
             running = quit_handler()
 
-            # blit to screen
-            blit_entiites()
-            
+           
+            # updates
+            updates()
+
             # collisions
             colliosions()
 
-            # updates
-            updates()
+            # blit to screen
+            blit_entiites()
 
             # spawn enemies
             count = spawn_enemies(count)
