@@ -102,12 +102,14 @@ class Enemy(ItemHolder):
             self.time_refresh_currect = self.time_refresh
 
     # update method (general) can be overriden
-    def update(self, player_pos):
+    def update(self, player):
         self.being_hit()
 
-        unit_vector = self.move_towards_player(player_pos)
+        unit_vector = self.move_towards_player(player.pos)
         self.move(unit_vector)
         self.check_boundarys()
+
+        self.collisions(player)
 
     # move towards unit vector
     def move(self, unit_vector):
@@ -120,12 +122,24 @@ class Enemy(ItemHolder):
         # movement restriction (BG_WIDTH and BG_HEIGHT)
         if self.pos.x > BG_WIDTH - self.width/2:
             self.pos.x = BG_WIDTH - self.width/2
+            return True
         if self.pos.x < self.width/2:
             self.pos.x = self.width/2
+            return True
         if self.pos.y < -BG_HEIGHT + self.height/2:
             self.pos.y = -BG_HEIGHT + self.height/2
+            return True
         if self.pos.y > -self.height/2:
             self.pos.y = -self.height/2
+            return True
+        
+        return False
+        
+    # define basic collision_detect override for projectiles aswell (only does touch)
+    def collisions(self, player):
+        if pygame.Rect.colliderect(self.hitbox_rect, player.rect):
+            player.take_damage(self.attack(), self.target_unit_vector, self.knockback)
+
 
         
 

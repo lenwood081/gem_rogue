@@ -91,12 +91,6 @@ class Game:
             # hud
             health.draw(screen)
             exp.draw(screen)
-                    
-        def colliosions():
-            # player being attacked
-            for em in enemies:
-                if pygame.Rect.colliderect(em.hitbox_rect, player.rect):
-                    player.take_damage(em.attack(), em.target_unit_vector, 0)
 
         def updates():
             # player and background 
@@ -106,17 +100,19 @@ class Game:
             player.update_after_background(keys_pressed, mouse_pressed, bg.location, enemies)
 
             for em in enemies:
-                em.update(player.pos)
+                em.update(player)
 
             experiance.update()
             health.update(player.health, player.max_health)
             exp.update(player.level, player.exp_to_level, player.exp)
 
         def spawn_enemies(count):
-            if count > 2 * FRAMERATE:
+            if count > 3 * FRAMERATE:
                 count = 0
-                new_enemy = BlockRanged(Point(random.randint(0, BG_WIDTH), random.randint(-BG_HEIGHT, 0)), experiance.get_group())
-                enemies.add(new_enemy)
+                new_enemy_1 = BlockRanged(Point(random.randint(0, BG_WIDTH), random.randint(-BG_HEIGHT, 0)), experiance.get_group())
+                new_enemy_2 = BlockFodder(Point(random.randint(0, BG_WIDTH), random.randint(-BG_HEIGHT, 0)), experiance.get_group())
+                enemies.add(new_enemy_1)
+                enemies.add(new_enemy_2)
             count += 1
             return count
         # ----------------------------------- main loop ------------------------------------------------------------------
@@ -133,9 +129,6 @@ class Game:
            
             # updates
             updates()
-
-            # collisions
-            colliosions()
 
             # blit to screen
             blit_entiites()

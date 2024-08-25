@@ -79,3 +79,12 @@ class BlockRanged(Enemy):
 
         self.circle_timer_current += 1
 
+    # override to make detcetion better for ranged units
+    def check_boundarys(self):
+        hit = super().check_boundarys()
+
+        if hit:
+            # flip 
+            self.circle_timer_current = 0
+            self.circle_dir_clockwise *= -1
+

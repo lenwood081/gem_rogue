@@ -37,6 +37,7 @@ class ItemHolder(pygame.sprite.Sprite):
 
         # attacking
         self.damage = self.max_damage = 1
+        self.knockback = self.max_knockback = 0
 
         # level
         self.level = 0

@@ -69,8 +69,9 @@ class Player(ItemHolder):
         self.weapon_assit_array = []
 
         # added Basic gun
-        # self.add_BasicGun(MOUSE, math.pi/5)
-        self.add_PlasmaGun(K_e, 0)
+        self.add_BasicGun(MOUSE, 0)
+        self.add_PlasmaGun(MOUSE, math.pi/3)
+        self.add_PlasmaGun(MOUSE, -math.pi/3)
 
 
     # blit player and weapon
