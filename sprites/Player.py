@@ -56,15 +56,15 @@ class Player(pygame.sprite.Sprite):
         self.collect_range = 60
         self.level = 0
         self.exp = 0
-        self.exp_to_level = 100
+        self.exp_to_level = 10
 
         # weapons
         self.weapons = pygame.sprite.Group()
         self.weapon_assit_array = []
 
         # added Basic gun
-        self.add_BasicGun(MOUSE, 0)
-        self.add_PlasmaGun(K_e, math.pi/5)
+        # self.add_BasicGun(MOUSE, math.pi/5)
+        self.add_PlasmaGun(K_e, 0)
 
 
 
@@ -169,10 +169,23 @@ class Player(pygame.sprite.Sprite):
         # weapon update
         self.update_weapons(enemy_group, keys_pressed, mouse_pressed)
 
+    
+
+# ------------------------ Leveling up -------------------------------
+
     # for adding exp
     def add_exp(self, exp):
         self.exp += exp
-    
+
+        if self.exp >= self.exp_to_level:
+            self.exp -= self.exp_to_level
+            self.level_up()
+
+    # leveling up
+    def level_up(self):
+        self.level += 1
+        # eponentual
+        self.exp_to_level = self.exp_to_level * (self.exp_to_level/5)
 # ------------------------ For Weapon Code ---------------------------
     # add basic gun
     def add_BasicGun(self, fire_key, angle):

@@ -52,7 +52,7 @@ class Enemy(pygame.sprite.Sprite):
         self.weight = 1
 
         # drops
-        self.exp = 3
+        self.exp = 1
         self.experiance_group = experiance_group
 
     # occurs when colliding with a player
