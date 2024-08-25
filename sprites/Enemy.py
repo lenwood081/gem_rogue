@@ -10,20 +10,20 @@ from config import *
 # TODO impliment knoockbacl with target unnit vector and strength
 
 class Enemy(ItemHolder):
-    def __init__(self, x, y, image_path, width, height, experiance_group):
+    def __init__(self, pos, image_path, size, experiance_group):
         super(Enemy, self).__init__()
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
 
         # dimensions
-        self.width = self.max_width = width
-        self.height = self.max_height = height
+        self.width = self.max_width = size[0]
+        self.height = self.max_height = size[1]
 
         # immunity frames
         self.immunity_frames_gained = 1
 
         # -----------------------------------------------------------------
 
-        self.pos = Point(x, y)  
+        self.pos = pos.copy() 
 
         # base image
         self.image = pygame.transform.scale(pygame.image.load(image_path).convert_alpha(), (self.width, self.height))
@@ -105,7 +105,26 @@ class Enemy(ItemHolder):
     def update(self, player_pos):
         self.being_hit()
 
-        dir = self.move_towards_player(player_pos)
-        self.pos.x += self.speed * dir.x
-        self.pos.y += self.speed * dir.y
+        unit_vector = self.move_towards_player(player_pos)
+        self.move(unit_vector)
+
+    # move towards unit vector
+    def move(self, unit_vector):
+        # run checks to prevent going out of bounds
+        self.pos.x += self.speed * unit_vector.x
+        self.pos.y += self.speed * unit_vector.y
+
+        # movement restriction (BG_WIDTH and BG_HEIGHT)
+        if self.pos.x > BG_WIDTH - self.width/2:
+            self.pos.x = BG_WIDTH - self.width/2
+        if self.pos.x < self.width/2:
+            self.pos.x = self.width/2
+        if self.pos.y < -BG_HEIGHT + self.height/2:
+            self.pos.y = -BG_HEIGHT + self.height/2
+        if self.pos.y > -self.height/2:
+            self.pos.y = -self.height/2
+
+        
+
+    
 

@@ -4,7 +4,7 @@ from sprites.weapons.Weapon import Weapon
 
 class Gun(Weapon):
     def __init__(self, pos, bg_pos, image_url, size):
-        super(Gun, self).__init__(pos, image_url, size[0], size[1], bg_pos)
+        super(Gun, self).__init__(pos, image_url, size, bg_pos)
 
         # projectiles
         self.projectiles = pygame.sprite.Group()

@@ -10,7 +10,6 @@ class GlowBullet(Projectile):
         self.speed = speed
         self.knockback = 0
 
-        # hits all sprites affected not just one
         self.area_hit = True
 
     # blit to screen

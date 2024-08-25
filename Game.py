@@ -7,6 +7,7 @@ from sprites.enemies.BlockFodder import BlockFodder
 from drops.ExperianceControl import ExperianceControl
 from HUD.HealthBar import HealthBar
 from HUD.ExpBar import ExpBar
+from classes.Point import Point
 from pygame.locals import (
     KEYDOWN,
     K_ESCAPE,
@@ -113,7 +114,7 @@ class Game:
         def spawn_enemies(count):
             if count > 2 * FRAMERATE:
                 count = 0
-                new_enemy = BlockFodder(random.randint(0, BG_WIDTH), random.randint(-BG_HEIGHT, 0), experiance.get_group())
+                new_enemy = BlockFodder(Point(random.randint(0, BG_WIDTH), random.randint(-BG_HEIGHT, 0)), experiance.get_group())
                 enemies.add(new_enemy)
             count += 1
             return count

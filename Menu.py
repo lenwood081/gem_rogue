@@ -11,13 +11,13 @@ from pygame.locals import (
 # TODO impliment Menu differently, essentually use the same game loop as the game
 class Menu:
     def __init__(self):
-        self.buttons = pygame.sprite.Group()
-        self.back_color = (0, 0, 0)
+        self._buttons = pygame.sprite.Group()
+        self._back_color = (0, 0, 0)
 
     # add a button
     def add_button(self, image_url, x, y, width, height):
         button = Button(image_url, x, y, width, height)
-        self.buttons.add(button)
+        self._buttons.add(button)
     
     # method for the menu loop
     # all buttons and every thing must be declared before this
@@ -38,14 +38,14 @@ class Menu:
                     return False
 
             # set back screen color
-            screen.fill(self.back_color)
+            screen.fill(self._back_color)
 
             # blit buttons
-            for button in self.buttons:
+            for button in self._buttons:
                 button.draw(screen)
 
             # update buttons
-            for button in self.buttons:
+            for button in self._buttons:
                 if button.update(e):
                     running = False
 

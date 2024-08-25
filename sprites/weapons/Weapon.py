@@ -1,19 +1,18 @@
 import pygame
-import math
 from classes.Point import Point
 from classes.Direction import Direction
 from config import FRAMERATE
 
 class Weapon(pygame.sprite.Sprite):
-    def __init__(self, pos, image_url, width, height, bg_pos):
+    def __init__(self, pos, image_url, size, bg_pos):
         super(Weapon, self).__init__()
 
         # center
-        self.pos = Point(pos.x, pos.y)
+        self.pos = pos.copy()
         self.front = Direction(0)
         self.offset = 0
 
-        self.base_image = pygame.transform.scale(pygame.image.load(image_url).convert_alpha(), (width, height))
+        self.base_image = pygame.transform.scale(pygame.image.load(image_url).convert_alpha(), (size[0], size[1]))
         self.image = self.base_image
         self.hitbox_rect = self.base_image.get_rect(center=(
             self.pos.x + bg_pos.x, 
@@ -22,8 +21,8 @@ class Weapon(pygame.sprite.Sprite):
         self.rect = self.hitbox_rect.copy()
 
         # general
-        self.width = width
-        self.height = height
+        self.width = size[0]
+        self.height = size[1]
         self.angle_on_player = 0
 
         self.fire_rate = 1
