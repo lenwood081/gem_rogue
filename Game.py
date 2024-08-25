@@ -6,6 +6,7 @@ from sprites.Player import Player
 from sprites.enemies.BlockFodder import BlockFodder
 from drops.ExperianceControl import ExperianceControl
 from HUD.HealthBar import HealthBar
+from HUD.ExpBar import ExpBar
 from pygame.locals import (
     KEYDOWN,
     K_ESCAPE,
@@ -36,6 +37,7 @@ class Game:
 
         # HUD
         health = HealthBar(player.max_health)
+        exp = ExpBar(player)
 
         # enemies
         enemies = pygame.sprite.Group()
@@ -86,6 +88,7 @@ class Game:
             
             # hud
             health.draw(screen)
+            exp.draw(screen)
                     
         def colliosions():
             # player being attacked
@@ -105,6 +108,7 @@ class Game:
 
             experiance.update()
             health.update(player.current_health, player.max_health)
+            exp.update(player.level, player.exp_to_level, player.exp)
 
         def spawn_enemies(count):
             if count > 2 * FRAMERATE:

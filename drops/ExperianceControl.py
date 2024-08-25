@@ -23,4 +23,6 @@ class ExperianceControl:
     def update(self):
         for exp in self.group:
             for player in self.player_group:
-                exp.collect(player)
+                exp = exp.collect(player)
+                if exp > 0:
+                    player.add_exp(exp)

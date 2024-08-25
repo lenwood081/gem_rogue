@@ -54,6 +54,9 @@ class Player(pygame.sprite.Sprite):
 
         # drops
         self.collect_range = 60
+        self.level = 0
+        self.exp = 0
+        self.exp_to_level = 100
 
         # weapons
         self.weapons = pygame.sprite.Group()
@@ -166,8 +169,10 @@ class Player(pygame.sprite.Sprite):
         # weapon update
         self.update_weapons(enemy_group, keys_pressed, mouse_pressed)
 
-
-        
+    # for adding exp
+    def add_exp(self, exp):
+        self.exp += exp
+    
 # ------------------------ For Weapon Code ---------------------------
     # add basic gun
     def add_BasicGun(self, fire_key, angle):

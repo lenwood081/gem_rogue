@@ -31,6 +31,8 @@ class Experiance(pygame.sprite.Sprite):
     def collect(self, player):
         if Point.euclidian_dist(player.pos, self.pos) < player.collect_range:
             self.expire()
+            return self.expValue
+        return 0
 
 
 

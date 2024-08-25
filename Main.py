@@ -27,3 +27,5 @@ while True:
         game.run_game_loop(screen)
     else: 
         break
+
+pygame.quit()

@@ -7,6 +7,8 @@ from pygame.locals import (
     QUIT,
 )
 
+
+# TODO impliment Menu differently, essentually use the same game loop as the game
 class Menu:
     def __init__(self):
         self.buttons = pygame.sprite.Group()
