@@ -1,6 +1,8 @@
 import pygame
+import random
 from sprites.Enemy import Enemy
 from classes.Direction import Direction
+
 
 """
 this is the main basic enemy in the game, should just move towards the player,
@@ -10,14 +12,19 @@ only thing special is that it will have a radius turn
 class BlockFodder(Enemy):
     def __init__(self, x, y, experiance_group):
         super(BlockFodder, self).__init__(x, y, "assets/enemies/blockfodder/base.png", 40, 40, experiance_group)
+        # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
+
+        # slightly random speed
+        self.speed = self.max_speed = random.uniform(self.speed, self.speed+3)  
+
+        # attack
+        self.damage = self.max_damage = 1
+
+        # -----------------------------------------------------------------
 
         # being hurt
         self.image_hurt_base = pygame.transform.scale(pygame.image.load("assets/enemies/blockfodder/hurt.png").convert_alpha(), (self.width, self.height))
         self.image_hurt = self.image_hurt_base
-
-        # personal stats to blockfodder
-        self.attack_damage = 1
-        self.hit_damage = self.attack_damage
 
     # update loop
     def update(self, player_pos):

@@ -14,5 +14,4 @@ BG_OVERLAY_SHADE = (50, 50, 50)
 # player
 PL_WIDTH = 40
 PL_HEIGHT = 40
-PL_SPEED = 10
 

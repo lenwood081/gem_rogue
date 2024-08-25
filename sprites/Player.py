@@ -5,6 +5,7 @@ from classes.Direction import Direction
 from classes.Glow import Glow
 from sprites.weapons.BasicGun import BasicGun
 from sprites.weapons.PlasmaGun import PlasmaGun
+from sprites.ItemHolder import ItemHolder
 from pygame.locals import (
     K_w,
     K_a,
@@ -16,11 +17,25 @@ import math
 
 MOUSE = 'mouse1'
 
-class Player(pygame.sprite.Sprite):
+class Player(ItemHolder):
     def __init__(self, bg_pos):
         super(Player, self).__init__()
+        # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
+
+        # dimensions
+        self.width = self.max_width = PL_WIDTH
+        self.height = self.max_height = PL_HEIGHT
+
+        # speed
+        self.speed = self.max_speed = 10
+
+        # level
+        self.level = 0
+
+        # -----------------------------------------------------------------
+
         # base image
-        self.base_image = pygame.transform.scale(pygame.image.load("assets/player/Player_concept1.png").convert_alpha(), (PL_WIDTH, PL_HEIGHT))
+        self.base_image = pygame.transform.scale(pygame.image.load("assets/player/Player_concept1.png").convert_alpha(), (self.width, self.height))
         self.image = self.base_image
         self.hitbox_rect = self.base_image.get_rect(center=(
             SCREEN_WIDTH/2,
@@ -43,29 +58,17 @@ class Player(pygame.sprite.Sprite):
         self.front = Direction(0)
         self.mouse_unit_vector = Point(0, 0)
 
-        # health and armour
-        self.max_health = 10
-        self.current_health = self.max_health
-        self.armour = 0
-        self.immune = False
-        self.immunity_frames = 0
-        self.immunity_frames_gained = 15
-        self.sheild = 0
-
         # drops
         self.collect_range = 60
-        self.level = 0
         self.exp = 0
         self.exp_to_level = 10
 
         # weapons
-        self.weapons = pygame.sprite.Group()
         self.weapon_assit_array = []
 
         # added Basic gun
         # self.add_BasicGun(MOUSE, math.pi/5)
         self.add_PlasmaGun(K_e, 0)
-
 
 
     # blit player and weapon
@@ -91,14 +94,26 @@ class Player(pygame.sprite.Sprite):
     def death(self):
         # reset to game screen
         self.kill()
-
+        
     # for taking damage
-    def take_damage(self, damage):
-        if self.immune:  
+    def take_damage(self, damage, unit_vector, knockback):
+        if self.immune:
             return
 
-        self.current_health -= damage - damage*(self.armour * 0.01)
-        if self.current_health <= 0:
+        # calculate knockback
+        knockback_dist = 0
+        if knockback >= self.weight:
+            self.stunned = True
+            knockback_dist = knockback * 10 / self.weight 
+
+        # preform knockback
+        if knockback_dist > 0:
+            self.pos.x += unit_vector.x * knockback_dist
+            self.pos.y += unit_vector.y * knockback_dist
+
+        self.health -= damage - damage*(self.armour * 0.01)
+
+        if self.health <= 0:
             self.death()
             return
         
@@ -134,13 +149,13 @@ class Player(pygame.sprite.Sprite):
 
         # player movement
         if keys_pressed[K_s]:
-            y = -PL_SPEED
+            y = -self.speed
         if keys_pressed[K_w]:
-            y = PL_SPEED
+            y = self.speed
         if keys_pressed[K_d]:
-            x = PL_SPEED
+            x = self.speed
         if keys_pressed[K_a]:
-            x = -PL_SPEED
+            x = -self.speed
 
         # check for diagonal speed irregularity
         if x != 0 and y != 0:
@@ -169,7 +184,6 @@ class Player(pygame.sprite.Sprite):
         # weapon update
         self.update_weapons(enemy_group, keys_pressed, mouse_pressed)
 
-    
 
 # ------------------------ Leveling up -------------------------------
 
@@ -179,13 +193,14 @@ class Player(pygame.sprite.Sprite):
 
         if self.exp >= self.exp_to_level:
             self.exp -= self.exp_to_level
-            self.level_up()
+            self.level_up_player()
 
     # leveling up
-    def level_up(self):
-        self.level += 1
+    def level_up_player(self):
+        self.level_up()
         # eponentual
         self.exp_to_level = self.exp_to_level * (self.exp_to_level/5)
+
 # ------------------------ For Weapon Code ---------------------------
     # add basic gun
     def add_BasicGun(self, fire_key, angle):

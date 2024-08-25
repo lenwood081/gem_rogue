@@ -94,7 +94,7 @@ class Game:
             # player being attacked
             for em in enemies:
                 if pygame.Rect.colliderect(em.hitbox_rect, player.rect):
-                    player.take_damage(em.attack())
+                    player.take_damage(em.attack(), em.target_unit_vector, 0)
 
         def updates():
             # player and background 
@@ -107,7 +107,7 @@ class Game:
                 em.update(player.pos)
 
             experiance.update()
-            health.update(player.current_health, player.max_health)
+            health.update(player.health, player.max_health)
             exp.update(player.level, player.exp_to_level, player.exp)
 
         def spawn_enemies(count):
