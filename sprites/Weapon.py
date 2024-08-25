@@ -25,8 +25,6 @@ class Weapon(pygame.sprite.Sprite):
         self.height = height
         self.angle_on_player = 0
 
-        # damage
-        self.damage = 5
         self.fire_rate = 1
         self.frame_till_fire = 0
 

@@ -11,7 +11,7 @@ class PlasmaGun(Weapon):
 
         # white bullets
         self.projectiles = pygame.sprite.Group()
-        self.damage = 2
+        self.gun_damage_mod = 2
         self.bullet_speed = 20
         self.fire_rate = 4
 
@@ -34,12 +34,12 @@ class PlasmaGun(Weapon):
     def shoot(self, player_dir, target_unit_vector, fire):
         if self.can_attack(): 
             if self.do_attack(fire):
-                new_projectile = GlowBullet(self.pos, target_unit_vector, player_dir, self.damage, self.bullet_speed)
+                new_projectile = GlowBullet(self.pos, target_unit_vector, player_dir, self.bullet_speed)
                 self.projectiles.add(new_projectile)
                 
 
     # update gun
-    def update(self, player_dir, target_unit_vector, player_pos, enemie_group, fire):
+    def update(self, player_dir, target_unit_vector, player_pos, enemie_group, fire, damage):
         unit_vector = Point.rotate_unit_vector_flip(target_unit_vector, self.angle_on_player, self.front.dir)
         self.pos.x = player_pos.x + self.offset * unit_vector.x
         self.pos.y = player_pos.y + self.offset * unit_vector.y
@@ -52,4 +52,4 @@ class PlasmaGun(Weapon):
 
         # update projectiles
         for projectile in self.projectiles:
-            projectile.update(enemie_group)
+            projectile.update(enemie_group, self.gun_damage_mod * damage)

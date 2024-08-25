@@ -25,7 +25,7 @@ class Projectile(pygame.sprite.Sprite):
         self.area_hit = False
 
         # damage
-        self.damage = 1
+        self.damage_mod = 1
         self.knockback = 3
 
         # speed
@@ -47,17 +47,17 @@ class Projectile(pygame.sprite.Sprite):
             self.expire()
 
     # collisions
-    def collisions(self, sprite_group):
+    def collisions(self, sprite_group, damage):
         for sprite in sprite_group:
             if pygame.Rect.colliderect(self.rect, sprite.rect):
-                self.deal_damage(sprite)
+                self.deal_damage(sprite, damage)
                 self.take_damage(1)
                 if self.area_hit == False:
                     return
 
     # deal damage to objects
-    def deal_damage(self, sprite):
-        sprite.take_damage(self.damage, self.target_unit_vector, self.knockback)
+    def deal_damage(self, sprite, damage):
+        sprite.take_damage(self.damage_mod * damage, self.target_unit_vector, self.knockback)
 
     # take damage from hitting objects
     def take_damage(self, damage):
@@ -86,21 +86,17 @@ class Projectile(pygame.sprite.Sprite):
         # decrement dist
         self.dist -= self.speed
 
-    # -------------------- Method for interacting and changing projectile values ----------------
-    
-    def increase_damage(self, damage):
-        self.damage += damage
+    # basic update loop can be overriden
+    def update(self, enemie_group, damage):
+        # move bullet
+        self.move()
 
-    def increase_speed(self, speed):
-        self.speed += speed
+        # check for collisions
+        self.collisions(enemie_group, damage)
 
-    def increase_distance(self, dist):
-        self.dist += dist
+        # check remaining health
+        self.check_health()
 
-    def increase_health(self, health):
-        self.start_health += health
-        self.current_health = self.start_health
-    
         
 
 

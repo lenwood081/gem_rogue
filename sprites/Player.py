@@ -17,6 +17,8 @@ import math
 
 MOUSE = 'mouse1'
 
+# TODO link weapon and projectile damage to player damage
+
 class Player(ItemHolder):
     def __init__(self, bg_pos):
         super(Player, self).__init__()
@@ -94,32 +96,6 @@ class Player(ItemHolder):
     def death(self):
         # reset to game screen
         self.kill()
-        
-    # for taking damage
-    def take_damage(self, damage, unit_vector, knockback):
-        if self.immune:
-            return
-
-        # calculate knockback
-        knockback_dist = 0
-        if knockback >= self.weight:
-            self.stunned = True
-            knockback_dist = knockback * 10 / self.weight 
-
-        # preform knockback
-        if knockback_dist > 0:
-            self.pos.x += unit_vector.x * knockback_dist
-            self.pos.y += unit_vector.y * knockback_dist
-
-        self.health -= damage - damage*(self.armour * 0.01)
-
-        if self.health <= 0:
-            self.death()
-            return
-        
-        # damage immunity frame?
-        self.immune = True
-        self.immunity_frames = self.immunity_frames_gained
 
     # rotating player
     def face_mouse(self):
@@ -227,7 +203,7 @@ class Player(ItemHolder):
                     fire = True
             elif keys_pressed[self.weapon_assit_array[i][0]]:
                 fire = True
-            weapon.update(self.front, self.mouse_unit_vector, self.pos, enemy_group, fire)
+            weapon.update(self.front, self.mouse_unit_vector, self.pos, enemy_group, fire, self.damage)
 
     def draw_weapons(self, screen):
         for weapon in self.weapons:

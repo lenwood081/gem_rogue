@@ -3,7 +3,6 @@ import random
 from sprites.Enemy import Enemy
 from classes.Direction import Direction
 
-
 """
 this is the main basic enemy in the game, should just move towards the player,
 only thing special is that it will have a radius turn
@@ -25,14 +24,6 @@ class BlockFodder(Enemy):
         # being hurt
         self.image_hurt_base = pygame.transform.scale(pygame.image.load("assets/enemies/blockfodder/hurt.png").convert_alpha(), (self.width, self.height))
         self.image_hurt = self.image_hurt_base
-
-    # update loop
-    def update(self, player_pos):
-        self.being_hit()
-
-        dir = self.move_towards_player(player_pos)
-        self.pos.x += self.speed * dir.x
-        self.pos.y += self.speed * dir.y
 
 
     # TODO REMOVE blit calls from game entry to streamline for loop through different enemies

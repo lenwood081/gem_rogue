@@ -13,7 +13,7 @@ class Enemy(ItemHolder):
     def __init__(self, x, y, image_path, width, height, experiance_group):
         super(Enemy, self).__init__()
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
-        
+
         # dimensions
         self.width = self.max_width = width
         self.height = self.max_height = height
@@ -57,35 +57,6 @@ class Enemy(ItemHolder):
         exp = Experiance(self.pos, self.exp)
         self.experiance_group.add(exp)
 
-    # for taking damage
-    def take_damage(self, damage, unit_vector, knockback):
-        if self.immune:
-            return
-
-        # calculate knockback
-        knockback_dist = 0
-        if knockback >= self.weight:
-            self.stunned = True
-            knockback_dist = knockback * 10 / self.weight 
-
-        # preform knockback
-        if knockback_dist > 0:
-            self.pos.x += unit_vector.x * knockback_dist
-            self.pos.y += unit_vector.y * knockback_dist
-
-        self.health -= damage - damage*(self.armour * 0.01)
-
-        # for being_hurt
-        self.being_hurt = True
-        self.time_refresh_currect = self.time_refresh
-
-        if self.health <= 0:
-            self.death()
-            return
-        
-        # damage immunity frame?
-        self.immune = True
-        self.immunity_frames = self.immunity_frames_gained
 
     # 1 point direction eg 90 degrees would be (1, 0)
     def move_towards_player(self, player_pos):
@@ -129,3 +100,12 @@ class Enemy(ItemHolder):
         if self.time_refresh_currect <= 0:
             self.being_hurt = False
             self.time_refresh_currect = self.time_refresh
+
+    # update method (general) can be overriden
+    def update(self, player_pos):
+        self.being_hit()
+
+        dir = self.move_towards_player(player_pos)
+        self.pos.x += self.speed * dir.x
+        self.pos.y += self.speed * dir.y
+

@@ -28,6 +28,10 @@ class ItemHolder(pygame.sprite.Sprite):
         self.stunned = False
         self.time_stunned = self.recover_time = 3
 
+        # for being_hurt
+        self.being_hurt = False
+        self.time_refresh_currect = self.time_refresh
+
         # speed
         self.speed = self.max_speed = 4
 
@@ -49,3 +53,37 @@ class ItemHolder(pygame.sprite.Sprite):
         # reset health
         self.health = self.max_health
         # increase base stats
+
+    # ------------------------------ General functions ----------------------------
+
+    # for taking damage
+    def take_damage(self, damage, unit_vector, knockback):
+        if self.immune:
+            return
+
+        # calculate knockback
+        knockback_dist = 0
+        if knockback >= self.weight:
+            self.stunned = True
+            knockback_dist = knockback * 10 / self.weight 
+
+        # preform knockback
+        if knockback_dist > 0:
+            self.pos.x += unit_vector.x * knockback_dist
+            self.pos.y += unit_vector.y * knockback_dist
+
+        self.health -= damage - damage*(self.armour * 0.01)
+
+        # for being_hurt
+        self.being_hurt = True
+        self.time_refresh_currect = self.time_refresh
+
+        if self.health <= 0:
+            self.death()
+            return
+        
+        # damage immunity frame?
+        self.immune = True
+        self.immunity_frames = self.immunity_frames_gained
+
+
