@@ -100,7 +100,7 @@ class Game:
             player.update_after_background(keys_pressed, mouse_pressed, bg.location, enemies)
 
             for em in enemies:
-                em.update(player)
+                em.update(player, players)
 
             experiance.update()
             health.update(player.health, player.max_health)

@@ -2,6 +2,8 @@ import pygame
 import math
 from sprites.Enemy import Enemy
 from classes.Point import Point
+from sprites.weapons.Guns.NodeBlaster import NodeBlaster
+from classes.Direction import Direction
 from config import *
 
 """
@@ -10,16 +12,20 @@ will create a distance and shoot, should puase when shooting
 
 class BlockRanged(Enemy):
     def __init__(self, pos, experiance_group): 
-        super(BlockRanged, self).__init__(pos, "assets/player/Player.png", (40, 40), experiance_group)
+        super(BlockRanged, self).__init__(pos, "assets/enemies/BlockRanged/BlockRanged.png", (40, 40), experiance_group)
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
 
         # slightly random speed
         self.speed = self.max_speed = 4  
 
         # attack
-        self.damage = self.max_damage = 2
+        self.damage = self.max_damage = 1
 
         # -----------------------------------------------------------------
+
+        # being hurt
+        self.image_hurt_base = pygame.transform.scale(pygame.image.load("assets/enemies/BlockRanged/BlockRanged_hurt.png").convert_alpha(), (self.width, self.height))
+        self.image_hurt = self.image_hurt_base
 
         self.lock_on_dist = 400
         self.too_close = 200
@@ -32,6 +38,9 @@ class BlockRanged(Enemy):
         self.circle_timer_current = 0
         self.stutter_tolerance = 20
 
+        # add gun
+        self.weapons.add(NodeBlaster(self.pos, Point(0, 0)))
+
 
     # draw method
     def draw(self, screen, bg_pos):
@@ -39,7 +48,15 @@ class BlockRanged(Enemy):
             self.pos.x + bg_pos.x, 
             -self.pos.y + bg_pos.y))
         
+        if self.being_hurt:
+            #rotate hurt image
+            self.image_hurt = Direction.rotate(self.front.dir, self.image_hurt_base)
+            screen.blit(self.image_hurt, self.hitbox_rect)
+            self.draw_weapons(screen, bg_pos)
+            return
+        
         screen.blit(self.image, self.hitbox_rect) 
+        self.draw_weapons(screen, bg_pos)
 
     # move method override
     def move(self, unit_vector):

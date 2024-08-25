@@ -70,7 +70,7 @@ class Player(ItemHolder):
 
         # added Basic gun
         self.add_BasicGun(MOUSE, 0)
-        self.add_PlasmaGun(MOUSE, math.pi/3)
+        self.add_BasicGun(MOUSE, math.pi/3)
         self.add_PlasmaGun(MOUSE, -math.pi/3)
 
 

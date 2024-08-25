@@ -12,8 +12,6 @@ class Gun(Weapon):
         self.bullet_speed = 20
         self.fire_rate = 5
 
-        # offset from player
-
     # blit weapon to screen
     def draw(self, screen, bg_pos):
         self.rect = self.image.get_rect(center=(

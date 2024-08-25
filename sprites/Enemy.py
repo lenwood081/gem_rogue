@@ -43,6 +43,9 @@ class Enemy(ItemHolder):
         # drops
         self.experiance_group = experiance_group
 
+        # fire (for when to attack)
+        self.fire = True
+
     # occurs when colliding with a player
     # if in an attck then does more damage
     def attack(self):
@@ -102,12 +105,15 @@ class Enemy(ItemHolder):
             self.time_refresh_currect = self.time_refresh
 
     # update method (general) can be overriden
-    def update(self, player):
+    def update(self, player, enemy_group):
         self.being_hit()
+        
 
         unit_vector = self.move_towards_player(player.pos)
         self.move(unit_vector)
         self.check_boundarys()
+        
+        self.update_weapons(enemy_group)
 
         self.collisions(player)
 
@@ -140,6 +146,15 @@ class Enemy(ItemHolder):
         if pygame.Rect.colliderect(self.hitbox_rect, player.rect):
             player.take_damage(self.attack(), self.target_unit_vector, self.knockback)
 
+    # define update weapons
+    def update_weapons(self, enemy_group):
+        for weapon in self.weapons:
+            weapon.update(self.front, self.target_unit_vector, self.pos, enemy_group, self.fire, self.damage)
+
+    # draw weapons
+    def draw_weapons(self, screen, bg_pos):
+        for weapon in self.weapons:
+            weapon.draw(screen, bg_pos)
 
         
 
