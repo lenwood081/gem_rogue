@@ -11,16 +11,17 @@ class PlasmaGun(Gun):
         # white bullets
         self.projectiles = pygame.sprite.Group()
         self.gun_damage_mod = 2
-        self.bullet_speed = 20
-        self.fire_rate = 4
+        self.bullet_speed_mod = 1
+        self.fire_rate_mod = 1.2
+        self.knockback_mod = 0
 
         # offeset from player (for basic gun this is zero due to the way it is drawn)
         self.offset = max(PL_WIDTH, PL_HEIGHT)
 
     # shoots a bullet
-    def shoot(self, player_dir, target_unit_vector, fire):
+    def shoot(self, player_dir, target_unit_vector, fire, attributes):
         if self.can_attack(): 
             if self.do_attack(fire):
-                new_projectile = GlowBullet(self.pos, target_unit_vector, player_dir, self.bullet_speed)
+                new_projectile = GlowBullet(self.pos, target_unit_vector, player_dir, attributes)
                 self.projectiles.add(new_projectile)
                 

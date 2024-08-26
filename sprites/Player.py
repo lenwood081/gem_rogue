@@ -34,6 +34,12 @@ class Player(ItemHolder):
         # level
         self.level = 0
 
+        # attacking
+        self.damage = self.max_damage = 1
+        self.knockback = self.max_knockback = 1
+        self.attack_rate = self.max_attack_rate = 2
+        self.projectile_speed = self.max_projectile_speed = 20
+
         # -----------------------------------------------------------------
 
         # base image
@@ -204,7 +210,7 @@ class Player(ItemHolder):
                     fire = True
             elif keys_pressed[self.weapon_assit_array[i][0]]:
                 fire = True
-            weapon.update(self.front, self.mouse_unit_vector, self.pos, enemy_group, fire, self.damage)
+            weapon.update(self.front, self.mouse_unit_vector, self.pos, enemy_group, fire, (self.projectile_speed, self.damage, self.attack_rate, self.knockback))
 
     def draw_weapons(self, screen):
         for weapon in self.weapons:

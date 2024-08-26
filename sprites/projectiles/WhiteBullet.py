@@ -6,12 +6,10 @@ from classes.Direction import Direction
 
 # TODO add a offset to the initial shooting position, also adding a glow would look good 
 class WhiteBullet(Projectile):
-    def __init__(self, start_pos, target_unit_vector, target_dir, speed):
-        super(WhiteBullet, self).__init__(start_pos, target_unit_vector, target_dir, "assets/Projectiles/simple_bullet.png", 16, 8)
+    def __init__(self, start_pos, target_unit_vector, target_dir, attributes):
+        super(WhiteBullet, self).__init__(start_pos, target_unit_vector, target_dir, "assets/Projectiles/simple_bullet.png", (16, 8), attributes)
 
         self.dist = 500
-        self.speed = speed
-        self.damage_mod = 0.8
 
     # blit to screen
     def draw(self, screen, bg_pos):

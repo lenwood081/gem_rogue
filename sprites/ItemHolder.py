@@ -37,8 +37,9 @@ class ItemHolder(pygame.sprite.Sprite):
 
         # attacking
         self.damage = self.max_damage = 1
-        self.knockback = self.max_knockback = 0
-        self.attack_rate = self.max_attack_rate = 5
+        self.knockback = self.max_knockback = 1
+        self.attack_rate = self.max_attack_rate = 1
+        self.projectile_speed = self.max_projectile_speed = 20
 
         # level
         self.level = 0

@@ -11,16 +11,17 @@ class NodeBlaster(Gun):
         # bullets
         self.projectiles = pygame.sprite.Group()
         self.gun_damage_mod = 2
-        self.bullet_speed = 10
-        self.fire_rate = 0.4
+        self.bullet_speed_mod = 0.8
+        self.fire_rate_mod = 0.2
+        self.knockback_mod = 0
 
         self.offset = 20
 
     # shoots a bullet
-    def shoot(self, player_dir, target_unit_vector, fire):
+    def shoot(self, player_dir, target_unit_vector, fire, attributes):
         if self.can_attack(): 
             if self.do_attack(fire):
-                new_projectile = NodeBullet(self.pos, target_unit_vector, player_dir, self.bullet_speed)
+                new_projectile = NodeBullet(self.pos, target_unit_vector, player_dir, attributes)
                 self.projectiles.add(new_projectile)
 
     # face target overide

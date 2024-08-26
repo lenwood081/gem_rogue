@@ -149,7 +149,7 @@ class Enemy(ItemHolder):
     # define update weapons
     def update_weapons(self, enemy_group):
         for weapon in self.weapons:
-            weapon.update(self.front, self.target_unit_vector, self.pos, enemy_group, self.fire, self.damage)
+            weapon.update(self.front, self.target_unit_vector, self.pos, enemy_group, self.fire, (self.projectile_speed, self.damage, self.attack_rate, self.knockback))
 
     # draw weapons
     def draw_weapons(self, screen, bg_pos):
