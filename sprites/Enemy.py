@@ -28,7 +28,7 @@ class Enemy(ItemHolder):
         # base image
         self.image = pygame.transform.scale(pygame.image.load(image_path).convert_alpha(), (self.width, self.height))
         self.image_base = self.image
-        self.hitbox_rect = self.image.get_rect()
+        self.hitbox_rect = self.image_base.get_rect()
         self.rect = self.hitbox_rect.copy()
 
         # direction and turning
@@ -141,7 +141,7 @@ class Enemy(ItemHolder):
         
     # define basic collision_detect override for projectiles aswell (only does touch)
     def collisions(self, player):
-        if pygame.Rect.colliderect(self.hitbox_rect, player.rect):
+        if pygame.Rect.colliderect(self.hitbox_rect, player.hitbox_rect):
             player.take_damage(self.attack(), self.target_unit_vector, self.knockback)
 
     # define update weapons

@@ -12,8 +12,8 @@ class Weapon(pygame.sprite.Sprite):
         self.front = Direction(0)
         self.offset = 0
 
-        self.base_image = pygame.transform.scale(pygame.image.load(image_url).convert_alpha(), (size[0], size[1]))
-        self.image = self.base_image
+        self.image = pygame.transform.scale(pygame.image.load(image_url).convert_alpha(), (size[0], size[1]))
+        self.base_image = self.image
         self.hitbox_rect = self.base_image.get_rect(center=(
             self.pos.x + bg_pos.x, 
             -self.pos.y + bg_pos.y

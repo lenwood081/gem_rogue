@@ -22,9 +22,8 @@ class Gun(Weapon):
 
     # blit weapon to screen
     def draw(self, screen, bg_pos):
-        self.rect = self.image.get_rect(center=(
-            self.pos.x + bg_pos.x, 
-            -self.pos.y + bg_pos.y))
+        self.hitbox_rect.center = (self.pos.x + bg_pos.x,-self.pos.y + bg_pos.y)
+        self.rect.center = self.hitbox_rect.center
         # change center to top left
         screen.blit(self.image, self.rect)
 

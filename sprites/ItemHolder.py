@@ -13,6 +13,7 @@ class ItemHolder(pygame.sprite.Sprite):
 
         # health and armour
         self.health = self.max_health = 10
+        self.level_health_bonus = 1.3
         self.armour = self.max_armour = 0
         self.sheild = self.max_sheild = 0
         self.weight = self.max_weight = 1
@@ -37,7 +38,8 @@ class ItemHolder(pygame.sprite.Sprite):
 
         # attacking
         self.damage = self.max_damage = 1
-        self.knockback = self.max_knockback = 1
+        self.level_damage_bonus = 1.2
+        self.knockback = self.max_knockback = 0
         self.attack_rate = self.max_attack_rate = 1
         self.projectile_speed = self.max_projectile_speed = 20
 
@@ -52,17 +54,36 @@ class ItemHolder(pygame.sprite.Sprite):
 
     def level_up(self):
         self.level += 1
-
         # increase max/base stats
 
         # health
+        self.max_health *= self.level_health_bonus
 
         # damage
+        self.max_damage *= self.level_damage_bonus
 
         # exp drops
 
         # reset health
         self.health = self.max_health
+        self.damage = self.max_damage
+    
+    # for setting level, if used more than once on a player/enemy it will end up being much higher then expected
+    def set_level(self, level):
+        self.level = level
+        # increase max/base stats
+
+        # health
+        self.max_health *= self.level_health_bonus**self.level
+
+        # damage
+        self.max_damage *= self.level_damage_bonus**self.level
+
+        # exp drops
+        
+        # reset health and damage
+        self.health = self.max_health
+        self.damage = self.max_damage
         
 
     # ------------------------------ General functions ----------------------------
@@ -83,7 +104,10 @@ class ItemHolder(pygame.sprite.Sprite):
             self.pos.x += unit_vector.x * knockback_dist
             self.pos.y += unit_vector.y * knockback_dist
 
-        self.health -= damage - damage*(self.armour * 0.01)
+        # armour at 10 = %50, at 20 = %66.66 at 30 = %75 damage deflected (tenno armour calculation)
+
+        self.health -= damage - damage*(self.armour/(self.armour + 10))
+
 
         # for being_hurt
         self.being_hurt = True

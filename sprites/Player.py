@@ -25,7 +25,7 @@ class Player(ItemHolder):
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
 
         # health
-        self.health = self.max_health = 300
+        self.health = self.max_health = 10
 
         # dimensions
         self.width = self.max_width = PL_WIDTH
@@ -40,14 +40,14 @@ class Player(ItemHolder):
         # attacking
         self.damage = self.max_damage = 1
         self.knockback = self.max_knockback = 1
-        self.attack_rate = self.max_attack_rate = 2
+        self.attack_rate = self.max_attack_rate = 3
         self.projectile_speed = self.max_projectile_speed = 20
 
         # -----------------------------------------------------------------
 
         # base image
-        self.base_image = pygame.transform.scale(pygame.image.load("assets/player/Player_concept1.png").convert_alpha(), (self.width, self.height))
-        self.image = self.base_image
+        self.image = pygame.transform.scale(pygame.image.load("assets/player/Player_concept1.png").convert_alpha(), (self.width, self.height))
+        self.base_image = self.image
         self.hitbox_rect = self.base_image.get_rect(center=(
             SCREEN_WIDTH/2,
             SCREEN_HEIGHT/2,
@@ -79,8 +79,8 @@ class Player(ItemHolder):
 
         # added Basic gun
         self.add_weapon(BasicGun, MOUSE, 0)
-        self.add_weapon(BasicGun, MOUSE, -math.pi/2)
-        self.add_weapon(BasicGun, MOUSE, math.pi/2)
+        #self.add_weapon(BasicGun, MOUSE, -math.pi/2)
+        #self.add_weapon(BasicGun, MOUSE, math.pi/2)
         
 
 
@@ -102,6 +102,10 @@ class Player(ItemHolder):
 
         # draw weapon
         self.draw_weapons(screen)
+
+        # debugging
+        pygame.draw.rect(screen, "red", self.hitbox_rect, width=2)
+        pygame.draw.rect(screen, "blue", self.rect, width=2)
 
     # death method
     def death(self):

@@ -1,6 +1,5 @@
 import pygame
 from config import *
-import random
 from sprites.Background import Background
 from sprites.Player import Player
 from drops.ExperianceControl import ExperianceControl
@@ -8,7 +7,6 @@ from Directors.Enemy_Director_Continous import Enemy_Director_Continous
 from Directors.Enemy_Director_Instant import Enemy_Director_Instant
 from HUD.HealthBar import HealthBar
 from HUD.ExpBar import ExpBar
-from classes.Point import Point
 from pygame.locals import (
     KEYDOWN,
     K_ESCAPE,
@@ -18,8 +16,8 @@ from pygame.locals import (
 
 class Game:
     def __init__(self):
-        #self.modifiers
-        pass
+        #self.modifiers 1 - alot (gonna scale with time)
+        self.difficulty_coeff = 2
 
     # main game loop
     def run_game_loop(self, screen):
@@ -48,12 +46,12 @@ class Game:
         experiance = ExperianceControl(players)
 
         # enemey directors
-        instant_director = Enemy_Director_Instant(100, enemies, experiance.get_group())
+        instant_director = Enemy_Director_Instant(70, enemies, experiance.get_group())
         fast_director = Enemy_Director_Continous(enemies, 9, experiance.get_group())
         slow_director = Enemy_Director_Continous(enemies, 15, experiance.get_group())
 
         # spawn first enemys
-        instant_director.activate(1, player.pos)
+        instant_director.activate(self.difficulty_coeff, player.pos)
 
         # count
         count = 0
@@ -102,8 +100,8 @@ class Game:
 
         def updates():
             # director
-            fast_director.update(1.5, player.pos)
-            slow_director.update(1.5, player.pos)
+            fast_director.update(self.difficulty_coeff, player.pos)
+            slow_director.update(self.difficulty_coeff, player.pos)
 
             # player and background 
             
@@ -118,7 +116,7 @@ class Game:
             health.update(player.health, player.max_health)
             exp.update(player.level, player.exp_to_level, player.exp)
 
-        def spawn_enemies(count):
+        def coeff_calculate(count):
             if count > 3 * FRAMERATE:
                 count = 0
             count += 1
@@ -141,7 +139,7 @@ class Game:
             updates()
 
             # spawn enemies
-            count = spawn_enemies(count)
+            count = coeff_calculate(count)
 
             # player death
             if len(players) == 0:

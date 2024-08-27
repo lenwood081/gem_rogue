@@ -21,6 +21,9 @@ class BlockRanged(Enemy):
         # attack
         self.damage = self.max_damage = 1
 
+        # health and armour
+        self.health = self.max_health = 4
+
         # -----------------------------------------------------------------
 
         # being hurt
@@ -44,19 +47,21 @@ class BlockRanged(Enemy):
 
     # draw method
     def draw(self, screen, bg_pos):
-        self.hitbox_rect = self.image.get_rect(center=(
-            self.pos.x + bg_pos.x, 
-            -self.pos.y + bg_pos.y))
+        self.hitbox_rect.center = (self.pos.x + bg_pos.x, -self.pos.y + bg_pos.y)
+        self.rect.center = self.hitbox_rect.center
         
         if self.being_hurt:
             # rotate hurt image
             self.image_hurt = Direction.rotate(self.front.dir, self.image_hurt_base)
-            screen.blit(self.image_hurt, self.hitbox_rect)
+            screen.blit(self.image_hurt, self.rect)
             self.draw_weapons(screen, bg_pos)
             return
         
-        screen.blit(self.image, self.hitbox_rect) 
+        screen.blit(self.image, self.rect) 
         self.draw_weapons(screen, bg_pos)
+
+        #pygame.draw.rect(screen, "red", self.hitbox_rect, width=2)
+        #pygame.draw.rect(screen, "blue", self.rect, width=2)
 
     # move method override
     def move(self, unit_vector):

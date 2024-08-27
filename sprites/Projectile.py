@@ -7,8 +7,8 @@ class Projectile(pygame.sprite.Sprite):
     def __init__(self, start_pos, target_unit_vector, target_dir, image_url, size, attributes):
         super(Projectile, self).__init__()
         self.pos = start_pos.copy()
-        self.base_image = pygame.transform.scale(pygame.image.load(image_url).convert_alpha(), (size[0], size[1]))
-        self.image = self.base_image
+        self.image = pygame.transform.scale(pygame.image.load(image_url).convert_alpha(), (size[0], size[1]))
+        self.base_image = self.image
         self.hitbox_rect = self.base_image.get_rect()
         self.rect = self.hitbox_rect.copy()
         self.width = size[0]
@@ -44,7 +44,7 @@ class Projectile(pygame.sprite.Sprite):
     # collisions
     def collisions(self, sprite_group):
         for sprite in sprite_group:
-            if pygame.Rect.colliderect(self.rect, sprite.rect):
+            if pygame.Rect.colliderect(self.hitbox_rect, sprite.hitbox_rect):
                 self.deal_damage(sprite)
                 self.take_damage(1)
                 if self.area_hit == False:
@@ -91,6 +91,15 @@ class Projectile(pygame.sprite.Sprite):
 
         # check remaining health
         self.check_health()
+
+    # blit to screen
+    def draw(self, screen, bg_pos):
+        self.hitbox_rect.center = (self.pos.x + bg_pos.x, -self.pos.y + bg_pos.y)
+        self.rect.center = self.hitbox_rect.center
+        screen.blit(self.image, self.rect)
+
+        #pygame.draw.rect(screen, "red", self.hitbox_rect, width=2)
+        #pygame.draw.rect(screen, "blue", self.rect, width=2)
 
         
 
