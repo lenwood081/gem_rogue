@@ -24,6 +24,9 @@ class Player(ItemHolder):
         super(Player, self).__init__()
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
 
+        # health
+        self.health = self.max_health = 300
+
         # dimensions
         self.width = self.max_width = PL_WIDTH
         self.height = self.max_height = PL_HEIGHT
@@ -76,8 +79,10 @@ class Player(ItemHolder):
 
         # added Basic gun
         self.add_BasicGun(MOUSE, 0)
-        self.add_BasicGun(MOUSE, math.pi/3)
+        #self.add_BasicGun(MOUSE, math.pi/3)
         self.add_PlasmaGun(MOUSE, -math.pi/3)
+        #self.add_PlasmaGun(MOUSE, 0)
+        self.add_PlasmaGun(MOUSE, math.pi/3)
 
 
     # blit player and weapon
@@ -185,6 +190,7 @@ class Player(ItemHolder):
         self.exp_to_level = self.exp_to_level * (self.exp_to_level/5)
 
 # ------------------------ For Weapon Code ---------------------------
+
     # add basic gun
     def add_BasicGun(self, fire_key, angle):
         # add key to correct position
@@ -212,6 +218,7 @@ class Player(ItemHolder):
                 fire = True
             weapon.update(self.front, self.mouse_unit_vector, self.pos, enemy_group, fire, (self.projectile_speed, self.damage, self.attack_rate, self.knockback))
 
+    # draw weapons
     def draw_weapons(self, screen):
         for weapon in self.weapons:
             weapon.draw(screen, self.bg_pos)

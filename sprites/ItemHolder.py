@@ -53,9 +53,17 @@ class ItemHolder(pygame.sprite.Sprite):
     def level_up(self):
         self.level += 1
 
+        # increase max/base stats
+
+        # health
+
+        # damage
+
+        # exp drops
+
         # reset health
         self.health = self.max_health
-        # increase base stats
+        
 
     # ------------------------------ General functions ----------------------------
 
@@ -64,7 +72,7 @@ class ItemHolder(pygame.sprite.Sprite):
         if self.immune:
             return
 
-        # calculate knockback
+        # calculate knockback, and if stunned
         knockback_dist = 0
         if knockback >= self.weight:
             self.stunned = True

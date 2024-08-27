@@ -49,7 +49,7 @@ class BlockRanged(Enemy):
             -self.pos.y + bg_pos.y))
         
         if self.being_hurt:
-            #rotate hurt image
+            # rotate hurt image
             self.image_hurt = Direction.rotate(self.front.dir, self.image_hurt_base)
             screen.blit(self.image_hurt, self.hitbox_rect)
             self.draw_weapons(screen, bg_pos)
@@ -60,20 +60,21 @@ class BlockRanged(Enemy):
 
     # move method override
     def move(self, unit_vector):
-        # additional check for if stationary due to shooting
-
-
         # if too close move away
         if self.dist_player < self.too_close:
             self.pos.x -= self.speed * unit_vector.x
             self.pos.y -= self.speed * unit_vector.y
+            self.fire = True
             return
 
         # if too far away move directly towards player
         if self.dist_player > self.lock_on_dist:
             self.pos.x += self.speed * unit_vector.x
             self.pos.y += self.speed * unit_vector.y
+            self.fire = False
             return
+        
+        self.fire = True
         
         # otherwise circle
         new_unit_vector = Point.rotate_unit_vector(unit_vector, self.circle_dir_clockwise * math.pi/2)
@@ -101,7 +102,7 @@ class BlockRanged(Enemy):
         hit = super().check_boundarys()
 
         if hit:
-            # flip 
+            # flip turning direction
             self.circle_timer_current = 0
             self.circle_dir_clockwise *= -1
 

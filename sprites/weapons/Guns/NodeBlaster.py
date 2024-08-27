@@ -24,7 +24,7 @@ class NodeBlaster(Gun):
                 new_projectile = NodeBullet(self.pos, target_unit_vector, player_dir, attributes)
                 self.projectiles.add(new_projectile)
 
-    # face target overide
+    # face target overide, as this is an enemy weapon
     def face_target(self, target_dir):
         # copy target direction
         self.front.dir = target_dir.dir

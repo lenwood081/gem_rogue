@@ -68,16 +68,6 @@ class Enemy(ItemHolder):
             if self.immunity_frames == 0:
                 self.immune = False
 
-        if self.stunned:
-            # stop from moveing
-            new_dir = Point(0,0)
-            if self.time_stunned <= 0:
-                self.stunned = False
-                self.time_stunned = self.recover_time
-            else:
-                self.time_stunned -= 1
-            return new_dir
-
         player_pos_cpy = player_pos.copy()
 
         # target variation is until a certain distance the enemy will vary its approach
@@ -108,13 +98,21 @@ class Enemy(ItemHolder):
     def update(self, player, enemy_group):
         self.being_hit()
         
-
         unit_vector = self.move_towards_player(player.pos)
-        self.move(unit_vector)
-        self.check_boundarys()
-        
-        self.update_weapons(enemy_group)
 
+        if self.stunned:
+            # stop from moveing and attacking
+            if self.time_stunned <= 0:
+                self.stunned = False
+                self.time_stunned = self.recover_time
+            else:
+                self.time_stunned -= 1
+                self.fire = False
+        else:
+            self.move(unit_vector)
+                
+        self.check_boundarys()        
+        self.update_weapons(enemy_group)
         self.collisions(player)
 
     # move towards unit vector
