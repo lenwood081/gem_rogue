@@ -78,11 +78,10 @@ class Player(ItemHolder):
         self.weapon_assit_array = []
 
         # added Basic gun
-        self.add_BasicGun(MOUSE, 0)
-        #self.add_BasicGun(MOUSE, math.pi/3)
-        self.add_PlasmaGun(MOUSE, -math.pi/3)
-        #self.add_PlasmaGun(MOUSE, 0)
-        self.add_PlasmaGun(MOUSE, math.pi/3)
+        self.add_weapon(BasicGun, MOUSE, 0)
+        self.add_weapon(BasicGun, MOUSE, -math.pi/2)
+        self.add_weapon(BasicGun, MOUSE, math.pi/2)
+        
 
 
     # blit player and weapon
@@ -191,21 +190,13 @@ class Player(ItemHolder):
 
 # ------------------------ For Weapon Code ---------------------------
 
-    # add basic gun
-    def add_BasicGun(self, fire_key, angle):
+    # add_weapon
+    def add_weapon(self, type, fire_key, angle):
         # add key to correct position
         self.weapon_assit_array.append((fire_key, angle))
-        gun = BasicGun(self.pos, self.bg_pos)
-        gun.angle_on_player = angle
-        self.weapons.add(gun)
-
-    # add plasma gun
-    def add_PlasmaGun(self, fire_key, angle):
-        # add key to correct position
-        self.weapon_assit_array.append((fire_key, angle))
-        gun = PlasmaGun(self.pos, self.bg_pos)
-        gun.angle_on_player = angle
-        self.weapons.add(gun)
+        weapon = type(self.pos, self.bg_pos)
+        weapon.angle_on_player = angle
+        self.weapons.add(weapon)
 
     # using mouse_pressed and key_pressed as faster and allows for holddown input
     def update_weapons(self, enemy_group, keys_pressed, mouse_pressed):

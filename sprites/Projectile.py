@@ -35,7 +35,6 @@ class Projectile(pygame.sprite.Sprite):
 
         # rotate
         self.rotate()
-        self.move()
 
     # check bullet health
     def check_health(self):

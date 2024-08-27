@@ -18,10 +18,5 @@ class PlasmaGun(Gun):
         # offeset from player (for basic gun this is zero due to the way it is drawn)
         self.offset = max(PL_WIDTH, PL_HEIGHT)
 
-    # shoots a bullet
-    def shoot(self, player_dir, target_unit_vector, fire, attributes):
-        if self.can_attack(): 
-            if self.do_attack(fire):
-                new_projectile = GlowBullet(self.pos, target_unit_vector, player_dir, attributes)
-                self.projectiles.add(new_projectile)
+        self.bullet_type = GlowBullet
                 

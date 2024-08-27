@@ -19,6 +19,7 @@ class Gun(Weapon):
         self.fire_rate = 0
         self.knockback = 0
 
+
     # blit weapon to screen
     def draw(self, screen, bg_pos):
         self.rect = self.image.get_rect(center=(
@@ -57,3 +58,12 @@ class Gun(Weapon):
         self.fire_rate = parent_attributes[2] * self.fire_rate_mod
         self.knockback = parent_attributes[3] * self.knockback_mod
         return (self.bullet_speed, self.gun_damage, self.knockback)
+    
+    # shoots a bullet
+    def shoot(self, player_dir, target_unit_vector, fire, attributes):
+        if self.can_attack(): 
+            if self.do_attack(fire):
+                pos = Point(self.pos.x + target_unit_vector.x * self.width/2, self.pos.y + target_unit_vector.y * self.height/2)
+                new_projectile = self.bullet_type(pos, target_unit_vector, player_dir, attributes)
+                self.projectiles.add(new_projectile)
+                

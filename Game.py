@@ -6,6 +6,7 @@ from sprites.Player import Player
 from sprites.enemies.BlockFodder import BlockFodder
 from sprites.enemies.BlockRanged import BlockRanged
 from drops.ExperianceControl import ExperianceControl
+from Directors.Enemy_Director import Enemy_Director
 from HUD.HealthBar import HealthBar
 from HUD.ExpBar import ExpBar
 from classes.Point import Point
@@ -46,6 +47,10 @@ class Game:
 
         # experiance
         experiance = ExperianceControl(players)
+
+        # enemey director
+        fast_director = Enemy_Director(enemies, 9, experiance.get_group())
+        slow_director = Enemy_Director(enemies, 15, experiance.get_group())
 
         # count
         count = 0
@@ -93,6 +98,10 @@ class Game:
             exp.draw(screen)
 
         def updates():
+            # director
+            fast_director.update(1.5)
+            slow_director.update(1.5)
+
             # player and background 
             
             player.update(keys_pressed)
@@ -109,10 +118,6 @@ class Game:
         def spawn_enemies(count):
             if count > 3 * FRAMERATE:
                 count = 0
-                new_enemy_1 = BlockRanged(Point(random.randint(0, BG_WIDTH), random.randint(-BG_HEIGHT, 0)), experiance.get_group())
-                new_enemy_2 = BlockFodder(Point(random.randint(0, BG_WIDTH), random.randint(-BG_HEIGHT, 0)), experiance.get_group())
-                enemies.add(new_enemy_1)
-                enemies.add(new_enemy_2)
             count += 1
             return count
         # ----------------------------------- main loop ------------------------------------------------------------------
@@ -126,12 +131,11 @@ class Game:
             # event handeler
             running = quit_handler()
 
+            # blit to screen
+            blit_entiites()
            
             # updates
             updates()
-
-            # blit to screen
-            blit_entiites()
 
             # spawn enemies
             count = spawn_enemies(count)
