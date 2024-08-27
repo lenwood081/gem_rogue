@@ -4,6 +4,7 @@ from sprites.Enemy import Enemy
 from classes.Point import Point
 from sprites.weapons.Guns.NodeBlaster import NodeBlaster
 from classes.Direction import Direction
+from Animations.Animation import Animation
 from config import *
 
 """
@@ -12,7 +13,10 @@ will create a distance and shoot, should puase when shooting
 
 class BlockRanged(Enemy):
     def __init__(self, pos, experiance_group): 
-        super(BlockRanged, self).__init__(pos, "assets/enemies/BlockRanged/BlockRanged.png", (40, 40), experiance_group)
+        animation_move = Animation(["assets/enemies/BlockRanged/BlockRanged.png"], (40, 40), [1])
+        animation_hurt = Animation(["assets/enemies/BlockRanged/BlockRanged_hurt.png"], (40, 40), [1])
+
+        super(BlockRanged, self).__init__(pos, (animation_move, animation_hurt), (40, 40), experiance_group)
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
 
         # slightly random speed
@@ -25,10 +29,6 @@ class BlockRanged(Enemy):
         self.health = self.max_health = 4
 
         # -----------------------------------------------------------------
-
-        # being hurt
-        self.image_hurt_base = pygame.transform.scale(pygame.image.load("assets/enemies/BlockRanged/BlockRanged_hurt.png").convert_alpha(), (self.width, self.height))
-        self.image_hurt = self.image_hurt_base
 
         self.lock_on_dist = 400
         self.too_close = 200
@@ -43,25 +43,6 @@ class BlockRanged(Enemy):
 
         # add gun
         self.weapons.add(NodeBlaster(self.pos, Point(0, 0)))
-
-
-    # draw method
-    def draw(self, screen, bg_pos):
-        self.hitbox_rect.center = (self.pos.x + bg_pos.x, -self.pos.y + bg_pos.y)
-        self.rect.center = self.hitbox_rect.center
-        
-        if self.being_hurt:
-            # rotate hurt image
-            self.image_hurt = Direction.rotate(self.front.dir, self.image_hurt_base)
-            screen.blit(self.image_hurt, self.rect)
-            self.draw_weapons(screen, bg_pos)
-            return
-        
-        screen.blit(self.image, self.rect) 
-        self.draw_weapons(screen, bg_pos)
-
-        #pygame.draw.rect(screen, "red", self.hitbox_rect, width=2)
-        #pygame.draw.rect(screen, "blue", self.rect, width=2)
 
     # move method override
     def move(self, unit_vector):

@@ -17,7 +17,7 @@ from pygame.locals import (
 class Game:
     def __init__(self):
         #self.modifiers 1 - alot (gonna scale with time)
-        self.difficulty_coeff = 2
+        self.difficulty_coeff = 1.2
 
     # main game loop
     def run_game_loop(self, screen):

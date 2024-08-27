@@ -10,7 +10,7 @@ from config import *
 # TODO impliment knoockbacl with target unnit vector and strength
 
 class Enemy(ItemHolder):
-    def __init__(self, pos, image_path, size, experiance_group):
+    def __init__(self, pos, animimations, size, experiance_group):
         super(Enemy, self).__init__()
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
 
@@ -24,9 +24,11 @@ class Enemy(ItemHolder):
         # -----------------------------------------------------------------
 
         self.pos = pos.copy() 
+        self.move_animation = animimations[0]
+        self.hurt_animation = animimations[1]
 
         # base image
-        self.image = pygame.transform.scale(pygame.image.load(image_path).convert_alpha(), (self.width, self.height))
+        self.image = self.move_animation.animate()
         self.image_base = self.image
         self.hitbox_rect = self.image_base.get_rect()
         self.rect = self.hitbox_rect.copy()
@@ -45,6 +47,17 @@ class Enemy(ItemHolder):
 
         # fire (for when to attack)
         self.fire = True
+
+     # draw method
+    def draw(self, screen, bg_pos):
+        self.hitbox_rect.center = (self.pos.x + bg_pos.x, -self.pos.y + bg_pos.y)
+        self.rect.center = self.hitbox_rect.center
+    
+        screen.blit(self.image, self.rect) 
+        self.draw_weapons(screen, bg_pos)
+
+        pygame.draw.rect(screen, "red", self.hitbox_rect, width=2)
+        pygame.draw.rect(screen, "blue", self.rect, width=2)
 
     # occurs when colliding with a player
     # if in an attck then does more damage
@@ -81,6 +94,8 @@ class Enemy(ItemHolder):
 
         # rotate to face player
         player_dir = Point.direction_to_point(player_pos_cpy, self.pos)
+
+        
         self.image = Direction.rotate(player_dir.dir + math.pi/2, self.image_base)
         self.rect = self.image.get_rect(center=self.hitbox_rect.center)
         self.front.dir = player_dir.dir + math.pi/2
@@ -89,17 +104,23 @@ class Enemy(ItemHolder):
     
     # check for being hit
     def being_hit(self):
-        self.time_refresh_currect -= 1
+        # also controlls animations
+        if self.being_hurt:
+            self.time_refresh_currect -= 1
+            self.image_base = self.hurt_animation.animate() 
+        else:
+            # general move animation
+            self.image_base = self.move_animation.animate()
+
         if self.time_refresh_currect <= 0:
             self.being_hurt = False
-            self.time_refresh_currect = self.time_refresh
+            
 
     # update method (general) can be overriden
     def update(self, player, enemy_group):
         self.being_hit()
-        
         unit_vector = self.move_towards_player(player.pos)
-
+        
         if self.stunned:
             # stop from moveing and attacking
             if self.time_stunned <= 0:
@@ -147,7 +168,8 @@ class Enemy(ItemHolder):
     # define update weapons
     def update_weapons(self, enemy_group):
         for weapon in self.weapons:
-            weapon.update(self.front, self.target_unit_vector, self.pos, enemy_group, self.fire, (self.projectile_speed, self.damage, self.attack_rate, self.knockback))
+            weapon.update(self.front, self.target_unit_vector, self.pos, enemy_group, self.fire, 
+                          (self.projectile_speed, self.damage, self.attack_rate, self.knockback))
 
     # draw weapons
     def draw_weapons(self, screen, bg_pos):

@@ -5,6 +5,7 @@ from classes.Direction import Direction
 from classes.Glow import Glow
 from sprites.weapons.Guns.BasicGun import BasicGun
 from sprites.weapons.Guns.PlasmaGun import PlasmaGun
+from Animations.Animation import Animation
 from sprites.ItemHolder import ItemHolder
 from pygame.locals import (
     K_w,
@@ -46,7 +47,8 @@ class Player(ItemHolder):
         # -----------------------------------------------------------------
 
         # base image
-        self.image = pygame.transform.scale(pygame.image.load("assets/player/Player_concept1.png").convert_alpha(), (self.width, self.height))
+        self.base_animate = Animation(["assets/player/Player_concept1.png"], (self.width, self.height), [1])
+        self.image = self.base_animate.animate()
         self.base_image = self.image
         self.hitbox_rect = self.base_image.get_rect(center=(
             SCREEN_WIDTH/2,
@@ -124,6 +126,8 @@ class Player(ItemHolder):
 
         # make unit vector for point to travel to
         self.mouse_unit_vector = Point.unit_vector(mouse_pos, temp_pos)
+
+        # rotate image
         self.image = Direction.rotate_with_flip(mouse_dir.dir, self.base_image)
         self.rect = self.image.get_rect(center=self.hitbox_rect.center)
         self.front = mouse_dir
@@ -164,6 +168,9 @@ class Player(ItemHolder):
             self.pos.y = -BG_HEIGHT + PL_HEIGHT/2
         if self.pos.y > -PL_HEIGHT/2:
             self.pos.y = -PL_HEIGHT/2
+
+        # animation
+        self.base_image = self.base_animate.animate()
 
         self.face_mouse()
 

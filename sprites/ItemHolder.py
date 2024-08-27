@@ -20,7 +20,7 @@ class ItemHolder(pygame.sprite.Sprite):
 
         # hurt image time and display
         self.being_hurt = False
-        self.time_refresh_currect = self.time_refresh = 7
+        self.time_refresh_currect = self.time_refresh = 10
 
         # hit handeling
         self.immune = False
@@ -105,9 +105,7 @@ class ItemHolder(pygame.sprite.Sprite):
             self.pos.y += unit_vector.y * knockback_dist
 
         # armour at 10 = %50, at 20 = %66.66 at 30 = %75 damage deflected (tenno armour calculation)
-
         self.health -= damage - damage*(self.armour/(self.armour + 10))
-
 
         # for being_hurt
         self.being_hurt = True
