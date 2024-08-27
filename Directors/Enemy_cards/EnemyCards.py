@@ -5,5 +5,5 @@ from sprites.enemies.BlockFodder import BlockFodder
 # list of all enemy cards
 ENEMYCARDS = [
     Card("Block Fodder", BlockFodder, "Basic Enemy", 8, 1),
-    Card("Block Ranged", BlockRanged, "Basic Enemy", 12, 1),
+    Card("Block Ranged", BlockRanged, "Basic Enemy", 16, 1),
 ]

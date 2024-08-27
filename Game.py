@@ -3,10 +3,9 @@ from config import *
 import random
 from sprites.Background import Background
 from sprites.Player import Player
-from sprites.enemies.BlockFodder import BlockFodder
-from sprites.enemies.BlockRanged import BlockRanged
 from drops.ExperianceControl import ExperianceControl
-from Directors.Enemy_Director import Enemy_Director
+from Directors.Enemy_Director_Continous import Enemy_Director_Continous
+from Directors.Enemy_Director_Instant import Enemy_Director_Instant
 from HUD.HealthBar import HealthBar
 from HUD.ExpBar import ExpBar
 from classes.Point import Point
@@ -48,9 +47,13 @@ class Game:
         # experiance
         experiance = ExperianceControl(players)
 
-        # enemey director
-        fast_director = Enemy_Director(enemies, 9, experiance.get_group())
-        slow_director = Enemy_Director(enemies, 15, experiance.get_group())
+        # enemey directors
+        instant_director = Enemy_Director_Instant(100, enemies, experiance.get_group())
+        fast_director = Enemy_Director_Continous(enemies, 9, experiance.get_group())
+        slow_director = Enemy_Director_Continous(enemies, 15, experiance.get_group())
+
+        # spawn first enemys
+        instant_director.activate(1, player.pos)
 
         # count
         count = 0
@@ -99,8 +102,8 @@ class Game:
 
         def updates():
             # director
-            fast_director.update(1.5)
-            slow_director.update(1.5)
+            fast_director.update(1.5, player.pos)
+            slow_director.update(1.5, player.pos)
 
             # player and background 
             
