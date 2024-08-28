@@ -1,9 +1,7 @@
-import pygame
 import math
 from sprites.Enemy import Enemy
 from classes.Point import Point
 from sprites.weapons.Guns.NodeBlaster import NodeBlaster
-from classes.Direction import Direction
 from Animations.Animation import Animation
 from config import *
 
