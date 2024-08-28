@@ -5,6 +5,8 @@ from sprites.Player import Player
 from drops.ExperianceControl import ExperianceControl
 from Directors.Enemy_Director_Continous import Enemy_Director_Continous
 from Directors.Enemy_Director_Instant import Enemy_Director_Instant
+from sprites.enemies.BlockRanged import BlockRanged
+from classes.Point import Point
 from Camera.Camera import Camera
 from HUD.HealthBar import HealthBar
 from HUD.ExpBar import ExpBar
@@ -27,13 +29,16 @@ class Game:
 
         # game clock
         clock = pygame.time.Clock()
+        
+        # boundary collider
+        boundary = pygame.sprite.Group()
 
         # background
-        bg = Background()
+        bg = Background(boundary)
 
         # player
         players = pygame.sprite.Group()
-        player = Player(bg.location)
+        player = Player()
         players.add(player)
 
         # camera
@@ -43,19 +48,22 @@ class Game:
         health = HealthBar(player.max_health)
         exp = ExpBar(player)
 
-        # enemies
-        enemies = pygame.sprite.Group()
-
         # experiance
         experiance = ExperianceControl(players)
-
+        
+        
+        # enemies
+        enemies = pygame.sprite.Group()
+        en = BlockRanged(Point(500, -500), experiance)
+        enemies.add(en)    
+    
         # enemey directors
-        instant_director = Enemy_Director_Instant(70, enemies, experiance.get_group())
+        #instant_director = Enemy_Director_Instant(70, enemies, experiance.get_group())
         fast_director = Enemy_Director_Continous(enemies, 9, experiance.get_group())
         slow_director = Enemy_Director_Continous(enemies, 15, experiance.get_group())
 
         # spawn first enemys
-        instant_director.activate(self.difficulty_coeff, player.pos)
+        #instant_director.activate(self.difficulty_coeff, player.pos)
 
         # count
         count = 0
@@ -90,9 +98,9 @@ class Game:
             experiance.draw(screen, camera.get_offset())
             
             for em in enemies:
-                em.draw(screen, camera.get_offset())
+                em.draw(screen)
 
-            # health bar bg and player
+            # player
             player.draw(screen)
 
             # after rendering effects
@@ -104,20 +112,23 @@ class Game:
 
         def updates():
             # director
-            fast_director.update(self.difficulty_coeff, player.pos)
-            slow_director.update(self.difficulty_coeff, player.pos)
+            #fast_director.update(self.difficulty_coeff, player.pos)
+            #slow_director.update(self.difficulty_coeff, player.pos)
 
-            # player and background 
-            
-            player.update(keys_pressed)
-            #bg.update(player.pos)
+            # player and camera
+            player.update(keys_pressed, boundary)
             camera.update(player.pos)
-            player.update_after_background(keys_pressed, mouse_pressed, camera.get_offset(), enemies)
+            bg.update(camera.get_offset())
+            player.update_after_camera(keys_pressed, mouse_pressed, camera.get_offset(), enemies, boundary)
 
+            # enemies
             for em in enemies:
-                em.update(player, players)
+                em.update(player, players, camera.get_offset(), boundary)
 
+            # exp
             experiance.update()
+
+            # HUD
             health.update(player.health, player.max_health)
             exp.update(player.level, player.exp_to_level, player.exp)
 
@@ -139,11 +150,11 @@ class Game:
 
             # blit to screen
             blit_entiites()
-
-            # collision detection (for )
            
             # updates
             updates()
+
+            
 
             # spawn enemies
             count = coeff_calculate(count)

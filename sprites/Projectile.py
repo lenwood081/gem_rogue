@@ -82,7 +82,7 @@ class Projectile(pygame.sprite.Sprite):
         self.dist -= self.speed
 
     # basic update loop can be overriden
-    def update(self, enemie_group):
+    def update(self, enemie_group, cam_offset):
         # move bullet
         self.move()
 
@@ -92,14 +92,19 @@ class Projectile(pygame.sprite.Sprite):
         # check remaining health
         self.check_health()
 
-    # blit to screen
-    def draw(self, screen, cam_offset):
         self.hitbox_rect.center = (self.pos.x + cam_offset.x, -self.pos.y + cam_offset.y)
         self.rect.center = self.hitbox_rect.center
+
+    # blit to screen
+    def draw(self, screen):
         screen.blit(self.image, self.rect)
 
         #pygame.draw.rect(screen, "red", self.hitbox_rect, width=2)
         #pygame.draw.rect(screen, "blue", self.rect, width=2)
+
+    # projectile hit solid object
+    def collision(self, collided_with_rect):
+        self.kill()
 
         
 

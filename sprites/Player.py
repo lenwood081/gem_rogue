@@ -21,7 +21,7 @@ MOUSE = 'mouse1'
 # TODO link weapon and projectile damage to player damage
 
 class Player(ItemHolder):
-    def __init__(self, cam_offset):
+    def __init__(self):
         super(Player, self).__init__()
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
 
@@ -29,8 +29,8 @@ class Player(ItemHolder):
         self.health = self.max_health = 10
 
         # dimensions
-        self.width = self.max_width = PL_WIDTH
-        self.height = self.max_height = PL_HEIGHT
+        self.width = self.max_width = 16*2.5
+        self.height = self.max_height = 16*2.5
 
         # speed
         self.speed = self.max_speed = 20
@@ -55,6 +55,7 @@ class Player(ItemHolder):
             SCREEN_WIDTH/2,
             SCREEN_HEIGHT/2,
         ))
+        self.boundary_rect = self.hitbox_rect.copy()
         self.rect = self.hitbox_rect.copy()
 
         # glow
@@ -67,12 +68,16 @@ class Player(ItemHolder):
 
         # position reletive to background (centered)
         # start in the center of the playable area
-        #self.pos = Point(BG_WIDTH/2 + PL_WIDTH/2, -BG_HEIGHT/2 - PL_HEIGHT/2)
-        self.pos = Point(50, -50)
+        self.pos = Point(BG_WIDTH/2 + self.width/2, -BG_HEIGHT/2 - self.height/2)
+        self.velocity = Point(0, 0)
 
         # position to the center of the screen
         self.pos_screen = Point(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
-        self.cam_offset = cam_offset.copy()
+
+        # used to update weapons and projectiles
+        self.cam_offset = Point(0, 0)
+
+        # direction and target vextor
         self.front = Direction(0)
         self.mouse_unit_vector = Point(0, 0)
 
@@ -88,8 +93,8 @@ class Player(ItemHolder):
         self.add_weapon(BasicGun, MOUSE, 0)
         self.add_weapon(PlasmaGun, MOUSE, -math.pi/2)
         self.add_weapon(BasicGun, MOUSE, math.pi/2)
-        
 
+    # ---------------------------------------- for bliting and collision detect ------------------
 
     # blit player and weapon
     def draw(self, screen):
@@ -114,10 +119,34 @@ class Player(ItemHolder):
         #pygame.draw.rect(screen, "red", self.hitbox_rect, width=2)
         #pygame.draw.rect(screen, "blue", self.rect, width=2)
 
-    # death method
-    def death(self):
-        # reset to game screen
-        self.kill()
+    def boundary_collision(self, collision_group):
+        # call on self
+        for tile in collision_group:
+            # could be optimised by checking first if there is a collision then checking left and right
+            self.boundary_rect.center = (SCREEN_WIDTH/2 + self.velocity.x, SCREEN_HEIGHT/2 - self.velocity.y)
+            if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
+                # check x
+                self.boundary_rect.center = (SCREEN_WIDTH/2 + self.velocity.x, SCREEN_HEIGHT/2)
+                if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
+                    # left hand edge
+                    if self.velocity.x > 0:
+                        self.pos.x = tile.pos.x - self.width/2
+                    # right hand side
+                    elif self.velocity.x < 0:
+                        self.pos.x = tile.pos.x + tile.width + self.width/2
+    
+                # check y
+                self.boundary_rect.center = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - self.velocity.y)
+                if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
+                    # top
+                    if self.velocity.y > 0:
+                        self.pos.y = tile.pos.y - tile.height - self.height/2
+                    # bottom
+                    elif self.velocity.y < 0:
+                        self.pos.y = tile.pos.y + self.height/2
+
+
+    # ------------------------------------------ facing mouse --------------------------------
 
     # rotating player
     def face_mouse(self):
@@ -157,9 +186,11 @@ class Player(ItemHolder):
             self.image = pygame.transform.flip(self.base_image, True, False)
         self.rect = self.image.get_rect(center=self.hitbox_rect.center)
         self.front = mouse_dir
+
+    # ---------------------------------------- updates --------------------------------------------
         
     # update loop
-    def update(self, keys_pressed):
+    def update(self, keys_pressed, boundary):
         x = 0
         y = 0
 
@@ -178,19 +209,10 @@ class Player(ItemHolder):
             x /= math.sqrt(2)
             y /= math.sqrt(2)
 
+        
+        self.velocity = Point(x, y)
         self.pos.move(x, y)
-
-        # movement restriction (BG_WIDTH and BG_HEIGHT)
-        if self.pos.x > BG_WIDTH - PL_WIDTH/2:
-            self.pos.x = BG_WIDTH - PL_WIDTH/2
-        if self.pos.x < PL_WIDTH/2:
-            self.pos.x = PL_WIDTH/2
-        if self.pos.y < -BG_HEIGHT + PL_HEIGHT/2:
-            self.pos.y = -BG_HEIGHT + PL_HEIGHT/2
-        if self.pos.y > -PL_HEIGHT/2:
-            self.pos.y = -PL_HEIGHT/2
-
-        print(self.pos.x, self.pos.y)
+        self.boundary_collision(boundary)
 
         # animation
         self.base_image = self.base_animate.animate()
@@ -199,7 +221,7 @@ class Player(ItemHolder):
         self.flip_mouse()
 
     # secound update for things that require background pos to be updated
-    def update_after_background(self, keys_pressed, mouse_pressed, cam_offset, enemy_group):
+    def update_after_camera(self, keys_pressed, mouse_pressed, cam_offset, enemy_group, boundary):
         if self.immune:
             self.immunity_frames -= 1
             if self.immunity_frames == 0:
@@ -210,8 +232,15 @@ class Player(ItemHolder):
 
          # weapon update
         self.update_weapons(enemy_group, keys_pressed, mouse_pressed)
+        for weapon in self.weapons:
+            weapon.boundary_collision(boundary)
 
 # ------------------------ Leveling up -------------------------------
+
+    # death method
+    def death(self):
+        # reset to game screen
+        self.kill()
 
     # for adding exp
     def add_exp(self, exp):
@@ -246,10 +275,10 @@ class Player(ItemHolder):
                     fire = True
             elif keys_pressed[self.weapon_assit_array[i][0]]:
                 fire = True
-            weapon.update(self.front, self.mouse_unit_vector, self.pos, enemy_group, fire, (self.projectile_speed, self.damage, self.attack_rate, self.knockback))
+            weapon.update(self.front, self.mouse_unit_vector, self.pos, enemy_group, fire, (self.projectile_speed, self.damage, self.attack_rate, self.knockback), self.cam_offset)
 
     # draw weapons
     def draw_weapons(self, screen):
         for weapon in self.weapons:
-            weapon.draw(screen, self.cam_offset)
+            weapon.draw(screen)
 

@@ -32,6 +32,9 @@ class Weapon(pygame.sprite.Sprite):
         self.autofire = False
         self.fire = False
 
+        # projectiles if any
+        self.projectiles = pygame.sprite.Group()
+
     # face target
     def face_target(self, target_dir):
         # copy target direction
@@ -56,6 +59,15 @@ class Weapon(pygame.sprite.Sprite):
             self.frame_till_fire = fire_rate
             return True
         return False
+    
+    # boundary collision detect on projectiles
+    def boundary_collision(self, boundary):
+        for bullet in self.projectiles:
+            for tile in boundary:
+                if pygame.Rect.colliderect(bullet.hitbox_rect, tile.rect):
+                    bullet.collision(tile.rect)
+                    break
+
         
 
 

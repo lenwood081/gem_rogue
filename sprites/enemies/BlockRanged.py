@@ -44,17 +44,19 @@ class BlockRanged(Enemy):
 
     # move method override
     def move(self, unit_vector):
+        self.velocity = Point(0, 0)
+
         # if too close move away
         if self.dist_player < self.too_close:
-            self.pos.x -= self.speed * unit_vector.x
-            self.pos.y -= self.speed * unit_vector.y
+            self.pos.move(-self.speed * unit_vector.x, -self.speed * unit_vector.y)
+            self.velocity = Point(-self.speed * unit_vector.x, -self.speed * unit_vector.y)
             self.fire = True
             return
 
         # if too far away move directly towards player
         if self.dist_player > self.lock_on_dist:
-            self.pos.x += self.speed * unit_vector.x
-            self.pos.y += self.speed * unit_vector.y
+            self.pos.move(self.speed * unit_vector.x, self.speed * unit_vector.y)
+            self.velocity = Point(self.speed * unit_vector.x, self.speed * unit_vector.y)
             self.fire = False
             return
         
@@ -65,14 +67,15 @@ class BlockRanged(Enemy):
 
         # if too close to either edge to prevent stuttering
         if self.dist_player < self.too_close + self.stutter_tolerance:
-            self.pos.x -= self.speed * unit_vector.x
-            self.pos.y -= self.speed * unit_vector.y
+            self.pos.move(-self.speed * unit_vector.x, -self.speed * unit_vector.y)
+            self.velocity = Point(self.speed * -unit_vector.x, self.speed * -unit_vector.y)
         elif self.dist_player > self.lock_on_dist - self.stutter_tolerance:
-            self.pos.x += self.speed * unit_vector.x
-            self.pos.y += self.speed * unit_vector.y
+            self.pos.move(self.speed * unit_vector.x, self.speed * unit_vector.y)
+            self.velocity = Point(self.speed * unit_vector.x, self.speed * unit_vector.y)
 
-        self.pos.x += self.speed * new_unit_vector.x
-        self.pos.y += self.speed * new_unit_vector.y
+        self.pos.move(self.speed * new_unit_vector.x, self.speed * new_unit_vector.y)
+        self.velocity.x += self.speed * new_unit_vector.x
+        self.velocity.y += self.speed * new_unit_vector.y
 
         # after set time flip rotation
         if self.circle_timer_current >= self.circle_timer:
@@ -82,8 +85,8 @@ class BlockRanged(Enemy):
         self.circle_timer_current += 1
 
     # override to make detcetion better for ranged units
-    def check_boundarys(self):
-        hit = super().check_boundarys()
+    def check_boundarys(self, boundary, cam_offset):
+        hit = super().check_boundarys(boundary, cam_offset)
 
         if hit:
             # flip turning direction

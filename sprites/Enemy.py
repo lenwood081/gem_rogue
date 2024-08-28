@@ -24,6 +24,7 @@ class Enemy(ItemHolder):
         # -----------------------------------------------------------------
 
         self.pos = pos.copy() 
+        self.velocity = Point(0, 0)
         self.move_animation = animimations[0]
         self.hurt_animation = animimations[1]
 
@@ -31,6 +32,7 @@ class Enemy(ItemHolder):
         self.image = self.move_animation.animate()
         self.image_base = self.image
         self.hitbox_rect = self.image_base.get_rect()
+        self.boundary_rect = self.hitbox_rect.copy()
         self.rect = self.hitbox_rect.copy()
 
         # direction and turning
@@ -49,16 +51,13 @@ class Enemy(ItemHolder):
         self.fire = True
 
      # draw method
-    def draw(self, screen, cam_offset):
-        self.hitbox_rect.center = (self.pos.x + cam_offset.x, -self.pos.y + cam_offset.y)
-        self.rect.center = self.hitbox_rect.center
-    
+    def draw(self, screen):
         screen.blit(self.image, self.rect) 
-        self.draw_weapons(screen, cam_offset)
+        self.draw_weapons(screen)
 
         # debugging
-        #pygame.draw.rect(screen, "red", self.hitbox_rect, width=2)
-        #pygame.draw.rect(screen, "blue", self.rect, width=2)
+        pygame.draw.rect(screen, "red", self.hitbox_rect, width=2)
+        pygame.draw.rect(screen, "blue", self.rect, width=2)
 
     # occurs when colliding with a player
     # if in an attck then does more damage
@@ -118,12 +117,13 @@ class Enemy(ItemHolder):
             
 
     # update method (general) can be overriden
-    def update(self, player, enemy_group):
+    def update(self, player, enemy_group, cam_offset, boundary):
         self.being_hit()
         unit_vector = self.move_towards_player(player.pos)
         
         if self.stunned:
             # stop from moveing and attacking
+            self.velocity = Point(0, 0)
             if self.time_stunned <= 0:
                 self.stunned = False
                 self.time_stunned = self.recover_time
@@ -133,33 +133,55 @@ class Enemy(ItemHolder):
         else:
             self.move(unit_vector)
                 
-        self.check_boundarys()        
-        self.update_weapons(enemy_group)
+              
+        self.update_weapons(enemy_group, cam_offset)
+        for weapon in self.weapons:
+            weapon.boundary_collision(boundary)
+
         self.collisions(player)
+        self.check_boundarys(boundary, cam_offset)  
+
+        self.hitbox_rect.center = (self.pos.x + cam_offset.x, -self.pos.y + cam_offset.y)
+        self.rect.center = self.hitbox_rect.center
 
     # move towards unit vector
     def move(self, unit_vector):
-        self.pos.x += self.speed * unit_vector.x
-        self.pos.y += self.speed * unit_vector.y
+        self.velocity.x = self.speed * unit_vector.x
+        self.velocity.y = self.speed * unit_vector.y
+        self.pos.move(self.speed * unit_vector.x, self.speed * unit_vector.y)
 
         
     # run checks to prevent going out of bounds
-    def check_boundarys(self):
-        # movement restriction (BG_WIDTH and BG_HEIGHT)
-        if self.pos.x > BG_WIDTH - self.width/2:
-            self.pos.x = BG_WIDTH - self.width/2
-            return True
-        if self.pos.x < self.width/2:
-            self.pos.x = self.width/2
-            return True
-        if self.pos.y < -BG_HEIGHT + self.height/2:
-            self.pos.y = -BG_HEIGHT + self.height/2
-            return True
-        if self.pos.y > -self.height/2:
-            self.pos.y = -self.height/2
-            return True
+    def check_boundarys(self, boundary, cam_offset):
+        # check against tiles
+        ret_val = False
+        for tile in boundary:   
+            self.boundary_rect.center = (self.pos.x + cam_offset.x, -self.pos.y + cam_offset.y)
+            if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
+                # check x
+                self.boundary_rect.center = (self.pos.x + cam_offset.x, -self.pos.y + cam_offset.y + self.velocity.y)
+                if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
+                    # left hand edge
+                    if self.velocity.x > 0:
+                        self.pos.x = tile.pos.x - self.width/2
+                    # right hand side
+                    elif self.velocity.x < 0:
+                        self.pos.x = tile.pos.x + tile.width + self.width/2
+
+                # check y
+                self.boundary_rect.center = (self.pos.x + cam_offset.x - self.velocity.x, -self.pos.y + cam_offset.y)
+                if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
+                    # top
+                    if self.velocity.y > 0:
+                        self.pos.y = tile.pos.y - tile.height - self.height/2
+                    # bottom
+                    elif self.velocity.y < 0:
+                        self.pos.y = tile.pos.y + self.height/2
+                
+                # movement restricted =>
+                ret_val = True
         
-        return False
+        return ret_val
         
     # define basic collision_detect override for projectiles aswell (only does touch)
     def collisions(self, player):
@@ -167,15 +189,15 @@ class Enemy(ItemHolder):
             player.take_damage(self.attack(), self.target_unit_vector, self.knockback)
 
     # define update weapons
-    def update_weapons(self, enemy_group):
+    def update_weapons(self, enemy_group, cam_offset):
         for weapon in self.weapons:
             weapon.update(self.front, self.target_unit_vector, self.pos, enemy_group, self.fire, 
-                          (self.projectile_speed, self.damage, self.attack_rate, self.knockback))
+                          (self.projectile_speed, self.damage, self.attack_rate, self.knockback), cam_offset)
 
     # draw weapons
-    def draw_weapons(self, screen, cam_offset):
+    def draw_weapons(self, screen):
         for weapon in self.weapons:
-            weapon.draw(screen, cam_offset)
+            weapon.draw(screen)
 
         
 

@@ -7,7 +7,6 @@ class Gun(Weapon):
         super(Gun, self).__init__(pos, image_url, size, cam_offset)
 
         # projectiles
-        self.projectiles = pygame.sprite.Group()
         self.gun_damage_mod = 1
         self.bullet_speed_mod = 1
         self.fire_rate_mod = 1
@@ -21,18 +20,16 @@ class Gun(Weapon):
 
 
     # blit weapon to screen
-    def draw(self, screen, cam_offset):
-        self.hitbox_rect.center = (self.pos.x + cam_offset.x,-self.pos.y + cam_offset.y)
-        self.rect.center = self.hitbox_rect.center
+    def draw(self, screen):
         # change center to top left
         screen.blit(self.image, self.rect)
 
         # blit all projectiles
         for projectile in self.projectiles:
-            projectile.draw(screen, cam_offset)
+            projectile.draw(screen)
 
     # update gun (parent attributes = (bullet_speed, bullet_damage, fire_rate, knockback))
-    def update(self, player_dir, target_unit_vector, player_pos, enemie_group, fire, parent_attributes):
+    def update(self, player_dir, target_unit_vector, player_pos, enemie_group, fire, parent_attributes, cam_offset):
         unit_vector = Point.rotate_unit_vector_flip(target_unit_vector, self.angle_on_player, self.front.dir)
         self.pos.x = player_pos.x + self.offset * unit_vector.x
         self.pos.y = player_pos.y + self.offset * unit_vector.y
@@ -46,9 +43,12 @@ class Gun(Weapon):
         # run shooting script
         self.shoot(player_dir, target_unit_vector, fire, attributes)
 
+        self.hitbox_rect.center = (self.pos.x + cam_offset.x,-self.pos.y + cam_offset.y)
+        self.rect.center = self.hitbox_rect.center
+
         # update projectiles
         for projectile in self.projectiles:
-            projectile.update(enemie_group)
+            projectile.update(enemie_group, cam_offset)
 
     # update values
     def update_stats(self, parent_attributes):
