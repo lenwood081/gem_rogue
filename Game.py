@@ -5,6 +5,7 @@ from sprites.Player import Player
 from drops.ExperianceControl import ExperianceControl
 from Directors.Enemy_Director_Continous import Enemy_Director_Continous
 from Directors.Enemy_Director_Instant import Enemy_Director_Instant
+from Camera.Camera import Camera
 from HUD.HealthBar import HealthBar
 from HUD.ExpBar import ExpBar
 from pygame.locals import (
@@ -34,6 +35,9 @@ class Game:
         players = pygame.sprite.Group()
         player = Player(bg.location)
         players.add(player)
+
+        # camera
+        camera = Camera(player.pos)
 
         # HUD
         health = HealthBar(player.max_health)
@@ -81,12 +85,12 @@ class Game:
             screen.fill(BLACK)
 
             # blit calls
-            bg.draw(screen)
+            bg.draw(screen, camera.get_offset())
 
-            experiance.draw(screen, bg.location)
+            experiance.draw(screen, camera.get_offset())
             
             for em in enemies:
-                em.draw(screen, bg.location)
+                em.draw(screen, camera.get_offset())
 
             # health bar bg and player
             player.draw(screen)
@@ -106,8 +110,9 @@ class Game:
             # player and background 
             
             player.update(keys_pressed)
-            bg.update(player.pos)
-            player.update_after_background(keys_pressed, mouse_pressed, bg.location, enemies)
+            #bg.update(player.pos)
+            camera.update(player.pos)
+            player.update_after_background(keys_pressed, mouse_pressed, camera.get_offset(), enemies)
 
             for em in enemies:
                 em.update(player, players)

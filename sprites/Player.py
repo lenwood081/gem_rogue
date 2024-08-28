@@ -21,7 +21,7 @@ MOUSE = 'mouse1'
 # TODO link weapon and projectile damage to player damage
 
 class Player(ItemHolder):
-    def __init__(self, bg_pos):
+    def __init__(self, cam_offset):
         super(Player, self).__init__()
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
 
@@ -65,9 +65,12 @@ class Player(ItemHolder):
         self.increasing = 1
 
         # position reletive to background (centered)
+        # start in the center of the playable area
         self.pos = Point(BG_WIDTH/2 + PL_WIDTH/2, -BG_HEIGHT/2 - PL_HEIGHT/2)
+
+        # position to the center of the screen
         self.pos_screen = Point(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
-        self.bg_pos = bg_pos.copy()
+        self.cam_offset = cam_offset.copy()
         self.front = Direction(0)
         self.mouse_unit_vector = Point(0, 0)
 
@@ -81,8 +84,8 @@ class Player(ItemHolder):
 
         # added Basic gun
         self.add_weapon(BasicGun, MOUSE, 0)
-        #self.add_weapon(BasicGun, MOUSE, -math.pi/2)
-        #self.add_weapon(BasicGun, MOUSE, math.pi/2)
+        self.add_weapon(PlasmaGun, MOUSE, -math.pi/2)
+        self.add_weapon(BasicGun, MOUSE, math.pi/2)
         
 
 
@@ -132,7 +135,7 @@ class Player(ItemHolder):
         self.rect = self.image.get_rect(center=self.hitbox_rect.center)
         self.front = mouse_dir
 
-    # rotating player
+    # rotating player method #2
     def flip_mouse(self):
         # find mouse pos
         mx, my = pygame.mouse.get_pos()
@@ -155,11 +158,6 @@ class Player(ItemHolder):
         
     # update loop
     def update(self, keys_pressed):
-        if self.immune:
-            self.immunity_frames -= 1
-            if self.immunity_frames == 0:
-                self.immune = False
-
         x = 0
         y = 0
 
@@ -197,9 +195,14 @@ class Player(ItemHolder):
         self.flip_mouse()
 
     # secound update for things that require background pos to be updated
-    def update_after_background(self, keys_pressed, mouse_pressed, bg_pos, enemy_group):
-        # updates store of bg.location
-        self.bg_pos = bg_pos.copy()
+    def update_after_background(self, keys_pressed, mouse_pressed, cam_offset, enemy_group):
+        if self.immune:
+            self.immunity_frames -= 1
+            if self.immunity_frames == 0:
+                self.immune = False
+
+        # updates store of cam_offset
+        self.cam_offset = cam_offset
 
         # weapon update
         self.update_weapons(enemy_group, keys_pressed, mouse_pressed)
@@ -227,7 +230,7 @@ class Player(ItemHolder):
     def add_weapon(self, type, fire_key, angle):
         # add key to correct position
         self.weapon_assit_array.append((fire_key, angle))
-        weapon = type(self.pos, self.bg_pos)
+        weapon = type(self.pos, self.cam_offset)
         weapon.angle_on_player = angle
         self.weapons.add(weapon)
 
@@ -245,5 +248,5 @@ class Player(ItemHolder):
     # draw weapons
     def draw_weapons(self, screen):
         for weapon in self.weapons:
-            weapon.draw(screen, self.bg_pos)
+            weapon.draw(screen, self.cam_offset)
 
