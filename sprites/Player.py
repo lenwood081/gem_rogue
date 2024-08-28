@@ -47,7 +47,7 @@ class Player(ItemHolder):
         # -----------------------------------------------------------------
 
         # base image
-        self.base_animate = Animation(["assets/player/Player_concept1.png"], (self.width, self.height), [1])
+        self.base_animate = Animation(["assets/player/Player_concept1_walk1.png", "assets/player/Player_concept1_walk2.png"], (self.width, self.height), [0.3, 0.3])
         self.image = self.base_animate.animate()
         self.base_image = self.image
         self.hitbox_rect = self.base_image.get_rect(center=(

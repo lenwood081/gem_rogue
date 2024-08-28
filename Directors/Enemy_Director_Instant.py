@@ -23,6 +23,9 @@ class Enemy_Director_Instant(Director):
 
         # keep spawning until credits are lower then lowest enemy
         while True:
+            if self.credits < ENEMYCARDS[self.index].cost:
+                self.index = -1
+
             # if enemy found spawn it
             if self.index != -1:
                 self.spawn_monster(ENEMYCARDS)
