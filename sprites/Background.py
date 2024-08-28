@@ -2,6 +2,8 @@ import pygame
 from config import *
 from classes.Point import Point
 
+# change this to tiles
+
 class Background(pygame.sprite.Sprite):
     def __init__(self):
         super(Background, self).__init__()

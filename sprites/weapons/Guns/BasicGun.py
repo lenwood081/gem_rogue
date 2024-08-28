@@ -7,7 +7,7 @@ from sprites.projectiles.WhiteBullet import WhiteBullet
 
 class BasicGun(Gun):
     def __init__(self, pos, bg_pos):
-        super(BasicGun, self).__init__(pos, bg_pos, "assets/weapons/Basic_gun.png", (32, 32)) 
+        super(BasicGun, self).__init__(pos, bg_pos, "assets/weapons/Basic_gun.png", (24, 24)) 
 
         # white bullets
         self.projectiles = pygame.sprite.Group()
@@ -17,7 +17,7 @@ class BasicGun(Gun):
         self.knockback_mod = 2
 
         # offset
-        self.offset = max(PL_WIDTH, PL_HEIGHT)
+        self.offset = max(PL_WIDTH, PL_HEIGHT) - 10
 
         # bulletType
         self.bullet_type = WhiteBullet

@@ -106,8 +106,8 @@ class Player(ItemHolder):
         self.draw_weapons(screen)
 
         # debugging
-        pygame.draw.rect(screen, "red", self.hitbox_rect, width=2)
-        pygame.draw.rect(screen, "blue", self.rect, width=2)
+        #pygame.draw.rect(screen, "red", self.hitbox_rect, width=2)
+        #pygame.draw.rect(screen, "blue", self.rect, width=2)
 
     # death method
     def death(self):
@@ -129,6 +129,27 @@ class Player(ItemHolder):
 
         # rotate image
         self.image = Direction.rotate_with_flip(mouse_dir.dir, self.base_image)
+        self.rect = self.image.get_rect(center=self.hitbox_rect.center)
+        self.front = mouse_dir
+
+    # rotating player
+    def flip_mouse(self):
+        # find mouse pos
+        mx, my = pygame.mouse.get_pos()
+        mouse_pos = Point(mx, -my)
+
+        # y must be reversed 
+        temp_pos =  Point(self.pos_screen.x, -self.pos_screen.y)
+        mouse_dir = Point.direction_to_point(mouse_pos, temp_pos)
+
+        # make unit vector for point to travel to
+        self.mouse_unit_vector = Point.unit_vector(mouse_pos, temp_pos)
+
+        # flip image if needed
+        if mouse_dir.dir < -math.pi/2 or mouse_dir.dir > math.pi/2:
+            self.image = self.base_image
+        else:
+            self.image = pygame.transform.flip(self.base_image, True, False)
         self.rect = self.image.get_rect(center=self.hitbox_rect.center)
         self.front = mouse_dir
         
@@ -172,7 +193,8 @@ class Player(ItemHolder):
         # animation
         self.base_image = self.base_animate.animate()
 
-        self.face_mouse()
+        #self.face_mouse()
+        self.flip_mouse()
 
     # secound update for things that require background pos to be updated
     def update_after_background(self, keys_pressed, mouse_pressed, bg_pos, enemy_group):
