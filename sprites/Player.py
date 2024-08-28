@@ -66,8 +66,12 @@ class Player(ItemHolder):
         self.increasing = 1
 
         # position reletive to background (centered)
+        # start in the center of the playable area
         self.pos = Point(BG_WIDTH/2 + PL_WIDTH/2, -BG_HEIGHT/2 - PL_HEIGHT/2)
+
+        # position to the center of the screen
         self.pos_screen = Point(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
+        self.cam_offset = cam_offset.copy()
         self.cam_offset = cam_offset.copy()
         self.front = Direction(0)
         self.mouse_unit_vector = Point(0, 0)
@@ -82,8 +86,8 @@ class Player(ItemHolder):
 
         # added Basic gun
         self.add_weapon(BasicGun, MOUSE, 0)
-        #self.add_weapon(BasicGun, MOUSE, -math.pi/2)
-        #self.add_weapon(BasicGun, MOUSE, math.pi/2)
+        self.add_weapon(PlasmaGun, MOUSE, -math.pi/2)
+        self.add_weapon(BasicGun, MOUSE, math.pi/2)
         
 
 
@@ -133,7 +137,7 @@ class Player(ItemHolder):
         self.rect = self.image.get_rect(center=self.hitbox_rect.center)
         self.front = mouse_dir
 
-    # rotating player
+    # rotating player method #2
     def flip_mouse(self):
         # find mouse pos
         mx, my = pygame.mouse.get_pos()
@@ -156,11 +160,6 @@ class Player(ItemHolder):
         
     # update loop
     def update(self, keys_pressed):
-        if self.immune:
-            self.immunity_frames -= 1
-            if self.immunity_frames == 0:
-                self.immune = False
-
         x = 0
         y = 0
 
@@ -199,12 +198,16 @@ class Player(ItemHolder):
 
     # secound update for things that require background pos to be updated
     def update_after_background(self, keys_pressed, mouse_pressed, cam_offset, enemy_group):
-        # updates store of bg.location
-        self.cam_offset = cam_offset.copy()
+        if self.immune:
+            self.immunity_frames -= 1
+            if self.immunity_frames == 0:
+                self.immune = False
 
-        # weapon update
+        # updates store of cam_offset
+        self.cam_offset = cam_offset
+
+         # weapon update
         self.update_weapons(enemy_group, keys_pressed, mouse_pressed)
-
 
 # ------------------------ Leveling up -------------------------------
 

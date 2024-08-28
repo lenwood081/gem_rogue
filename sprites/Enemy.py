@@ -173,9 +173,9 @@ class Enemy(ItemHolder):
                           (self.projectile_speed, self.damage, self.attack_rate, self.knockback))
 
     # draw weapons
-    def draw_weapons(self, screen, bg_pos):
+    def draw_weapons(self, screen, cam_offset):
         for weapon in self.weapons:
-            weapon.draw(screen, bg_pos)
+            weapon.draw(screen, cam_offset)
 
         
 

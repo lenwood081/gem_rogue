@@ -16,10 +16,10 @@ class Background(pygame.sprite.Sprite):
         self.surf2.fill(BG_OVERLAY_SHADE)
 
         # for determining position of background 
-        self.location = Point(SCREEN_WIDTH/2 - BG_WIDTH/2, SCREEN_HEIGHT/2 - BG_HEIGHT/2)
+        self.location = Point(BG_WIDTH, -BG_HEIGHT)
 
-    def draw(self, screen):
-        screen.blit(self.image, (self.location.x, self.location.y))
+    def draw(self, screen, cam_offset):
+        screen.blit(self.image, (cam_offset.x, cam_offset.y))
         screen.blit(self.surf, (0,0), special_flags=pygame.BLEND_RGBA_SUB)
 
 
