@@ -6,7 +6,7 @@ from Animations.Animation import Animation
 from config import *
 
 """
-will create a distance and shoot, should puase when shooting
+will create a distance and shoot, should circle the player
 """
 
 class BlockRanged(Enemy):
@@ -19,7 +19,7 @@ class BlockRanged(Enemy):
 
         # slightly random speed
         self.speed = self.max_speed = 4  
-
+        
         # attack
         self.damage = self.max_damage = 1
 

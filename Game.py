@@ -1,6 +1,6 @@
 import pygame
 from config import *
-from sprites.Background import Background
+from Background.Background import Background
 from sprites.Player import Player
 from drops.ExperianceControl import ExperianceControl
 from Directors.Enemy_Director_Continous import Enemy_Director_Continous
@@ -96,7 +96,7 @@ class Game:
             player.draw(screen)
 
             # after rendering effects
-            bg.draw_after(screen)
+            bg.draw_after(screen, camera.get_offset())
             
             # hud
             health.draw(screen)
@@ -139,6 +139,8 @@ class Game:
 
             # blit to screen
             blit_entiites()
+
+            # collision detection (for )
            
             # updates
             updates()

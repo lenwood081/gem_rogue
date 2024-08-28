@@ -33,7 +33,7 @@ class Player(ItemHolder):
         self.height = self.max_height = PL_HEIGHT
 
         # speed
-        self.speed = self.max_speed = 10
+        self.speed = self.max_speed = 20
 
         # level
         self.level = 0
