@@ -5,7 +5,6 @@ from sprites.Player import Player
 from drops.ExperianceControl import ExperianceControl
 from Directors.Enemy_Director_Continous import Enemy_Director_Continous
 from Directors.Enemy_Director_Instant import Enemy_Director_Instant
-from sprites.enemies.BlockRanged import BlockRanged
 from classes.Point import Point
 from Camera.Camera import Camera
 from HUD.HealthBar import HealthBar
@@ -54,16 +53,14 @@ class Game:
         
         # enemies
         enemies = pygame.sprite.Group()
-        en = BlockRanged(Point(500, -500), experiance)
-        enemies.add(en)    
     
         # enemey directors
-        #instant_director = Enemy_Director_Instant(70, enemies, experiance.get_group())
+        instant_director = Enemy_Director_Instant(70, enemies, experiance.get_group())
         fast_director = Enemy_Director_Continous(enemies, 9, experiance.get_group())
         slow_director = Enemy_Director_Continous(enemies, 15, experiance.get_group())
 
         # spawn first enemys
-        #instant_director.activate(self.difficulty_coeff, player.pos)
+        instant_director.activate(self.difficulty_coeff, player.pos)
 
         # count
         count = 0
@@ -112,8 +109,8 @@ class Game:
 
         def updates():
             # director
-            #fast_director.update(self.difficulty_coeff, player.pos)
-            #slow_director.update(self.difficulty_coeff, player.pos)
+            fast_director.update(self.difficulty_coeff, player.pos)
+            slow_director.update(self.difficulty_coeff, player.pos)
 
             # player and camera
             player.update(keys_pressed, boundary)

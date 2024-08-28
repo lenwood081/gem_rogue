@@ -232,6 +232,7 @@ class Player(ItemHolder):
 
          # weapon update
         self.update_weapons(enemy_group, keys_pressed, mouse_pressed)
+        
         for weapon in self.weapons:
             weapon.boundary_collision(boundary)
 

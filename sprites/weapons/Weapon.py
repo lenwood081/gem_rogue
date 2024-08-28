@@ -65,8 +65,9 @@ class Weapon(pygame.sprite.Sprite):
         for bullet in self.projectiles:
             for tile in boundary:
                 if pygame.Rect.colliderect(bullet.hitbox_rect, tile.rect):
-                    bullet.collision(tile.rect)
-                    break
+                    if tile.shoot_through == False:
+                        bullet.collision(tile.rect)
+                        break
 
         
 

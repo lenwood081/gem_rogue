@@ -15,10 +15,12 @@ class Tile(pygame.sprite.Sprite):
         self.width = self.image.get_width()
         self.height = self.image.get_height()
 
+        self.shoot_through = False
+
     # update rect object (only needed for boundary boxes)
     def update(self, cam_offset):
         self.rect.topleft = (cam_offset.x + self.pos.x, cam_offset.y - self.pos.y)
-        
+
     # draw method
     def draw(self, screen, cam_offset):
         self.update(cam_offset)

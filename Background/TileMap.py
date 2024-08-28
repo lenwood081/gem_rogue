@@ -19,6 +19,10 @@ class TileMap:
         # tile array
         self.tile_array = numpy.array([[Tile(Point(i * self.width + self.pos.x, j * -self.height + self.pos.y), tile_types[index_array[i][j]]) if index_array[i][j] >= 0 else 0 for j in range(len(index_array[i]))] for i in range(len(index_array))])
 
+    # make shoot though
+    def shoot_through(self, x, y, bool):
+        if isinstance(self.tile_array[x][y], Tile):
+            self.tile_array[x][y].shoot_through = bool
     
     # add to collisions
     def add_collisions(self, collision_group):
