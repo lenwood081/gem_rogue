@@ -11,8 +11,8 @@ class GlowBullet(Projectile):
         self.area_hit = True
 
     # blit to screen override for special flag
-    def draw(self, screen, bg_pos):
-        self.hitbox_rect.center = (self.pos.x + bg_pos.x, -self.pos.y + bg_pos.y)
+    def draw(self, screen, cam_offset):
+        self.hitbox_rect.center = (self.pos.x + cam_offset.x, -self.pos.y + cam_offset.y)
         self.rect.center = self.hitbox_rect.center
         screen.blit(self.image, self.rect, special_flags=pygame.BLEND_RGBA_ADD)
 

@@ -1,7 +1,6 @@
 import pygame
 import random
 from sprites.Enemy import Enemy
-from classes.Direction import Direction
 from Animations.Animation import Animation
 
 """

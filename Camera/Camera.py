@@ -1,4 +1,3 @@
-import pygame
 from classes.Point import Point
 from config import *
 
@@ -13,8 +12,10 @@ class Camera:
 
     # update camera
     def update(self, player_pos):
+        # offset reletive to middle of character
         self.offset.x = SCREEN_WIDTH // 2 - player_pos.x
         self.offset.y = SCREEN_HEIGHT // 2 + player_pos.y
+        #print(self.offset.x, self.offset.y)
 
     def get_offset(self):
         new_offset = self.offset.copy()

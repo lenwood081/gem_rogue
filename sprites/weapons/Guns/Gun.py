@@ -3,8 +3,8 @@ from classes.Point import Point
 from sprites.weapons.Weapon import Weapon
 
 class Gun(Weapon):
-    def __init__(self, pos, bg_pos, image_url, size):
-        super(Gun, self).__init__(pos, image_url, size, bg_pos)
+    def __init__(self, pos, cam_offset, image_url, size):
+        super(Gun, self).__init__(pos, image_url, size, cam_offset)
 
         # projectiles
         self.projectiles = pygame.sprite.Group()
@@ -21,15 +21,15 @@ class Gun(Weapon):
 
 
     # blit weapon to screen
-    def draw(self, screen, bg_pos):
-        self.hitbox_rect.center = (self.pos.x + bg_pos.x,-self.pos.y + bg_pos.y)
+    def draw(self, screen, cam_offset):
+        self.hitbox_rect.center = (self.pos.x + cam_offset.x,-self.pos.y + cam_offset.y)
         self.rect.center = self.hitbox_rect.center
         # change center to top left
         screen.blit(self.image, self.rect)
 
         # blit all projectiles
         for projectile in self.projectiles:
-            projectile.draw(screen, bg_pos)
+            projectile.draw(screen, cam_offset)
 
     # update gun (parent attributes = (bullet_speed, bullet_damage, fire_rate, knockback))
     def update(self, player_dir, target_unit_vector, player_pos, enemie_group, fire, parent_attributes):

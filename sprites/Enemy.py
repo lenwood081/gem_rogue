@@ -49,12 +49,12 @@ class Enemy(ItemHolder):
         self.fire = True
 
      # draw method
-    def draw(self, screen, bg_pos):
-        self.hitbox_rect.center = (self.pos.x + bg_pos.x, -self.pos.y + bg_pos.y)
+    def draw(self, screen, cam_offset):
+        self.hitbox_rect.center = (self.pos.x + cam_offset.x, -self.pos.y + cam_offset.y)
         self.rect.center = self.hitbox_rect.center
     
         screen.blit(self.image, self.rect) 
-        self.draw_weapons(screen, bg_pos)
+        self.draw_weapons(screen, cam_offset)
 
         # debugging
         #pygame.draw.rect(screen, "red", self.hitbox_rect, width=2)

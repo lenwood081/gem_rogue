@@ -67,11 +67,11 @@ class Player(ItemHolder):
 
         # position reletive to background (centered)
         # start in the center of the playable area
-        self.pos = Point(BG_WIDTH/2 + PL_WIDTH/2, -BG_HEIGHT/2 - PL_HEIGHT/2)
+        #self.pos = Point(BG_WIDTH/2 + PL_WIDTH/2, -BG_HEIGHT/2 - PL_HEIGHT/2)
+        self.pos = Point(50, -50)
 
         # position to the center of the screen
         self.pos_screen = Point(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
-        self.cam_offset = cam_offset.copy()
         self.cam_offset = cam_offset.copy()
         self.front = Direction(0)
         self.mouse_unit_vector = Point(0, 0)
@@ -189,6 +189,8 @@ class Player(ItemHolder):
             self.pos.y = -BG_HEIGHT + PL_HEIGHT/2
         if self.pos.y > -PL_HEIGHT/2:
             self.pos.y = -PL_HEIGHT/2
+
+        print(self.pos.x, self.pos.y)
 
         # animation
         self.base_image = self.base_animate.animate()

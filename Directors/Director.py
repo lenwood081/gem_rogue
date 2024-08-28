@@ -29,7 +29,7 @@ class Director:
 
     # for spawning
     def spawn_monster(self, cards):
-        print("before", self.credits)
+        #print("before", self.credits)
         self.credits -= cards[self.index].cost
         monster_pos = Point(random.randint(0, BG_WIDTH), random.randint(-BG_HEIGHT, 0))
         # make sure point is not too close to player
@@ -39,8 +39,8 @@ class Director:
                     break;
             monster_pos = Point(random.randint(0, BG_WIDTH), random.randint(-BG_HEIGHT, 0))
         self.group.add(cards[self.index].type(monster_pos, self.experiance_group))
-        print("Spawning", cards[self.index].name)
-        print("after", self.credits)
+        #print("Spawning", cards[self.index].name)
+        #print("after", self.credits)
 
     # choose monster
     def choose_monster_index(self, cards):

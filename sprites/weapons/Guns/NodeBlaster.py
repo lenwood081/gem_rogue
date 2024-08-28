@@ -5,8 +5,8 @@ from classes.Direction import Direction
 from config import *
 
 class NodeBlaster(Gun):
-    def __init__(self, pos, bg_pos):
-        super().__init__(pos, bg_pos, "assets/weapons/NodeBlaster.png", (40, 40))
+    def __init__(self, pos, cam_offset):
+        super().__init__(pos, cam_offset, "assets/weapons/NodeBlaster.png", (40, 40))
 
         # bullets
         self.projectiles = pygame.sprite.Group()
