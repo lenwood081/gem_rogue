@@ -4,9 +4,9 @@ from sprites.Projectile import Projectile
 # for plasma guns
 class GlowBullet(Projectile):
     def __init__(self, start_pos, target_unit_vector, target_dir, attributes):
-        super(GlowBullet, self).__init__(start_pos, target_unit_vector, target_dir, "assets/Projectiles/bullet_glow_1.png", (50, 20), attributes)
+        super(GlowBullet, self).__init__(start_pos, target_unit_vector, target_dir, "assets/Projectiles/bullet_glow_1.png", (60, 30), attributes)
 
-        self.dist = 500
+        self.dist = 1500
 
         self.area_hit = True
 

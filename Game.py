@@ -19,7 +19,9 @@ from pygame.locals import (
 class Game:
     def __init__(self):
         #self.modifiers 1 - alot (gonna scale with time)
-        self.difficulty_coeff = 1.2
+        self.difficulty_coeff = 1
+        self.difficulty_factor = 3
+        self.time = 0
 
     # main game loop
     def run_game_loop(self, screen):
@@ -55,15 +57,13 @@ class Game:
         enemies = pygame.sprite.Group()
     
         # enemey directors
-        instant_director = Enemy_Director_Instant(70, enemies, experiance.get_group())
-        fast_director = Enemy_Director_Continous(enemies, 9, experiance.get_group())
+        instant_director = Enemy_Director_Instant(150, enemies, experiance.get_group())
+        fast_director = Enemy_Director_Continous(enemies, 5, experiance.get_group())
         slow_director = Enemy_Director_Continous(enemies, 15, experiance.get_group())
+        big_wave_director = Enemy_Director_Continous(enemies, 60, experiance.get_group())
 
         # spawn first enemys
         instant_director.activate(self.difficulty_coeff, player.pos)
-
-        # count
-        count = 0
 
         # event varibles
         events = pygame.event.get()
@@ -111,6 +111,7 @@ class Game:
             # director
             fast_director.update(self.difficulty_coeff, player.pos)
             slow_director.update(self.difficulty_coeff, player.pos)
+            big_wave_director.update(self.difficulty_coeff, player.pos)
 
             # player and camera
             player.update(keys_pressed, boundary)
@@ -129,11 +130,13 @@ class Game:
             health.update(player.health, player.max_health)
             exp.update(player.level, player.exp_to_level, player.exp)
 
-        def coeff_calculate(count):
-            if count > 3 * FRAMERATE:
-                count = 0
-            count += 1
-            return count
+        def coeff_calculate():
+            self.time += 1
+            equivalent_secounds = self.time / FRAMERATE
+            self.difficulty_coeff = equivalent_secounds/60 * (self.difficulty_factor) * 0.2 + 1
+            print(self.difficulty_coeff)
+
+
         # ----------------------------------- main loop ------------------------------------------------------------------
         
         while running:
@@ -153,8 +156,8 @@ class Game:
 
             
 
-            # spawn enemies
-            count = coeff_calculate(count)
+            # increase enemy difficulty
+            coeff_calculate()
 
             # player death
             if len(players) == 0:

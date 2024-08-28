@@ -31,13 +31,14 @@ class Director:
     def spawn_monster(self, cards):
         #print("before", self.credits)
         self.credits -= cards[self.index].cost
-        monster_pos = Point(random.randint(0, BG_WIDTH), random.randint(-BG_HEIGHT, 0))
+        # create a buffer for monsters so they dont glitch out of bounds
+        monster_pos = Point(random.randint(64, BG_WIDTH - 64), random.randint(-BG_HEIGHT+ 64, -64))
         # make sure point is not too close to player
         while True:
             if monster_pos.x < self.player_pos.x - self.player_aura or monster_pos.x > self.player_pos.x + self.player_aura:
                 if monster_pos.y < self.player_pos.y - 300 or monster_pos.y > self.player_pos.y + 300:
                     break;
-            monster_pos = Point(random.randint(0, BG_WIDTH), random.randint(-BG_HEIGHT, 0))
+            monster_pos = Point(random.randint(64, BG_WIDTH - 64), random.randint(-BG_HEIGHT+ 64, -64))
         self.group.add(cards[self.index].type(monster_pos, self.experiance_group))
         #print("Spawning", cards[self.index].name)
         #print("after", self.credits)

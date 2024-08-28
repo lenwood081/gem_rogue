@@ -29,11 +29,11 @@ class Player(ItemHolder):
         self.health = self.max_health = 10
 
         # dimensions
-        self.width = self.max_width = 16*2.5
-        self.height = self.max_height = 16*2.5
+        self.width = self.max_width = 32*2.5
+        self.height = self.max_height = 32*2.5
 
         # speed
-        self.speed = self.max_speed = 20
+        self.speed = self.max_speed = 10
 
         # level
         self.level = 0
@@ -48,7 +48,7 @@ class Player(ItemHolder):
 
         # base image
         #self.base_animate = Animation(["assets/player/Player_concept1_walk1.png", "assets/player/Player_concept1_walk2.png"], (self.width, self.height), [0.3, 0.3])
-        self.base_animate = Animation(["assets/player/duck.png"], (16*2.5 , 16*2.5), [0.3])
+        self.base_animate = Animation(["assets/player/duck_wizard.png"], (32*SCALE_FACOTOR , 32*SCALE_FACOTOR), [0.3])
         self.image = self.base_animate.animate()
         self.base_image = self.image
         self.hitbox_rect = self.base_image.get_rect(center=(
@@ -90,9 +90,11 @@ class Player(ItemHolder):
         self.weapon_assit_array = []
 
         # added Basic gun
-        self.add_weapon(BasicGun, MOUSE, 0)
-        self.add_weapon(PlasmaGun, MOUSE, -math.pi/2)
-        self.add_weapon(BasicGun, MOUSE, math.pi/2)
+        self.add_weapon(PlasmaGun, MOUSE, -math.pi/3)
+        self.add_weapon(PlasmaGun, MOUSE, -math.pi/8)
+        self.add_weapon(PlasmaGun, MOUSE, math.pi/8)
+        self.add_weapon(PlasmaGun, MOUSE, math.pi/3)
+        
 
     # ---------------------------------------- for bliting and collision detect ------------------
 
@@ -232,7 +234,7 @@ class Player(ItemHolder):
 
          # weapon update
         self.update_weapons(enemy_group, keys_pressed, mouse_pressed)
-        
+
         for weapon in self.weapons:
             weapon.boundary_collision(boundary)
 
@@ -255,7 +257,7 @@ class Player(ItemHolder):
     def level_up_player(self):
         self.level_up()
         # eponentual
-        self.exp_to_level = self.exp_to_level * (self.exp_to_level/5)
+        self.exp_to_level *= 2 
 
 # ------------------------ For Weapon Code ---------------------------
 
