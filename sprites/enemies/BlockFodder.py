@@ -10,8 +10,8 @@ this is the main basic enemy in the game, should just move towards the player,
 
 class BlockFodder(Enemy):
     def __init__(self, pos, experiance_group):
-        animation_move = Animation(["assets/enemies/blockfodder/base.png"], (40, 40), [1])
-        animation_hurt = Animation(["assets/enemies/blockfodder/hurt.png"], (40, 40), [1])
+        animation_move = Animation(["assets/enemies/blockfodder/base.png"], (32*2.5, 32*2.5), [1])
+        animation_hurt = Animation(["assets/enemies/blockfodder/hurt.png"], (32*2.5, 32*2.5), [1])
 
         super(BlockFodder, self).__init__(pos, (animation_move, animation_hurt), (40, 40), experiance_group)
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
