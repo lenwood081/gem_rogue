@@ -10,7 +10,7 @@ from config import *
 # TODO impliment knoockbacl with target unnit vector and strength
 
 class Enemy(ItemHolder):
-    def __init__(self, pos, animimations, size, experiance_group):
+    def __init__(self, pos, animimations, size, experiance_group, projectile_group):
         super(Enemy, self).__init__()
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
 
@@ -46,6 +46,7 @@ class Enemy(ItemHolder):
     
         # drops
         self.experiance_group = experiance_group
+        self.projectile_group = projectile_group
 
         # fire (for when to attack)
         self.fire = True
@@ -131,9 +132,6 @@ class Enemy(ItemHolder):
                 
               
         self.update_weapons(enemy_group, cam_offset)
-        for weapon in self.weapons:
-            weapon.boundary_collision(boundary)
-
         self.collisions(player)
         self.check_boundarys(boundary, cam_offset)  
 

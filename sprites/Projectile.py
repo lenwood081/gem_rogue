@@ -98,7 +98,6 @@ class Projectile(pygame.sprite.Sprite):
     # basic update loop can be overriden
     def update(self, cam_offset, boundary):
         assert(self.enemy_group != None) 
-        print("shooting after")
 
         # move bullet
         self.move()

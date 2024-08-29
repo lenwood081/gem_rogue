@@ -10,11 +10,11 @@ will create a distance and shoot, should circle the player
 """
 
 class BlockRanged(Enemy):
-    def __init__(self, pos, experiance_group): 
+    def __init__(self, pos, experiance_group, projectile_group): 
         animation_move = Animation(["assets/enemies/BlockRanged/BlockRanged.png"], (32*SCALE_FACOTOR, 32*SCALE_FACOTOR), [1])
         animation_hurt = Animation(["assets/enemies/BlockRanged/BlockRanged_hurt.png"], (32*SCALE_FACOTOR, 32*SCALE_FACOTOR), [1])
 
-        super(BlockRanged, self).__init__(pos, (animation_move, animation_hurt), (32*SCALE_FACOTOR, 32*SCALE_FACOTOR), experiance_group)
+        super(BlockRanged, self).__init__(pos, (animation_move, animation_hurt), (32*SCALE_FACOTOR, 32*SCALE_FACOTOR), experiance_group, projectile_group)
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
 
         # slightly random speed
@@ -39,8 +39,10 @@ class BlockRanged(Enemy):
         self.circle_timer_current = 0
         self.stutter_tolerance = 20
 
+
+
         # add gun
-        self.weapons.add(NodeBlaster(self.pos, Point(0, 0)))
+        self.weapons.add(NodeBlaster(self.pos, Point(0, 0), self.projectile_group))
 
     # move method override
     def move(self, unit_vector):

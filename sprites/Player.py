@@ -87,12 +87,13 @@ class Player(ItemHolder):
 
         # weapons
         self.weapon_assit_array = []
+        self.projectile_group = projectile_group
 
         # added Basic gun
-        #self.add_weapon(PlasmaGun, MOUSE, -math.pi/3, projectile_group)
-        #self.add_weapon(PlasmaGun, MOUSE, -math.pi/8, projectile_group)
-        self.add_weapon(PlasmaGun, MOUSE, math.pi/8, projectile_group)
-        #self.add_weapon(PlasmaGun, MOUSE, math.pi/3, projectile_group)
+        self.add_weapon(PlasmaGun, MOUSE, -math.pi/3)
+        self.add_weapon(PlasmaGun, MOUSE, -math.pi/8)
+        self.add_weapon(PlasmaGun, MOUSE, math.pi/8)
+        self.add_weapon(PlasmaGun, MOUSE, math.pi/3)
         
 
     # ---------------------------------------- for bliting and collision detect ------------------
@@ -259,10 +260,10 @@ class Player(ItemHolder):
 # ------------------------ For Weapon Code ---------------------------
 
     # add_weapon
-    def add_weapon(self, type, fire_key, angle, projectile_group):
+    def add_weapon(self, type, fire_key, angle):
         # add key to correct position
         self.weapon_assit_array.append((fire_key, angle))
-        weapon = type(self.pos, self.cam_offset, projectile_group)
+        weapon = type(self.pos, self.cam_offset, self.projectile_group)
         weapon.angle_on_player = angle
         self.weapons.add(weapon)
 
