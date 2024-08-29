@@ -134,7 +134,6 @@ class Game:
             self.time += 1
             equivalent_secounds = self.time / FRAMERATE
             self.difficulty_coeff = equivalent_secounds/60 * (self.difficulty_factor) * 0.2 + 1
-            print(self.difficulty_coeff)
 
 
         # ----------------------------------- main loop ------------------------------------------------------------------

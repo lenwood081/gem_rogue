@@ -41,8 +41,8 @@ class Player(ItemHolder):
         # attacking
         self.damage = self.max_damage = 1
         self.knockback = self.max_knockback = 1
-        self.attack_rate = self.max_attack_rate = 3
-        self.projectile_speed = self.max_projectile_speed = 20
+        self.attack_rate = self.max_attack_rate = 40
+        self.projectile_speed = self.max_projectile_speed = 70
 
         # -----------------------------------------------------------------
 
@@ -57,7 +57,6 @@ class Player(ItemHolder):
         ))
         self.boundary_rect = self.hitbox_rect.copy()
         self.rect = self.hitbox_rect.copy()
-
         # glow
         self.radius = PL_WIDTH * 0.8
         self.glow_rate = 0.5

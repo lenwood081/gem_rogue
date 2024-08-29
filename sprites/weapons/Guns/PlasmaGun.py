@@ -9,8 +9,9 @@ class PlasmaGun(Gun):
     def __init__(self, pos, cam_offset):
         fire_animation = Animation(["assets/weapons/PlasmaGun3.png", "assets/weapons/PlasmaGun2.png"], (28*SCALE_FACOTOR, 16*SCALE_FACOTOR), [0.05, 0.1])
         idle_animation = Animation(["assets/weapons/PlasmaGun1.png"], (28*SCALE_FACOTOR, 16*SCALE_FACOTOR), [1])
+        muzzle_flash = Animation(["assets/weapons/PlasmaFlash.png"], (16*SCALE_FACOTOR, 16*SCALE_FACOTOR), [1])
 
-        super(PlasmaGun, self).__init__(pos, cam_offset, idle_animation, fire_animation, (28*SCALE_FACOTOR, 16*SCALE_FACOTOR)) 
+        super(PlasmaGun, self).__init__(pos, cam_offset, idle_animation, fire_animation, muzzle_flash, (28*SCALE_FACOTOR, 16*SCALE_FACOTOR)) 
 
         # white bullets
         self.projectiles = pygame.sprite.Group()

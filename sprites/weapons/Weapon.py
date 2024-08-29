@@ -4,7 +4,7 @@ from classes.Direction import Direction
 from config import FRAMERATE
 
 class Weapon(pygame.sprite.Sprite):
-    def __init__(self, pos, idle_animation, fire_animation, size, cam_offset):
+    def __init__(self, pos, idle_animation, size, cam_offset):
         super(Weapon, self).__init__()
 
         # center
@@ -14,7 +14,6 @@ class Weapon(pygame.sprite.Sprite):
 
         # animations
         self.idle_animaiton = idle_animation
-        self.fire_animaiton = fire_animation
 
         # image
         self.image = idle_animation.animate()

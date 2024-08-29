@@ -1,9 +1,19 @@
+import pygame
 from classes.Point import Point
 from sprites.weapons.Weapon import Weapon
+from classes.Direction import Direction
 
 class Gun(Weapon):
-    def __init__(self, pos, cam_offset, idle_animaiton, fire_animation, size):
-        super(Gun, self).__init__(pos, idle_animaiton, fire_animation, size, cam_offset)
+    def __init__(self, pos, cam_offset, idle_animaiton, fire_animation, muzzle_flash, size):
+        super(Gun, self).__init__(pos, idle_animaiton, size, cam_offset)
+
+        # fire animation
+        self.fire_animaiton = fire_animation
+        self.muzzle_flash_animaiton = muzzle_flash
+
+        self.muzzle_image_base = self.muzzle_flash_animaiton.animate()
+        self.muzzle_image = self.muzzle_image_base
+        self.muzzle_image_rect = self.muzzle_image_base.get_rect()
 
         # projectiles
         self.gun_damage_mod = 1
@@ -22,6 +32,10 @@ class Gun(Weapon):
     def draw(self, screen):
         # change center to top left
         screen.blit(self.image, self.rect)
+
+        # blit muzzle flash if exists
+        if self.muzzle_image:
+            screen.blit(self.muzzle_image,self.muzzle_image_rect, special_flags=pygame.BLEND_RGBA_ADD)
 
         # blit all projectiles
         for projectile in self.projectiles:
@@ -42,8 +56,9 @@ class Gun(Weapon):
         # run shooting script
         self.shoot(player_dir, target_unit_vector, fire, attributes)
 
-        self.hitbox_rect.center = (self.pos.x + cam_offset.x,-self.pos.y + cam_offset.y)
+        self.hitbox_rect.center = (self.pos.x + cam_offset.x, -self.pos.y + cam_offset.y)
         self.rect.center = self.hitbox_rect.center
+        self.muzzle_image_rect.center = (self.hitbox_rect.centerx + (self.width/2+12)* target_unit_vector.x, self.hitbox_rect.centery - (self.width/2+15) * target_unit_vector.y)
 
         # update projectiles
         for projectile in self.projectiles:
@@ -71,13 +86,19 @@ class Gun(Weapon):
         if self.continous_fire:
             # assign to last frame
             self.fire_animaiton.set_frame(self.fire_animaiton.length-1)
-            print("last")
         self.continous_fire = False
 
         if self.start_fire and self.fire_animaiton.get_completed() == False:
+            # display muzzle_flash
+            
+            self.muzzle_image_base = self.muzzle_flash_animaiton.animate()
+            self.muzzle_image = Direction.rotate_with_flip(self.front.dir, self.muzzle_image_base)
+            self.muzzle_image_rect = self.muzzle_image.get_rect(center = self.hitbox_rect.center)
             return self.fire_animaiton.animate()
         
         self.start_fire = False
+        self.muzzle_image = None
+
         # defualt is idle
         return self.idle_animaiton.animate()
 
