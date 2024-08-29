@@ -1,5 +1,5 @@
 import math
-from sprites.Enemy import Enemy
+from sprites.enemies.Enemy import Enemy
 from classes.Point import Point
 from sprites.weapons.Guns.NodeBlaster import NodeBlaster
 from Animations.Animation import Animation

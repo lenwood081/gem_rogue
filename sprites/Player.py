@@ -7,6 +7,7 @@ from sprites.weapons.Guns.BasicGun import BasicGun
 from sprites.weapons.Guns.PlasmaGun import PlasmaGun
 from Animations.Animation import Animation
 from sprites.ItemHolder import ItemHolder
+from Actions.Dash import Dash
 from pygame.locals import (
     K_w,
     K_a,
@@ -26,7 +27,7 @@ class Player(ItemHolder):
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
 
         # health
-        self.health = self.max_health = 10
+        self.health = self.max_health = 100
 
         # dimensions
         self.width = self.max_width = 32*SCALE_FACOTOR
@@ -71,7 +72,6 @@ class Player(ItemHolder):
         # position reletive to background (centered)
         # start in the center of the playable area
         self.pos = Point(BG_WIDTH/2 + self.width/2, -BG_HEIGHT/2 - self.height/2)
-        self.velocity = Point(0, 0)
 
         # position to the center of the screen
         self.pos_screen = Point(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
@@ -81,7 +81,6 @@ class Player(ItemHolder):
 
         # direction and target vextor
         self.front = Direction(0)
-        self.mouse_unit_vector = Point(0, 0)
 
         # drops
         self.collect_range = 100
@@ -97,6 +96,12 @@ class Player(ItemHolder):
         self.add_weapon(PlasmaGun, MOUSE, -math.pi/8)
         self.add_weapon(PlasmaGun, MOUSE, math.pi/8)
         self.add_weapon(PlasmaGun, MOUSE, math.pi/3)
+
+        # actions
+        self.action_key_array = []
+        self.actions.append(Dash(5, 3, self))
+        self.action_key_array.append(K_e)
+        
         
 
     # ---------------------------------------- for bliting and collision detect ------------------
@@ -164,7 +169,7 @@ class Player(ItemHolder):
         mouse_dir = Point.direction_to_point(mouse_pos, temp_pos)
 
         # make unit vector for point to travel to
-        self.mouse_unit_vector = Point.unit_vector(mouse_pos, temp_pos)
+        self.target_unit_vector = Point.unit_vector(mouse_pos, temp_pos)
 
         # rotate image
         self.image = Direction.rotate_with_flip(mouse_dir.dir, self.base_image)
@@ -182,7 +187,7 @@ class Player(ItemHolder):
         mouse_dir = Point.direction_to_point(mouse_pos, temp_pos)
 
         # make unit vector for point to travel to
-        self.mouse_unit_vector = Point.unit_vector(mouse_pos, temp_pos)
+        self.target_unit_vector = Point.unit_vector(mouse_pos, temp_pos)
 
         # flip image if needed
         if mouse_dir.dir < -math.pi/2 or mouse_dir.dir > math.pi/2:
@@ -196,27 +201,37 @@ class Player(ItemHolder):
         
     # update loop
     def update(self, keys_pressed, boundary):
-        x = 0
-        y = 0
+        move_normal = True
 
-        # player movement
-        if keys_pressed[K_s]:
-            y = -self.speed
-        if keys_pressed[K_w]:
-            y = self.speed
-        if keys_pressed[K_d]:
-            x = self.speed
-        if keys_pressed[K_a]:
-            x = -self.speed
-
-        # check for diagonal speed irregularity
-        if x != 0 and y != 0:
-            x /= math.sqrt(2)
-            y /= math.sqrt(2)
-
+        # check actions
+        for i, action in enumerate(self.actions):
+            if action.move_normal == False:
+                move_normal = False
+            action.update()
+            if keys_pressed[self.action_key_array[i]] and action.already_active() == False:
+                action.use()
         
-        self.velocity = Point(x, y)
-        self.pos.move(x, y)
+        if move_normal:
+            x = 0
+            y = 0
+
+            # player movement
+            if keys_pressed[K_s]:
+                y = -self.speed
+            if keys_pressed[K_w]:
+                y = self.speed
+            if keys_pressed[K_d]:
+                x = self.speed
+            if keys_pressed[K_a]:
+                x = -self.speed
+
+            # check for diagonal speed irregularity
+            if x != 0 and y != 0:
+                x /= math.sqrt(2)
+                y /= math.sqrt(2)
+            self.velocity = Point(x, y)
+
+        self.pos.move(self.velocity.x, self.velocity.y)
         self.boundary_collision(boundary)
 
         # animation
@@ -279,7 +294,7 @@ class Player(ItemHolder):
                     fire = True
             elif keys_pressed[self.weapon_assit_array[i][0]]:
                 fire = True
-            weapon.update(self.front, self.mouse_unit_vector, self.pos, enemy_group, fire, (self.projectile_speed, self.damage, self.attack_rate, self.knockback), self.cam_offset)
+            weapon.update(self.front, self.target_unit_vector, self.pos, enemy_group, fire, (self.projectile_speed, self.damage, self.attack_rate, self.knockback), self.cam_offset)
 
     # draw weapons
     def draw_weapons(self, screen):

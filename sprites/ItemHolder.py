@@ -1,5 +1,6 @@
 import pygame
 from config import *
+from classes.Point import Point
 
 # when using values from here remember for time realted ones to divide by framrate!!!
 # class that is inherited for sprites that require items, dfines basic stats
@@ -33,6 +34,8 @@ class ItemHolder(pygame.sprite.Sprite):
 
         # speed
         self.speed = self.max_speed = 180 / FRAMERATE
+        self.velocity = Point(0, 0)
+        self.target_unit_vector = Point(0, 0)
 
         # attacking
         self.damage = self.max_damage = 1
@@ -129,5 +132,9 @@ class ItemHolder(pygame.sprite.Sprite):
         
         self.immune = True
         self.immunity_frames = self.immunity_frames_gained
+
+    # increase speed 
+    def set_speed(self, percentage):
+        self.speed = self.max_speed * (1 + percentage)
 
 

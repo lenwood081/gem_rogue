@@ -1,6 +1,6 @@
 from config import *
 import random
-from sprites.Enemy import Enemy
+from sprites.enemies.Enemy import Enemy
 from Animations.Animation import Animation
 
 """

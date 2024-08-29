@@ -5,7 +5,7 @@ import pygame
 
 class CollideAttack(Action):
     def __init__(self, cooldown, charges, own_object, enemy_object):
-        super().__init__(cooldown, charges)
+        super().__init__(cooldown, charges, "collide attack")
 
         # two ItemHolder subclass objects
         self.own_object = own_object

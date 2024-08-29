@@ -5,7 +5,7 @@ from sprites.Player import Player
 from drops.ExperianceControl import ExperianceControl
 from Directors.Enemy_Director_Continous import Enemy_Director_Continous
 from Directors.Enemy_Director_Instant import Enemy_Director_Instant
-from sprites.Projectile import Projectile
+from sprites.projectiles.Projectile import Projectile
 from Camera.Camera import Camera
 from HUD.HealthBar import HealthBar
 from HUD.ExpBar import ExpBar

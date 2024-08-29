@@ -61,8 +61,10 @@ class Projectile(pygame.sprite.Sprite):
                 if self.area_hit == False:
                     return
         
-        if self.first_update == False and pygame.sprite.spritecollideany(self, boundary):
-            self.take_damage(1)
+        if self.first_update == False:
+            tile = pygame.sprite.spritecollideany(self, boundary)
+            if tile and tile.shoot_through == False:
+                self.take_damage(1)
 
     # deal damage to objects
     def deal_damage(self, sprite):

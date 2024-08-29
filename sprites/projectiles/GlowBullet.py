@@ -1,5 +1,5 @@
 import pygame
-from sprites.Projectile import Projectile
+from sprites.projectiles.Projectile import Projectile
 
 # for plasma guns
 class GlowBullet(Projectile):

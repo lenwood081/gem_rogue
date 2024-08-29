@@ -1,5 +1,5 @@
 import pygame
-from sprites.Projectile import Projectile
+from sprites.projectiles.Projectile import Projectile
 from classes.Direction import Direction
 
 # sort of basic bullet, without special properties

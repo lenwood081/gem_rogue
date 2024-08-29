@@ -1,5 +1,5 @@
 import pygame
-from sprites.Projectile import Projectile
+from sprites.projectiles.Projectile import Projectile
 from classes.Direction import Direction
 from config import SCALE_FACOTOR
 

@@ -25,7 +25,6 @@ class Enemy(ItemHolder):
         # -----------------------------------------------------------------
 
         self.pos = pos.copy() 
-        self.velocity = Point(0, 0)
         self.move_animation = animimations[0]
         self.hurt_animation = animimations[1]
 
@@ -39,7 +38,6 @@ class Enemy(ItemHolder):
         # direction and turning
         self.front = Direction(0.0) 
         self.dist_player = 0
-        self.target_unit_vector = Point(0, 0)
         self.turn_pixels = 6
         self.VARIATION = 60
         self.target_variation = random.uniform(-self.VARIATION, self.VARIATION)
