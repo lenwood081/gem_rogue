@@ -1,6 +1,7 @@
 import pygame
+from config import *
 
-
+# when using values from here remember for time realted ones to divide by framrate!!!
 # class that is inherited for sprites that require items, dfines basic stats
 
 class ItemHolder(pygame.sprite.Sprite):
@@ -20,28 +21,25 @@ class ItemHolder(pygame.sprite.Sprite):
 
         # hurt image time and display
         self.being_hurt = False
-        self.time_refresh_currect = self.time_refresh = 10
+        self.time_refresh_currect = self.time_refresh = 0.3 * FRAMERATE
+        self.time_refresh_currect = 0
 
         # hit handeling
         self.immune = False
         self.immunity_frames = 0
-        self.immunity_frames_gained = 5
+        self.immunity_frames_gained = 0.5 * FRAMERATE
         self.stunned = False
-        self.time_stunned = self.recover_time = 3
-
-        # for being_hurt
-        self.being_hurt = False
-        self.time_refresh_currect = self.time_refresh
+        self.time_stunned = self.recover_time = 0.3 * FRAMERATE
 
         # speed
-        self.speed = self.max_speed = 6
+        self.speed = self.max_speed = 180 / FRAMERATE
 
         # attacking
         self.damage = self.max_damage = 1
         self.level_damage_bonus = 1.2
         self.knockback = self.max_knockback = 0
-        self.attack_rate = self.max_attack_rate = 1
-        self.projectile_speed = self.max_projectile_speed = 20
+        self.attack_rate = self.max_attack_rate = 3
+        self.projectile_speed = self.max_projectile_speed = 600 / FRAMERATE
 
         # level
         self.level = 0

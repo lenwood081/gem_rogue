@@ -18,7 +18,7 @@ class BlockRanged(Enemy):
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
 
         # slightly random speed
-        self.speed = self.max_speed = 8
+        self.speed = self.max_speed = 240 / FRAMERATE
         
         # attack
         self.damage = self.max_damage = 1

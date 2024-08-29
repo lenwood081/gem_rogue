@@ -47,4 +47,5 @@ class Background:
 
     def draw_after(self, screen, cam_offset):
         screen.blit(self.surf, (0,0), special_flags=pygame.BLEND_RGBA_SUB)
+        pass
         

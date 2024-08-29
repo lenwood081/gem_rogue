@@ -33,7 +33,7 @@ class Player(ItemHolder):
         self.height = self.max_height = 32*SCALE_FACOTOR
 
         # speed
-        self.speed = self.max_speed = 20
+        self.speed = self.max_speed = 900 / FRAMERATE
 
         # level
         self.level = 0
@@ -42,7 +42,7 @@ class Player(ItemHolder):
         self.damage = self.max_damage = 1
         self.knockback = self.max_knockback = 1
         self.attack_rate = self.max_attack_rate = 3
-        self.projectile_speed = self.max_projectile_speed = 25
+        self.projectile_speed = self.max_projectile_speed = 1000 / FRAMERATE
 
         # -----------------------------------------------------------------
 
@@ -63,7 +63,7 @@ class Player(ItemHolder):
         self.num_glows = 5
         self.max_diff = 10
         self.current = 0
-        self.increasing = 1
+        self.increasing = 30 / FRAMERATE
 
         # position reletive to background (centered)
         # start in the center of the playable area
@@ -102,9 +102,9 @@ class Player(ItemHolder):
         # glow breath
         radius = self.radius * (self.num_glows*2) + self.current
         if self.current >= self.max_diff:
-            self.increasing = -1
+            self.increasing = -30 / FRAMERATE
         elif self.current <= self.max_diff * -1:
-            self.increasing = 1
+            self.increasing = 30 / FRAMERATE
         self.current += self.increasing * self.glow_rate
 
         # draw glow

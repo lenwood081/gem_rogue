@@ -9,7 +9,7 @@ from Menu import Menu
 pygame.init()
 
 # basic screen
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), flags=pygame.SCALED, vsync=1)
 pygame.display.set_caption("Gem Rogue")
 
 # main menu

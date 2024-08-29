@@ -10,7 +10,7 @@ class NodeBlaster(Gun):
     def __init__(self, pos, cam_offset):
         fire_animation = Animation(["assets/weapons/NodeBlaster2.png", "assets/weapons/NodeBlaster3.png"], (16*SCALE_FACOTOR, 32*SCALE_FACOTOR), [0.05, 0.1])
         idle_animation = Animation(["assets/weapons/NodeBlaster1.png"], (16*SCALE_FACOTOR, 32*SCALE_FACOTOR), [1])
-        muzzle_flash = Animation(["assets/weapons/PlasmaFlash.png"], (16*SCALE_FACOTOR, 16*SCALE_FACOTOR), [1])
+        muzzle_flash = Animation(["assets/weapons/PlasmaFlash.png"], (10*SCALE_FACOTOR, 16*SCALE_FACOTOR), [1])
 
         super().__init__(pos, cam_offset, idle_animation, fire_animation, muzzle_flash, (32*SCALE_FACOTOR, 32*SCALE_FACOTOR))
 
@@ -22,7 +22,7 @@ class NodeBlaster(Gun):
         self.knockback_mod = 0
 
         self.offset = 18 * SCALE_FACOTOR
-        self.flash_offset = self.height/2 - 5
+        self.flash_offset = self.height/2 - 20
 
         self.bullet_type = NodeBullet
 

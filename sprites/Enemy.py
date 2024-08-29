@@ -19,7 +19,7 @@ class Enemy(ItemHolder):
         self.height = self.max_height = size[1]
 
         # immunity frames
-        self.immunity_frames_gained = 0
+        self.immunity_frames_gained = 0 / FRAMERATE
 
         # -----------------------------------------------------------------
 
@@ -101,6 +101,7 @@ class Enemy(ItemHolder):
     def being_hit(self):
         # also controlls animations
         if self.being_hurt:
+            print("hit")
             self.time_refresh_currect -= 1
             self.image_base = self.hurt_animation.animate() 
         else:

@@ -30,7 +30,7 @@ class Gun(Weapon):
 
     # blit weapon to screen
     def draw(self, screen):
-        # change center to top left
+        # main gun
         screen.blit(self.image, self.rect)
 
         # blit muzzle flash if exists
