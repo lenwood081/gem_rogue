@@ -36,7 +36,6 @@ class Enemy(ItemHolder):
         self.rect = self.hitbox_rect.copy()
 
         # direction and turning
-        self.front = Direction(0.0) 
         self.dist_player = 0
         self.turn_pixels = 6
         self.VARIATION = 60

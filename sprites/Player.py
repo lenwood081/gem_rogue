@@ -27,7 +27,7 @@ class Player(ItemHolder):
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
 
         # health
-        self.health = self.max_health = 100
+        self.health = self.max_health = 4
 
         # dimensions
         self.width = self.max_width = 32*SCALE_FACOTOR
@@ -78,9 +78,6 @@ class Player(ItemHolder):
 
         # used to update weapons and projectiles
         self.cam_offset = Point(0, 0)
-
-        # direction and target vextor
-        self.front = Direction(0)
 
         # drops
         self.collect_range = 100
@@ -201,17 +198,17 @@ class Player(ItemHolder):
         
     # update loop
     def update(self, keys_pressed, boundary):
-        move_normal = True
+        self.move_normal = True
 
         # check actions
         for i, action in enumerate(self.actions):
             if action.move_normal == False:
-                move_normal = False
+                self.move_normal = False
             action.update()
             if keys_pressed[self.action_key_array[i]] and action.already_active() == False:
                 action.use()
         
-        if move_normal:
+        if self.move_normal:
             x = 0
             y = 0
 
@@ -242,9 +239,10 @@ class Player(ItemHolder):
 
     # secound update for things that require background pos to be updated
     def update_after_camera(self, keys_pressed, mouse_pressed, cam_offset, enemy_group, boundary):
-        if self.immune:
+        if self.immunity_frames > 0:
             self.immunity_frames -= 1
-            if self.immunity_frames == 0:
+            if self.immunity_frames <= 0:
+                print("not immune")
                 self.immune = False
 
         # updates store of cam_offset

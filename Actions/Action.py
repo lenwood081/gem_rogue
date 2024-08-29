@@ -12,6 +12,10 @@ class Action:
         self.cooldown_time = cooldown * FRAMERATE
         self.cooldown = 0
 
+        # time between activations
+        self.time_between = 0
+        self.time = self.time_between
+
         # charges
         self.max_charges = charges
         self.charges = self.max_charges

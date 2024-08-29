@@ -1,6 +1,8 @@
 from Actions.Action import Action
 from config import FRAMERATE
 
+# TODO add animations
+
 class Dash(Action):
     def __init__(self, cooldown, charges, own_object):
         super().__init__(cooldown, charges, "dash", 0.1)
@@ -31,6 +33,8 @@ class Dash(Action):
         if self.activated == False:
             # target vector
             self.target = self.own_object.target_unit_vector.copy()
+            self.own_object.immune = True
+            self.own_object.immunity_frames = self.max_duration 
         
         self.activated = True
         self.use_charge()
@@ -38,7 +42,7 @@ class Dash(Action):
         # for duration
         if self.activated:
             self.move_normal = False
-            self.own_object.set_speed(5)
+            self.own_object.set_speed(10)
             self.own_object.velocity.x = self.own_object.speed * self.target.x
             self.own_object.velocity.y = self.own_object.speed * self.target.y
         else:
