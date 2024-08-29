@@ -44,6 +44,9 @@ class Player(ItemHolder):
         self.attack_rate = self.max_attack_rate = 3
         self.projectile_speed = self.max_projectile_speed = 1000 / FRAMERATE
 
+        # immunity_frames
+        self.immunity_frames_gained = 0
+
         # -----------------------------------------------------------------
 
         # base image

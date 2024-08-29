@@ -6,9 +6,9 @@ from config import *
 
 
 class Enemy_Director_Instant(Director):
-    def __init__(self, credits, group, experiance_group, projectile_group):
+    def __init__(self, credits, group, experiance_group, projectile_group, player):
         # get credits from user
-        super(Enemy_Director_Instant, self).__init__(credits, group, experiance_group, projectile_group)
+        super(Enemy_Director_Instant, self).__init__(credits, group, experiance_group, projectile_group, player)
 
         # counts the number of the current monster being spawned (if above 4, pick a new one)
         self.count_monster = 0

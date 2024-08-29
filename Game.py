@@ -63,10 +63,10 @@ class Game:
         enemies = pygame.sprite.Group()
     
         # enemey directors
-        instant_director = Enemy_Director_Instant(150, enemies, experiance.get_group(), projectiles)
-        fast_director = Enemy_Director_Continous(enemies, 5, experiance.get_group(), projectiles)
-        slow_director = Enemy_Director_Continous(enemies, 15, experiance.get_group(), projectiles)
-        big_wave_director = Enemy_Director_Continous(enemies, 60, experiance.get_group(), projectiles)
+        instant_director = Enemy_Director_Instant(150, enemies, experiance.get_group(), projectiles, player)
+        fast_director = Enemy_Director_Continous(enemies, 5, experiance.get_group(), projectiles, player)
+        slow_director = Enemy_Director_Continous(enemies, 15, experiance.get_group(), projectiles, player)
+        big_wave_director = Enemy_Director_Continous(enemies, 60, experiance.get_group(), projectiles, player)
 
         # spawn first enemys
         instant_director.activate(self.difficulty_coeff, player.pos)

@@ -47,8 +47,7 @@ class ItemHolder(pygame.sprite.Sprite):
         # other attacks need cooldowns
         # an exmaple is basic enemy touching damage
 
-        self.attack_states = []
-        self.attack_state_cooldowns = []
+        self.actions = []
 
         # -----------------------------------------------------------------------------------------------
 

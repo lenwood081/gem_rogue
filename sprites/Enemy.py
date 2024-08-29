@@ -5,12 +5,13 @@ from classes.Point import Point
 from classes.Direction import Direction
 from drops.Experiance import Experiance
 from sprites.ItemHolder import ItemHolder
+from Actions.CollideAttack import CollideAttack
 from config import *
 
 # TODO impliment knoockbacl with target unnit vector and strength
 
 class Enemy(ItemHolder):
-    def __init__(self, pos, animimations, size, experiance_group, projectile_group):
+    def __init__(self, pos, animimations, size, experiance_group, projectile_group, enemy):
         super(Enemy, self).__init__()
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
 
@@ -50,6 +51,9 @@ class Enemy(ItemHolder):
 
         # fire (for when to attack)
         self.fire = True
+
+        # add collidattack action
+        self.actions.append(CollideAttack(1, 1, self, enemy))
 
      # draw method
     def draw(self, screen):
@@ -102,7 +106,6 @@ class Enemy(ItemHolder):
     def being_hit(self):
         # also controlls animations
         if self.being_hurt:
-            print("hit")
             self.time_refresh_currect -= 1
             self.image_base = self.hurt_animation.animate() 
         else:
@@ -129,10 +132,15 @@ class Enemy(ItemHolder):
                 self.fire = False
         else:
             self.move(unit_vector)
+            # check actions
+            for action in self.actions:
+
+                # for basic self activated actions such as CollideAttack
+                action.update()
+                action.use()
                 
               
         self.update_weapons(enemy_group, cam_offset)
-        self.collisions(player)
         self.check_boundarys(boundary, cam_offset)  
 
         self.hitbox_rect.center = (self.pos.x + cam_offset.x, -self.pos.y + cam_offset.y)
@@ -176,11 +184,6 @@ class Enemy(ItemHolder):
                 ret_val = True
         
         return ret_val
-        
-    # pysical collision detection
-    def collisions(self, player):
-        if pygame.Rect.colliderect(self.hitbox_rect, player.hitbox_rect):
-            player.take_damage(self.attack(), self.target_unit_vector, self.knockback)
 
     # define update weapons
     def update_weapons(self, enemy_group, cam_offset):
