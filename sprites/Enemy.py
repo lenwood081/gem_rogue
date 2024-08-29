@@ -19,7 +19,7 @@ class Enemy(ItemHolder):
         self.height = self.max_height = size[1]
 
         # immunity frames
-        self.immunity_frames_gained = 1
+        self.immunity_frames_gained = 0
 
         # -----------------------------------------------------------------
 
@@ -56,8 +56,8 @@ class Enemy(ItemHolder):
         self.draw_weapons(screen)
 
         # debugging
-        pygame.draw.rect(screen, "red", self.hitbox_rect, width=2)
-        pygame.draw.rect(screen, "blue", self.rect, width=2)
+        #pygame.draw.rect(screen, "red", self.hitbox_rect, width=2)
+        #pygame.draw.rect(screen, "blue", self.rect, width=2)
 
     # occurs when colliding with a player
     # if in an attck then does more damage
@@ -76,11 +76,6 @@ class Enemy(ItemHolder):
 
     # 1 point direction eg 90 degrees would be (1, 0)
     def move_towards_player(self, player_pos):
-        if self.immune:
-            self.immunity_frames -= 1
-            if self.immunity_frames == 0:
-                self.immune = False
-
         player_pos_cpy = player_pos.copy()
 
         # target variation is until a certain distance the enemy will vary its approach

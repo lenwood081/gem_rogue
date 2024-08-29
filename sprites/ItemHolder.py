@@ -116,6 +116,9 @@ class ItemHolder(pygame.sprite.Sprite):
             return
         
         # damage immunity frame?
+        if self.immunity_frames_gained == 0:
+            return
+        
         self.immune = True
         self.immunity_frames = self.immunity_frames_gained
 

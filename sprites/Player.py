@@ -33,7 +33,7 @@ class Player(ItemHolder):
         self.height = self.max_height = 32*2.5
 
         # speed
-        self.speed = self.max_speed = 10
+        self.speed = self.max_speed = 20
 
         # level
         self.level = 0
@@ -41,8 +41,8 @@ class Player(ItemHolder):
         # attacking
         self.damage = self.max_damage = 1
         self.knockback = self.max_knockback = 1
-        self.attack_rate = self.max_attack_rate = 40
-        self.projectile_speed = self.max_projectile_speed = 70
+        self.attack_rate = self.max_attack_rate = 3
+        self.projectile_speed = self.max_projectile_speed = 25
 
         # -----------------------------------------------------------------
 
@@ -58,7 +58,7 @@ class Player(ItemHolder):
         self.boundary_rect = self.hitbox_rect.copy()
         self.rect = self.hitbox_rect.copy()
         # glow
-        self.radius = PL_WIDTH * 0.8
+        self.radius = self.width * 0.5
         self.glow_rate = 0.5
         self.num_glows = 5
         self.max_diff = 10
@@ -81,7 +81,7 @@ class Player(ItemHolder):
         self.mouse_unit_vector = Point(0, 0)
 
         # drops
-        self.collect_range = 60
+        self.collect_range = 100
         self.exp = 0
         self.exp_to_level = 10
 
