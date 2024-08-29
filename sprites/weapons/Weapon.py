@@ -4,7 +4,7 @@ from classes.Direction import Direction
 from config import FRAMERATE
 
 class Weapon(pygame.sprite.Sprite):
-    def __init__(self, pos, image_url, size, bg_pos):
+    def __init__(self, pos, idle_animation, fire_animation, size, cam_offset):
         super(Weapon, self).__init__()
 
         # center
@@ -12,11 +12,16 @@ class Weapon(pygame.sprite.Sprite):
         self.front = Direction(0)
         self.offset = 0
 
-        self.image = pygame.transform.scale(pygame.image.load(image_url).convert_alpha(), (size[0], size[1]))
+        # animations
+        self.idle_animaiton = idle_animation
+        self.fire_animaiton = fire_animation
+
+        # image
+        self.image = idle_animation.animate()
         self.base_image = self.image
         self.hitbox_rect = self.base_image.get_rect(center=(
-            self.pos.x + bg_pos.x, 
-            -self.pos.y + bg_pos.y
+            self.pos.x + cam_offset.x, 
+            -self.pos.y + cam_offset.y
         ))
         self.rect = self.hitbox_rect.copy()
 
@@ -30,7 +35,10 @@ class Weapon(pygame.sprite.Sprite):
 
         # autofire
         self.autofire = False
-        self.fire = False
+
+        # used to determine if firing
+        self.start_fire = False
+        self.continous_fire = False
 
         # projectiles if any
         self.projectiles = pygame.sprite.Group()
@@ -41,6 +49,7 @@ class Weapon(pygame.sprite.Sprite):
         self.front.dir = target_dir.dir
 
         # move image
+        self.base_image = self.animation_control()
         self.image = Direction.rotate_with_flip(self.front.dir, self.base_image)
         self.rect = self.image.get_rect(center=self.hitbox_rect.center)
 
@@ -55,6 +64,12 @@ class Weapon(pygame.sprite.Sprite):
     # check if need to attack
     def do_attack(self, fire):
         if fire or self.autofire:
+            # for animations
+            if self.start_fire:
+                self.continous_fire = True
+            else:
+                self.start_fire = True
+
             fire_rate = FRAMERATE * 1/self.fire_rate
             self.frame_till_fire = fire_rate
             return True
@@ -68,6 +83,7 @@ class Weapon(pygame.sprite.Sprite):
                     if tile.shoot_through == False:
                         bullet.collision(tile.rect)
                         break
+    
 
         
 

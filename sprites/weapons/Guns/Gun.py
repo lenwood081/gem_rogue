@@ -1,10 +1,9 @@
-import pygame
 from classes.Point import Point
 from sprites.weapons.Weapon import Weapon
 
 class Gun(Weapon):
-    def __init__(self, pos, cam_offset, image_url, size):
-        super(Gun, self).__init__(pos, image_url, size, cam_offset)
+    def __init__(self, pos, cam_offset, idle_animaiton, fire_animation, size):
+        super(Gun, self).__init__(pos, idle_animaiton, fire_animation, size, cam_offset)
 
         # projectiles
         self.gun_damage_mod = 1
@@ -36,7 +35,7 @@ class Gun(Weapon):
 
         # point in correct direction
         self.face_target(player_dir)
-        
+
         # update attributes return (self.bullet_speed, self.gun_damage, self.knockback)
         attributes = self.update_stats(parent_attributes)
 
@@ -65,4 +64,21 @@ class Gun(Weapon):
                 pos = Point(self.pos.x + target_unit_vector.x * self.width/2, self.pos.y + target_unit_vector.y * self.height/2)
                 new_projectile = self.bullet_type(pos, target_unit_vector, player_dir, attributes)
                 self.projectiles.add(new_projectile)
+
+    # animation control
+    def animation_control(self):
+        # fire animation
+        if self.continous_fire:
+            # assign to last frame
+            self.fire_animaiton.set_frame(self.fire_animaiton.length-1)
+            print("last")
+        self.continous_fire = False
+
+        if self.start_fire and self.fire_animaiton.get_completed() == False:
+            return self.fire_animaiton.animate()
+        
+        self.start_fire = False
+        # defualt is idle
+        return self.idle_animaiton.animate()
+
                 
