@@ -5,7 +5,7 @@ class Glow:
 
     @staticmethod
     def circle_surf(radius, color):
-        surf = pygame.Surface((radius*2, radius*2))
+        surf = pygame.Surface((radius*2, radius*2)).convert_alpha()
         pygame.draw.circle(surf, color, (radius, radius), radius)
         surf.set_colorkey((0, 0, 0))
         return surf

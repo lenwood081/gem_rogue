@@ -15,7 +15,7 @@ class Background:
         y_dim = (int)(BG_HEIGHT //tile_dimensions[1] + 1)
 
         # tilemap
-        self.base_tiles = TileMap([[0 for i in range(y_dim)] for i in range(x_dim)], ["assets/background/background_tile1.png"], Point(0, 0))
+        self.base_tiles = TileMap([[0 for i in range(y_dim)] for i in range(x_dim)], ["assets/background/blank_tile.png"], Point(0, 0))
 
         # ------------------------------ tiles for collisions --------------------------------------
 

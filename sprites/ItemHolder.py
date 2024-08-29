@@ -25,7 +25,7 @@ class ItemHolder(pygame.sprite.Sprite):
         # hit handeling
         self.immune = False
         self.immunity_frames = 0
-        self.immunity_frames_gained = 15
+        self.immunity_frames_gained = 5
         self.stunned = False
         self.time_stunned = self.recover_time = 3
 
@@ -34,7 +34,7 @@ class ItemHolder(pygame.sprite.Sprite):
         self.time_refresh_currect = self.time_refresh
 
         # speed
-        self.speed = self.max_speed = 4
+        self.speed = self.max_speed = 6
 
         # attacking
         self.damage = self.max_damage = 1

@@ -58,7 +58,7 @@ class Gun(Weapon):
 
         self.hitbox_rect.center = (self.pos.x + cam_offset.x, -self.pos.y + cam_offset.y)
         self.rect.center = self.hitbox_rect.center
-        self.muzzle_image_rect.center = (self.hitbox_rect.centerx + (self.width/2+12)* target_unit_vector.x, self.hitbox_rect.centery - (self.width/2+15) * target_unit_vector.y)
+        self.muzzle_image_rect.center = (self.hitbox_rect.centerx + (self.flash_offset)* target_unit_vector.x, self.hitbox_rect.centery - (self.flash_offset) * target_unit_vector.y)
 
         # update projectiles
         for projectile in self.projectiles:

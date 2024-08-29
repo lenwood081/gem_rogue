@@ -15,13 +15,14 @@ class PlasmaGun(Gun):
 
         # white bullets
         self.projectiles = pygame.sprite.Group()
-        self.gun_damage_mod = 2
+        self.gun_damage_mod = 1
         self.bullet_speed_mod = 2
         self.fire_rate_mod = 1.2
         self.knockback_mod = 0
 
         # offeset from player (for basic gun this is zero due to the way it is drawn)
-        self.offset =64
+        self.offset = 30 * SCALE_FACOTOR
+        self.flash_offset = self.width/2 + 12
 
         self.bullet_type = GlowBullet
                 

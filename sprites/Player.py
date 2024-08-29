@@ -29,8 +29,8 @@ class Player(ItemHolder):
         self.health = self.max_health = 10
 
         # dimensions
-        self.width = self.max_width = 32*2.5
-        self.height = self.max_height = 32*2.5
+        self.width = self.max_width = 32*SCALE_FACOTOR
+        self.height = self.max_height = 32*SCALE_FACOTOR
 
         # speed
         self.speed = self.max_speed = 20
