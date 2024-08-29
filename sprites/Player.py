@@ -21,7 +21,7 @@ MOUSE = 'mouse1'
 # TODO link weapon and projectile damage to player damage
 
 class Player(ItemHolder):
-    def __init__(self):
+    def __init__(self, projectile_group):
         super(Player, self).__init__()
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
 
@@ -89,10 +89,10 @@ class Player(ItemHolder):
         self.weapon_assit_array = []
 
         # added Basic gun
-        self.add_weapon(PlasmaGun, MOUSE, -math.pi/3)
-        self.add_weapon(PlasmaGun, MOUSE, -math.pi/8)
-        self.add_weapon(PlasmaGun, MOUSE, math.pi/8)
-        self.add_weapon(PlasmaGun, MOUSE, math.pi/3)
+        #self.add_weapon(PlasmaGun, MOUSE, -math.pi/3, projectile_group)
+        #self.add_weapon(PlasmaGun, MOUSE, -math.pi/8, projectile_group)
+        self.add_weapon(PlasmaGun, MOUSE, math.pi/8, projectile_group)
+        #self.add_weapon(PlasmaGun, MOUSE, math.pi/3, projectile_group)
         
 
     # ---------------------------------------- for bliting and collision detect ------------------
@@ -234,8 +234,6 @@ class Player(ItemHolder):
          # weapon update
         self.update_weapons(enemy_group, keys_pressed, mouse_pressed)
 
-        for weapon in self.weapons:
-            weapon.boundary_collision(boundary)
 
 # ------------------------ Leveling up -------------------------------
 
@@ -261,10 +259,10 @@ class Player(ItemHolder):
 # ------------------------ For Weapon Code ---------------------------
 
     # add_weapon
-    def add_weapon(self, type, fire_key, angle):
+    def add_weapon(self, type, fire_key, angle, projectile_group):
         # add key to correct position
         self.weapon_assit_array.append((fire_key, angle))
-        weapon = type(self.pos, self.cam_offset)
+        weapon = type(self.pos, self.cam_offset, projectile_group)
         weapon.angle_on_player = angle
         self.weapons.add(weapon)
 

@@ -1,8 +1,9 @@
 import pygame
 import math
 from classes.Direction import Direction
-from classes.Point import Point 
  
+# impliment global projectile group, so that ptojectiles continue to be updated after their propiagtors death
+
 class Projectile(pygame.sprite.Sprite):
     def __init__(self, start_pos, target_unit_vector, target_dir, image_url, size, attributes):
         super(Projectile, self).__init__()
@@ -36,19 +37,32 @@ class Projectile(pygame.sprite.Sprite):
         # rotate
         self.rotate()
 
+        # fix for weird bug
+        self.first_update = True
+
+        # enemy group
+        self.enemy_group = None
+
+    # needs to be run atleast once
+    def set_enemy_group(self, group:pygame.sprite.Group):
+        self.enemy_group = group
+
     # check bullet health
     def check_health(self):
         if self.current_health <= 0:
             self.expire()
 
     # collisions
-    def collisions(self, sprite_group):
-        for sprite in sprite_group:
+    def collisions(self, boundary):
+        for sprite in self.enemy_group:
             if pygame.Rect.colliderect(self.hitbox_rect, sprite.hitbox_rect):
                 self.deal_damage(sprite)
                 self.take_damage(1)
                 if self.area_hit == False:
                     return
+        
+        if self.first_update == False and pygame.sprite.spritecollideany(self, boundary):
+            self.take_damage(1)
 
     # deal damage to objects
     def deal_damage(self, sprite):
@@ -82,18 +96,23 @@ class Projectile(pygame.sprite.Sprite):
         self.dist -= self.speed
 
     # basic update loop can be overriden
-    def update(self, enemie_group, cam_offset):
+    def update(self, cam_offset, boundary):
+        assert(self.enemy_group != None) 
+        print("shooting after")
+
         # move bullet
         self.move()
 
         # check for collisions
-        self.collisions(enemie_group)
+        self.collisions(boundary)
 
         # check remaining health
         self.check_health()
 
         self.hitbox_rect.center = (self.pos.x + cam_offset.x, -self.pos.y + cam_offset.y)
         self.rect.center = self.hitbox_rect.center
+
+        self.first_update = False
 
     # blit to screen
     def draw(self, screen):
@@ -102,9 +121,6 @@ class Projectile(pygame.sprite.Sprite):
         #pygame.draw.rect(screen, "red", self.hitbox_rect, width=2)
         #pygame.draw.rect(screen, "blue", self.rect, width=2)
 
-    # projectile hit solid object
-    def collision(self, collided_with_rect):
-        self.kill()
 
         
 

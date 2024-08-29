@@ -179,7 +179,7 @@ class Enemy(ItemHolder):
         
         return ret_val
         
-    # define basic collision_detect override for projectiles aswell (only does touch)
+    # pysical collision detection
     def collisions(self, player):
         if pygame.Rect.colliderect(self.hitbox_rect, player.hitbox_rect):
             player.take_damage(self.attack(), self.target_unit_vector, self.knockback)

@@ -21,7 +21,7 @@ class ItemHolder(pygame.sprite.Sprite):
 
         # hurt image time and display
         self.being_hurt = False
-        self.time_refresh_currect = self.time_refresh = 0.3 * FRAMERATE
+        self.time_refresh_currect = self.time_refresh = 0.2 * FRAMERATE
         self.time_refresh_currect = 0
 
         # hit handeling
@@ -40,6 +40,17 @@ class ItemHolder(pygame.sprite.Sprite):
         self.knockback = self.max_knockback = 0
         self.attack_rate = self.max_attack_rate = 3
         self.projectile_speed = self.max_projectile_speed = 600 / FRAMERATE
+
+        # -----------------------------------------------------------------------------------------------
+        # different enemies and players have different attacks,
+        # weapon attacking is handled by fire rate
+        # other attacks need cooldowns
+        # an exmaple is basic enemy touching damage
+
+        self.attack_states = []
+        self.attack_state_cooldowns = []
+
+        # -----------------------------------------------------------------------------------------------
 
         # level
         self.level = 0

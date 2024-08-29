@@ -6,11 +6,10 @@ from sprites.projectiles.WhiteBullet import WhiteBullet
 
 
 class BasicGun(Gun):
-    def __init__(self, pos, cam_offset):
-        super(BasicGun, self).__init__(pos, cam_offset, "assets/weapons/Basic_gun.png", (24, 24)) 
+    def __init__(self, pos, cam_offset, projectiles):
+        super(BasicGun, self).__init__(pos, cam_offset, "assets/weapons/Basic_gun.png", (24, 24), projectiles) 
 
         # white bullets
-        self.projectiles = pygame.sprite.Group()
         self.gun_damage_mod = 1
         self.bullet_speed_mod = 1.7
         self.fire_rate_mod = 1.5

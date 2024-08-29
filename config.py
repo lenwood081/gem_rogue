@@ -2,7 +2,7 @@
 # game settings
 SCREEN_WIDTH = 1920
 SCREEN_HEIGHT = 1080
-FRAMERATE = 60
+FRAMERATE = 120
 SCALE_FACOTOR = 2
 
 # background

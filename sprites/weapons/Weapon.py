@@ -4,7 +4,7 @@ from classes.Direction import Direction
 from config import FRAMERATE
 
 class Weapon(pygame.sprite.Sprite):
-    def __init__(self, pos, idle_animation, size, cam_offset):
+    def __init__(self, pos, idle_animation, size, cam_offset, projectile_group):
         super(Weapon, self).__init__()
 
         # center
@@ -40,7 +40,7 @@ class Weapon(pygame.sprite.Sprite):
         self.continous_fire = False
 
         # projectiles if any
-        self.projectiles = pygame.sprite.Group()
+        self.projectiles = projectile_group
 
     # face target
     def face_target(self, target_dir):
@@ -74,14 +74,6 @@ class Weapon(pygame.sprite.Sprite):
             return True
         return False
     
-    # boundary collision detect on projectiles
-    def boundary_collision(self, boundary):
-        for bullet in self.projectiles:
-            for tile in boundary:
-                if pygame.Rect.colliderect(bullet.hitbox_rect, tile.rect):
-                    if tile.shoot_through == False:
-                        bullet.collision(tile.rect)
-                        break
     
 
         

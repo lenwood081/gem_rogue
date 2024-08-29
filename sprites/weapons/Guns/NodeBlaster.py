@@ -7,15 +7,14 @@ from Animations.Animation import Animation
 from config import *
 
 class NodeBlaster(Gun):
-    def __init__(self, pos, cam_offset):
+    def __init__(self, pos, cam_offset, projectile_group):
         fire_animation = Animation(["assets/weapons/NodeBlaster2.png", "assets/weapons/NodeBlaster3.png"], (16*SCALE_FACOTOR, 32*SCALE_FACOTOR), [0.05, 0.1])
         idle_animation = Animation(["assets/weapons/NodeBlaster1.png"], (16*SCALE_FACOTOR, 32*SCALE_FACOTOR), [1])
         muzzle_flash = Animation(["assets/weapons/PlasmaFlash.png"], (10*SCALE_FACOTOR, 16*SCALE_FACOTOR), [1])
 
-        super().__init__(pos, cam_offset, idle_animation, fire_animation, muzzle_flash, (32*SCALE_FACOTOR, 32*SCALE_FACOTOR))
+        super().__init__(pos, cam_offset, idle_animation, fire_animation, muzzle_flash, (32*SCALE_FACOTOR, 32*SCALE_FACOTOR), projectile_group)
 
         # bullets
-        self.projectiles = pygame.sprite.Group()
         self.gun_damage_mod = 2
         self.bullet_speed_mod = 1.2
         self.fire_rate_mod = 0.6
