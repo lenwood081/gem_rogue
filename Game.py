@@ -127,7 +127,7 @@ class Game:
             player.update(keys_pressed, boundary)
             camera.update(player.pos)
             bg.update(camera.get_offset())
-            player.update_after_camera(keys_pressed, mouse_pressed, camera.get_offset(), enemies, boundary)
+            player.update_after_camera(keys_pressed, mouse_pressed, camera.get_offset(), enemies)
 
             # enemies
             for em in enemies:

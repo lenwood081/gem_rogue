@@ -14,6 +14,7 @@ from pygame.locals import (
     K_s,
     K_d,
     K_e,
+    KMOD_LSHIFT,
 )
 import math
 
@@ -97,7 +98,7 @@ class Player(ItemHolder):
         # actions
         self.action_key_array = []
         self.actions.append(Dash(5, 3, self))
-        self.action_key_array.append(K_e)
+        self.action_key_array.append(KMOD_LSHIFT)
         
         
 
@@ -205,7 +206,7 @@ class Player(ItemHolder):
             if action.move_normal == False:
                 self.move_normal = False
             action.update()
-            if keys_pressed[self.action_key_array[i]] and action.already_active() == False:
+            if (keys_pressed[self.action_key_array[i]] or (pygame.key.get_mods() & self.action_key_array[i])) and action.already_active() == False:
                 action.use()
         
         if self.move_normal:
@@ -238,7 +239,7 @@ class Player(ItemHolder):
         self.flip_mouse()
 
     # secound update for things that require background pos to be updated
-    def update_after_camera(self, keys_pressed, mouse_pressed, cam_offset, enemy_group, boundary):
+    def update_after_camera(self, keys_pressed, mouse_pressed, cam_offset, enemy_group):
         if self.immunity_frames > 0:
             self.immunity_frames -= 1
             if self.immunity_frames <= 0:
