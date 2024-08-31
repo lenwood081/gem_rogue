@@ -30,6 +30,9 @@ class Action:
         # move_normal
         self.move_normal = True
 
+        # fire_normal
+        self.fire_normal = True
+
     # change by percentage (up or down)
     def change_cooldown(self, percentage):
         self.cooldown_time *= 1 + percentage
@@ -53,7 +56,7 @@ class Action:
         return False
         
     # update cooldwons and charges
-    def update(self, testing=1):
+    def update(self):
         # check if action is ongoing
         if self.activated:
             self.use()

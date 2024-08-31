@@ -33,7 +33,7 @@ class BlockRanged(Enemy):
 
         # -----------------------------------------------------------------
 
-        self.lock_on_dist = 500
+        self.lock_on_dist = 500 + random.randint(-150, 200)
         self.too_close = 200
         # should target the one place
         self.VARIATION = 0

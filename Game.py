@@ -5,7 +5,7 @@ from sprites.Player import Player
 from drops.ExperianceControl import ExperianceControl
 from Directors.Enemy_Director_Continous import Enemy_Director_Continous
 from Directors.Enemy_Director_Instant import Enemy_Director_Instant
-from sprites.projectiles.Projectile import Projectile
+from menus.MenuManager import MenuManager
 from Camera.Camera import Camera
 from HUD.HealthBar import HealthBar
 from HUD.ExpBar import ExpBar
@@ -22,6 +22,7 @@ class Game:
         self.difficulty_coeff = 1
         self.difficulty_factor = 3
         self.time = 0
+        self.pause = False
 
     # main game loop
     def run_game_loop(self, screen):
@@ -30,6 +31,9 @@ class Game:
 
         # game loop
         running = True
+
+        # menu manager
+        menu = MenuManager()
 
         # game clock
         clock = pygame.time.Clock()
@@ -83,9 +87,9 @@ class Game:
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         return False
-                    # for debugging
-                    # elif event.key == pygame.K_c:
-                    #    experiance.clear()
+                    # for pauseing
+                    elif event.key == pygame.K_p:
+                        self.pause = (self.pause == False)
                 elif event.type == QUIT:
                     return False
             return True
@@ -166,8 +170,10 @@ class Game:
             blit_entiites()
            
             # updates
-            updates()
-
+            if self.pause == False:
+                updates()
+            else:
+                menu.update(screen)
             
 
             # increase enemy difficulty

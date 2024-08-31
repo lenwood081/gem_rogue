@@ -2,30 +2,41 @@ import pygame
 from classes.Point import Point
 
 class Button(pygame.sprite.Sprite):
-    def __init__(self, image_url, x, y, width, height):
+    def __init__(self, text, x, y, width, height):
         super(Button, self).__init__()
         self.width = width
         self.height = height
         self.pos = Point(x, y)
-        self.base_image = pygame.transform.scale(pygame.image.load(image_url).convert_alpha(), (self.width, self.height))
-        self.image = self.base_image
-        self.rect = self.image.get_rect(center=(
+        self.base_surf = pygame.Surface((width, height))
+        self.base_surf.fill((255, 255, 255))
+        self.surf = self.base_surf
+        self.rect = self.base_surf.get_rect(center=(
             self.pos.x,
             self.pos.y,
         ))
 
+        self.font = pygame.font.Font(None, 64)
+        self.button_text = pygame.font.Font.render(self.font, text, 1, (20, 20, 20))
+
         self.pressed = False
         self.hover = False
 
+        self.base_surf.blit(self.button_text, (
+            self.rect.width/2 - self.button_text.get_rect().width/2,
+            self.rect.height/2 - self.button_text.get_rect().height/2
+        ))
+
+
     # false means no click, true means click
     def draw(self, screen):
-        screen.blit(self.image, self.rect)
+        
+        screen.blit(self.surf, self.rect)
 
     # kill button
     def die(self):
         self.kill()
 
-    # checking if button is pressed, TODO added incresing size for hover
+    # checking if button is pressed
     def update(self, events):
         # if mouse is over object
         mx, my = pygame.mouse.get_pos()
@@ -33,14 +44,14 @@ class Button(pygame.sprite.Sprite):
             if self.hover:
                 # return to noraml size
                 self.hover = False
-                self.image = self.base_image
+                self.surf = self.base_surf
                 pass
             return False
 
         # if over slightly enlarge or change button
         if self.hover == False:
             self.hover = True
-            self.image = pygame.transform.scale_by(self.base_image, 1.05)
+            self.surf = pygame.transform.scale_by(self.base_surf, 1.05)
             # enlarge button
 
         # if mouse is pressed over object

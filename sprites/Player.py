@@ -210,8 +210,14 @@ class Player(ItemHolder):
 
         # check actions
         for i, action in enumerate(self.actions):
+            # check for movement restrictions
             if action.move_normal == False:
                 self.move_normal = False
+
+            # check for firing restrictions
+            if action.fire_normal == False:
+                self.can_attack = False
+        
             if (keys_pressed[self.action_key_array[i]] or (pygame.key.get_mods() & self.action_key_array[i]) or mouse_pressed[self.action_key_array[i]]) and action.already_active() == False:
                 action.use()
         
