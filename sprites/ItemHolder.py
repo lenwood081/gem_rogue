@@ -46,6 +46,7 @@ class ItemHolder(pygame.sprite.Sprite):
         self.knockback = self.max_knockback = 0
         self.attack_rate = self.max_attack_rate = 3
         self.projectile_speed = self.max_projectile_speed = 600 / FRAMERATE
+        self.can_attack = False
 
         # -----------------------------------------------------------------------------------------------
         # different enemies and players have different attacks,
@@ -62,9 +63,6 @@ class ItemHolder(pygame.sprite.Sprite):
 
         # drops
         self.exp = 1
-
-        # weapons
-        self.weapons = pygame.sprite.Group()
 
     def level_up(self):
         self.level += 1

@@ -1,7 +1,9 @@
 import math
+import random
 from sprites.enemies.Enemy import Enemy
 from classes.Point import Point
 from sprites.weapons.Guns.NodeBlaster import NodeBlaster
+from Actions.WeaponFire import WeaponFire 
 from Animations.Animation import Animation
 from config import *
 
@@ -10,11 +12,11 @@ will create a distance and shoot, should circle the player
 """
 
 class BlockRanged(Enemy):
-    def __init__(self, pos, experiance_group, projectile_group, enemy): 
+    def __init__(self, pos, experiance_group, projectile_group, enemy_group, cam_offset): 
         animation_move = Animation(["assets/enemies/BlockRanged/BlockRanged.png"], (32*SCALE_FACOTOR, 32*SCALE_FACOTOR), [1])
         animation_hurt = Animation(["assets/enemies/BlockRanged/BlockRanged_hurt.png"], (32*SCALE_FACOTOR, 32*SCALE_FACOTOR), [1])
 
-        super(BlockRanged, self).__init__(pos, (animation_move, animation_hurt), (32*SCALE_FACOTOR, 32*SCALE_FACOTOR), experiance_group, projectile_group, enemy)
+        super(BlockRanged, self).__init__(pos, (animation_move, animation_hurt), (32*SCALE_FACOTOR, 32*SCALE_FACOTOR), experiance_group, projectile_group, enemy_group, cam_offset)
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
 
         # slightly random speed
@@ -26,6 +28,9 @@ class BlockRanged(Enemy):
         # health and armour
         self.health = self.max_health = 4
 
+        # attack rate
+        self.attack_rate = self.max_attack_rate = 1
+
         # -----------------------------------------------------------------
 
         self.lock_on_dist = 500
@@ -35,12 +40,12 @@ class BlockRanged(Enemy):
 
         # circle direction should change every 5 secounds
         self.circle_dir_clockwise = 1
-        self.circle_timer = FRAMERATE * 5
+        self.circle_timer = FRAMERATE * random.randint(3, 8)
         self.circle_timer_current = 0
         self.stutter_tolerance = 20
 
         # add gun
-        self.weapons.add(NodeBlaster(self.pos, Point(0, 0), self.projectile_group))
+        self.actions.append(WeaponFire(1, "Node Blaster", self, NodeBlaster, 0))
 
     # move method override
     def move(self, unit_vector):
@@ -50,17 +55,17 @@ class BlockRanged(Enemy):
         if self.dist_player < self.too_close:
             self.pos.move(-self.speed * unit_vector.x, -self.speed * unit_vector.y)
             self.velocity = Point(-self.speed * unit_vector.x, -self.speed * unit_vector.y)
-            self.fire = True
+            self.can_attack = True
             return
 
         # if too far away move directly towards player
         if self.dist_player > self.lock_on_dist:
             self.pos.move(self.speed * unit_vector.x, self.speed * unit_vector.y)
             self.velocity = Point(self.speed * unit_vector.x, self.speed * unit_vector.y)
-            self.fire = False
+            self.can_attack = False
             return
         
-        self.fire = True
+        self.can_attack = True
         
         # otherwise circle
         new_unit_vector = Point.rotate_unit_vector(unit_vector, self.circle_dir_clockwise * math.pi/2)

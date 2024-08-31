@@ -15,7 +15,7 @@ class NodeBlaster(Gun):
         super().__init__(pos, cam_offset, idle_animation, fire_animation, muzzle_flash, (32*SCALE_FACOTOR, 32*SCALE_FACOTOR), projectile_group)
 
         # bullets
-        self.gun_damage_mod = 2
+        self.gun_damage_mod = 1
         self.bullet_speed_mod = 1.2
         self.fire_rate_mod = 0.6
         self.knockback_mod = 0

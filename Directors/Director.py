@@ -8,7 +8,7 @@ from config import *
 # for both spawners make sure to take into account player pos
 
 class Director:
-    def __init__(self, credits, group, experiance_group, projectile_group, player):
+    def __init__(self, credits, group, experiance_group, projectile_group, players, cam_offset):
         # directors current credits
         self.credits = credits
         self.credit_multiplier = 1
@@ -25,9 +25,14 @@ class Director:
         self.index = -1
 
         # player aura
-        self.player = player
+        self.players = players
+        self.player = None
+        # select a player
+        for player in players:
+            self.player = player
         self.player_aura = 300
         self.player_pos = player.pos
+        self.cam_offset = cam_offset
 
     # for spawning
     def spawn_monster(self, cards):
@@ -38,10 +43,10 @@ class Director:
         # make sure point is not too close to player
         while True:
             if monster_pos.x < self.player_pos.x - self.player_aura or monster_pos.x > self.player_pos.x + self.player_aura:
-                if monster_pos.y < self.player_pos.y - 300 or monster_pos.y > self.player_pos.y + 300:
+                if monster_pos.y < self.player_pos.y - 300 or monster_pos.y > self.player_pos.y + self.player_aura:
                     break;
             monster_pos = Point(random.randint(64, BG_WIDTH - 64), random.randint(-BG_HEIGHT+ 64, -64))
-        self.group.add(cards[self.index].type(monster_pos, self.experiance_group, self.projectile_group, self.player))
+        self.group.add(cards[self.index].type(monster_pos, self.experiance_group, self.projectile_group, self.players, self.cam_offset))
         #print("Spawning", cards[self.index].name)
         #print("after", self.credits)
 

@@ -19,7 +19,7 @@ from pygame.locals import (
 )
 import math
 
-MOUSE = 'mouse1'
+MOUSE1 = 0
 
 # TODO link weapon and projectile damage to player damage
 
@@ -29,7 +29,7 @@ class Player(ItemHolder):
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
 
         # health
-        self.health = self.max_health = 4
+        self.health = self.max_health = 10
 
         # dimensions
         self.width = self.max_width = 32*SCALE_FACOTOR
@@ -86,25 +86,24 @@ class Player(ItemHolder):
         self.exp = 0
         self.exp_to_level = 10
 
-        # weapons
-        self.weapon_assit_array = []
+        # projectile group
         self.projectile_group = projectile_group
 
         # enemy_group
         self.enemy_group = None
-
-        # added Basic gun
-        self.add_weapon(PlasmaGun, MOUSE, -math.pi/3)
-        self.add_weapon(PlasmaGun, MOUSE, -math.pi/8)
-        self.add_weapon(PlasmaGun, MOUSE, math.pi/8)
-        self.add_weapon(PlasmaGun, MOUSE, math.pi/3)
 
         # actions
         self.action_key_array = []
         self.actions.append(Dash(5, 3, self))
         self.action_key_array.append(KMOD_LSHIFT)
         self.actions.append(WeaponFire(1, "Plasma Gun", self, PlasmaGun, math.pi/8))
-        self.action_key_array.append(K_e)
+        self.action_key_array.append(MOUSE1)
+        self.actions.append(WeaponFire(1, "Plasma Gun", self, PlasmaGun, -math.pi/8))
+        self.action_key_array.append(MOUSE1)
+        self.actions.append(WeaponFire(1, "Plasma Gun", self, PlasmaGun, -math.pi/3))
+        self.action_key_array.append(MOUSE1)
+        self.actions.append(WeaponFire(1, "Plasma Gun", self, PlasmaGun, math.pi/3))
+        self.action_key_array.append(MOUSE1)
         
         
 
@@ -205,14 +204,15 @@ class Player(ItemHolder):
     # ---------------------------------------- updates --------------------------------------------
         
     # update loop
-    def update(self, keys_pressed, boundary):
+    def update(self, keys_pressed, mouse_pressed, boundary):
         self.move_normal = True
+        self.can_attack = True
 
         # check actions
         for i, action in enumerate(self.actions):
             if action.move_normal == False:
                 self.move_normal = False
-            if (keys_pressed[self.action_key_array[i]] or (pygame.key.get_mods() & self.action_key_array[i])) and action.already_active() == False:
+            if (keys_pressed[self.action_key_array[i]] or (pygame.key.get_mods() & self.action_key_array[i]) or mouse_pressed[self.action_key_array[i]]) and action.already_active() == False:
                 action.use()
         
         if self.move_normal:
@@ -245,7 +245,7 @@ class Player(ItemHolder):
         self.flip_mouse()
 
     # secound update for things that require background pos to be updated
-    def update_after_camera(self, keys_pressed, mouse_pressed, cam_offset, enemy_group):
+    def update_after_camera(self, cam_offset, enemy_group):
         if self.immunity_frames > 0:
             self.immunity_frames -= 1
             if self.immunity_frames <= 0:
@@ -261,8 +261,6 @@ class Player(ItemHolder):
         for action in self.actions:
             action.update()
         
-
-
 # ------------------------ Leveling up -------------------------------
 
     # death method
@@ -284,31 +282,6 @@ class Player(ItemHolder):
         # eponentual
         self.exp_to_level *= 2 
 
-# ------------------------ For Weapon Code, and equipments ---------------------------
-
-    # add_weapon
-    def add_weapon(self, type, fire_key, angle):
-        # add key to correct position
-        self.weapon_assit_array.append((fire_key, angle))
-        weapon = type(self.pos, self.cam_offset, self.projectile_group)
-        weapon.angle_on_player = angle
-        self.weapons.add(weapon)
-
-    # using mouse_pressed and key_pressed as faster and allows for holddown input
-    def update_weapons(self, enemy_group, keys_pressed, mouse_pressed):
-        for  i, weapon in enumerate(self.weapons):
-            fire = False
-            if self.weapon_assit_array[i][0] == MOUSE:
-                if mouse_pressed[0]:
-                    fire = True
-            elif keys_pressed[self.weapon_assit_array[i][0]]:
-                fire = True
-            weapon.update(self.front, self.target_unit_vector, self.pos, enemy_group, fire, (self.projectile_speed, self.damage, self.knockback), self.cam_offset)
-
-    # draw weapons
-    def draw_weapons(self, screen):
-        for weapon in self.weapons:
-            weapon.draw(screen)
 
 
 

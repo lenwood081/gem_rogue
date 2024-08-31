@@ -24,6 +24,12 @@ class WeaponFire(Action):
             self.fire = True
             self.use_charge()
 
+    # override check.active
+    def check_active(self):
+        if self.parent.can_attack == False:
+            return False
+        return super().check_active()
+
     # update method
     def update(self):
         self.weapon.update(self.parent.front, self.parent.target_unit_vector, self.parent.pos, self.parent.enemy_group, self.fire,

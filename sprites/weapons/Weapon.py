@@ -54,9 +54,6 @@ class Weapon(pygame.sprite.Sprite):
                 self.continous_fire = True
             else:
                 self.start_fire = True
-
-            #fire_rate = FRAMERATE * 1/self.fire_rate
-            #self.frame_till_fire = fire_rate
             return True
         return False
     

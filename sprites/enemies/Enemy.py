@@ -11,7 +11,7 @@ from config import *
 # TODO impliment knoockbacl with target unnit vector and strength
 
 class Enemy(ItemHolder):
-    def __init__(self, pos, animimations, size, experiance_group, projectile_group, enemy):
+    def __init__(self, pos, animimations, size, experiance_group, projectile_group, enemy_group, cam_offset):
         super(Enemy, self).__init__()
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
 
@@ -46,8 +46,12 @@ class Enemy(ItemHolder):
         self.experiance_group = experiance_group
         self.projectile_group = projectile_group
 
-        # fire (for when to attack)
-        self.fire = True
+        self.cam_offset = cam_offset
+        self.enemy_group = enemy_group
+        self.enemy = None
+        # select an enemy to target (always last)
+        for enemy in enemy_group:
+            self.enemy = enemy
 
         # add collidattack action
         self.actions.append(CollideAttack(1, 1, self, enemy))
@@ -55,7 +59,9 @@ class Enemy(ItemHolder):
      # draw method
     def draw(self, screen):
         screen.blit(self.image, self.rect) 
-        self.draw_weapons(screen)
+        
+        for action in self.actions:
+            action.draw(screen)
 
         # debugging
         #pygame.draw.rect(screen, "red", self.hitbox_rect, width=2)
@@ -114,30 +120,31 @@ class Enemy(ItemHolder):
             
 
     # update method (general) can be overriden
-    def update(self, player, enemy_group, cam_offset, boundary):
+    def update(self, player, cam_offset, boundary):
+        self.cam_offset = cam_offset
+
         self.being_hit()
         unit_vector = self.move_towards_player(player.pos)
-        
         if self.stunned:
             # stop from moveing and attacking
             self.velocity = Point(0, 0)
             if self.time_stunned <= 0:
                 self.stunned = False
                 self.time_stunned = self.recover_time
+                self.can_attack = True
             else:
                 self.time_stunned -= 1
-                self.fire = False
-        else:
-            self.move(unit_vector)
-            # check actions
-            for action in self.actions:
+                self.can_attack = False
 
+        # actions
+        for action in self.actions:
                 # for basic self activated actions such as CollideAttack
-                action.update()
                 action.use()
-                
-              
-        self.update_weapons(enemy_group, cam_offset)
+                action.update()
+        
+        if self.move_normal:
+            self.move(unit_vector)
+            
         self.check_boundarys(boundary, cam_offset)  
 
         self.hitbox_rect.center = (self.pos.x + cam_offset.x, -self.pos.y + cam_offset.y)
@@ -181,18 +188,6 @@ class Enemy(ItemHolder):
                 ret_val = True
         
         return ret_val
-
-    # define update weapons
-    def update_weapons(self, enemy_group, cam_offset):
-        for weapon in self.weapons:
-            weapon.update(self.front, self.target_unit_vector, self.pos, enemy_group, self.fire, 
-                          (self.projectile_speed, self.damage, self.attack_rate, self.knockback), cam_offset)
-
-    # draw weapons
-    def draw_weapons(self, screen):
-        for weapon in self.weapons:
-            weapon.draw(screen)
-
         
 
     
