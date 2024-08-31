@@ -24,7 +24,6 @@ class Gun(Weapon):
         # attributes combined from parent
         self.bullet_speed = 0
         self.gun_damage = 0
-        self.fire_rate = 0
         self.knockback = 0
 
 
@@ -38,7 +37,7 @@ class Gun(Weapon):
             screen.blit(self.muzzle_image,self.muzzle_image_rect, special_flags=pygame.BLEND_RGBA_ADD)
 
 
-    # update gun (parent attributes = (bullet_speed, bullet_damage, fire_rate, knockback))
+    # update gun (parent attributes = (bullet_speed, bullet_damage, knockback))
     def update(self, player_dir, target_unit_vector, player_pos, enemy_group, fire, parent_attributes, cam_offset):
         unit_vector = Point.rotate_unit_vector_flip(target_unit_vector, self.angle_on_player, self.front.dir)
         self.pos.x = player_pos.x + self.offset * unit_vector.x
@@ -61,18 +60,16 @@ class Gun(Weapon):
     def update_stats(self, parent_attributes):
         self.bullet_speed = parent_attributes[0] * self.bullet_speed_mod
         self.gun_damage = parent_attributes[1] * self.gun_damage_mod
-        self.fire_rate = parent_attributes[2] * self.fire_rate_mod
-        self.knockback = parent_attributes[3] * self.knockback_mod
+        self.knockback = parent_attributes[2] * self.knockback_mod
         return (self.bullet_speed, self.gun_damage, self.knockback)
     
     # shoots a bullet
     def shoot(self, player_dir, target_unit_vector, enemy_group, fire, attributes):
-        if self.can_attack(): 
-            if self.do_attack(fire):
-                pos = Point(self.pos.x + target_unit_vector.x * self.width/2, self.pos.y + target_unit_vector.y * self.height/2)
-                new_projectile = self.bullet_type(pos, target_unit_vector, player_dir, attributes)
-                new_projectile.set_enemy_group(enemy_group)
-                self.projectiles.add(new_projectile)
+        if self.do_attack(fire):
+            pos = Point(self.pos.x + target_unit_vector.x * self.width/2, self.pos.y + target_unit_vector.y * self.height/2)
+            new_projectile = self.bullet_type(pos, target_unit_vector, player_dir, attributes)
+            new_projectile.set_enemy_group(enemy_group)
+            self.projectiles.add(new_projectile)
 
     # animation control
     def animation_control(self):

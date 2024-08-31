@@ -8,6 +8,7 @@ from sprites.weapons.Guns.PlasmaGun import PlasmaGun
 from Animations.Animation import Animation
 from sprites.ItemHolder import ItemHolder
 from Actions.Dash import Dash
+from Actions.WeaponFire import WeaponFire 
 from pygame.locals import (
     K_w,
     K_a,
@@ -89,6 +90,9 @@ class Player(ItemHolder):
         self.weapon_assit_array = []
         self.projectile_group = projectile_group
 
+        # enemy_group
+        self.enemy_group = None
+
         # added Basic gun
         self.add_weapon(PlasmaGun, MOUSE, -math.pi/3)
         self.add_weapon(PlasmaGun, MOUSE, -math.pi/8)
@@ -99,6 +103,8 @@ class Player(ItemHolder):
         self.action_key_array = []
         self.actions.append(Dash(5, 3, self))
         self.action_key_array.append(KMOD_LSHIFT)
+        self.actions.append(WeaponFire(1, "Plasma Gun", self, PlasmaGun, math.pi/8))
+        self.action_key_array.append(K_e)
         
         
 
@@ -120,8 +126,9 @@ class Player(ItemHolder):
         # draw player
         screen.blit(self.image, self.rect)
 
-        # draw weapon
-        self.draw_weapons(screen)
+        # draw actions
+        for action in self.actions:
+            action.draw(screen)
 
         # debugging
         #pygame.draw.rect(screen, "red", self.hitbox_rect, width=2)
@@ -205,7 +212,6 @@ class Player(ItemHolder):
         for i, action in enumerate(self.actions):
             if action.move_normal == False:
                 self.move_normal = False
-            action.update()
             if (keys_pressed[self.action_key_array[i]] or (pygame.key.get_mods() & self.action_key_array[i])) and action.already_active() == False:
                 action.use()
         
@@ -249,8 +255,12 @@ class Player(ItemHolder):
         # updates store of cam_offset
         self.cam_offset = cam_offset
 
-         # weapon update
-        self.update_weapons(enemy_group, keys_pressed, mouse_pressed)
+        self.enemy_group = enemy_group
+
+        # weapon update
+        for action in self.actions:
+            action.update()
+        
 
 
 # ------------------------ Leveling up -------------------------------
@@ -293,7 +303,7 @@ class Player(ItemHolder):
                     fire = True
             elif keys_pressed[self.weapon_assit_array[i][0]]:
                 fire = True
-            weapon.update(self.front, self.target_unit_vector, self.pos, enemy_group, fire, (self.projectile_speed, self.damage, self.attack_rate, self.knockback), self.cam_offset)
+            weapon.update(self.front, self.target_unit_vector, self.pos, enemy_group, fire, (self.projectile_speed, self.damage, self.knockback), self.cam_offset)
 
     # draw weapons
     def draw_weapons(self, screen):

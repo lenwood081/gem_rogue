@@ -73,6 +73,11 @@ class Action:
         # override this method in specific action class
         return
     
+    # method to be overriden
+    def draw(self, screen):
+        # override this method in specific action class
+        return
+    
     # retruns whether the action is active
     def already_active(self):
         return self.activated

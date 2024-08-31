@@ -29,9 +29,6 @@ class Weapon(pygame.sprite.Sprite):
         self.height = size[1]
         self.angle_on_player = 0
 
-        self.fire_rate = 1
-        self.frame_till_fire = 0
-
         # used to determine if firing
         self.start_fire = False
         self.continous_fire = False
@@ -48,14 +45,6 @@ class Weapon(pygame.sprite.Sprite):
         self.base_image = self.animation_control()
         self.image = Direction.rotate_with_flip(self.front.dir, self.base_image)
         self.rect = self.image.get_rect(center=self.hitbox_rect.center)
-
-    # check if can attack
-    def can_attack(self):
-        if self.frame_till_fire <= 0:
-            return True
-        
-        self.frame_till_fire -= 1
-        return False
     
     # check if need to attack
     def do_attack(self, fire):
@@ -66,8 +55,8 @@ class Weapon(pygame.sprite.Sprite):
             else:
                 self.start_fire = True
 
-            fire_rate = FRAMERATE * 1/self.fire_rate
-            self.frame_till_fire = fire_rate
+            #fire_rate = FRAMERATE * 1/self.fire_rate
+            #self.frame_till_fire = fire_rate
             return True
         return False
     

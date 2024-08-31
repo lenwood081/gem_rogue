@@ -42,7 +42,7 @@ class Dash(Action):
         # for duration
         if self.activated:
             self.move_normal = False
-            self.own_object.set_speed(10)
+            self.own_object.set_speed(4)
             self.own_object.velocity.x = self.own_object.speed * self.target.x
             self.own_object.velocity.y = self.own_object.speed * self.target.y
         else:

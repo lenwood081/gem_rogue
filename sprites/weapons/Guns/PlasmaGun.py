@@ -13,7 +13,7 @@ class PlasmaGun(Gun):
 
         super(PlasmaGun, self).__init__(pos, cam_offset, idle_animation, fire_animation, muzzle_flash, (28*SCALE_FACOTOR, 16*SCALE_FACOTOR), projectile_group) 
 
-        # white bullets
+        # glow bullets
         self.gun_damage_mod = 1
         self.bullet_speed_mod = 2
         self.fire_rate_mod = 1.2

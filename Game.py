@@ -69,7 +69,7 @@ class Game:
         big_wave_director = Enemy_Director_Continous(enemies, 60, experiance.get_group(), projectiles, player)
 
         # spawn first enemys
-        instant_director.activate(self.difficulty_coeff, player.pos)
+        #instant_director.activate(self.difficulty_coeff, player.pos)
 
         # event varibles
         events = pygame.event.get()
@@ -119,9 +119,9 @@ class Game:
 
         def updates():
             # director
-            fast_director.update(self.difficulty_coeff, player.pos)
-            slow_director.update(self.difficulty_coeff, player.pos)
-            big_wave_director.update(self.difficulty_coeff, player.pos)
+            #fast_director.update(self.difficulty_coeff, player.pos)
+            #slow_director.update(self.difficulty_coeff, player.pos)
+            #big_wave_director.update(self.difficulty_coeff, player.pos)
 
             # player and camera
             player.update(keys_pressed, boundary)
