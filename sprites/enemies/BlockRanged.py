@@ -39,8 +39,6 @@ class BlockRanged(Enemy):
         self.circle_timer_current = 0
         self.stutter_tolerance = 20
 
-
-
         # add gun
         self.weapons.add(NodeBlaster(self.pos, Point(0, 0), self.projectile_group))
 

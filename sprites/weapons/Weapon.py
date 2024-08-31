@@ -32,9 +32,6 @@ class Weapon(pygame.sprite.Sprite):
         self.fire_rate = 1
         self.frame_till_fire = 0
 
-        # autofire
-        self.autofire = False
-
         # used to determine if firing
         self.start_fire = False
         self.continous_fire = False
@@ -62,7 +59,7 @@ class Weapon(pygame.sprite.Sprite):
     
     # check if need to attack
     def do_attack(self, fire):
-        if fire or self.autofire:
+        if fire:
             # for animations
             if self.start_fire:
                 self.continous_fire = True

@@ -274,7 +274,7 @@ class Player(ItemHolder):
         # eponentual
         self.exp_to_level *= 2 
 
-# ------------------------ For Weapon Code ---------------------------
+# ------------------------ For Weapon Code, and equipments ---------------------------
 
     # add_weapon
     def add_weapon(self, type, fire_key, angle):
@@ -299,4 +299,6 @@ class Player(ItemHolder):
     def draw_weapons(self, screen):
         for weapon in self.weapons:
             weapon.draw(screen)
+
+
 
