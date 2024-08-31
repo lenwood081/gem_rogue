@@ -2,21 +2,24 @@ import pygame
 from classes.Point import Point
 
 class Button(pygame.sprite.Sprite):
-    def __init__(self, text, x, y, width, height):
+    def __init__(self, text, x, y, font_size=32, padding=(20, 20, 20, 20)):
         super(Button, self).__init__()
-        self.width = width
-        self.height = height
         self.pos = Point(x, y)
-        self.base_surf = pygame.Surface((width, height))
+
+        # text
+        self.font = pygame.font.Font(None, 64)
+        self.button_text = pygame.font.Font.render(self.font, text, 1, (20, 20, 20))
+
+        # up down top left for padding
+        self.width = self.button_text.get_rect().width + padding[1] + padding[3]
+        self.height = self.button_text.get_rect().height + padding[0] + padding[2]
+        self.base_surf = pygame.Surface((self.width, self.height))
         self.base_surf.fill((255, 255, 255))
         self.surf = self.base_surf
         self.rect = self.base_surf.get_rect(center=(
             self.pos.x,
             self.pos.y,
         ))
-
-        self.font = pygame.font.Font(None, 64)
-        self.button_text = pygame.font.Font.render(self.font, text, 1, (20, 20, 20))
 
         self.pressed = False
         self.hover = False

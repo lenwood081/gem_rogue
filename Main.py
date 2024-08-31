@@ -14,7 +14,7 @@ pygame.display.set_caption("Gem Rogue")
 
 # main menu
 main_menu = Menu()
-main_menu.add_button("Enter", SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 300, 100)
+main_menu.add_button("Enter", SCREEN_WIDTH/2, SCREEN_HEIGHT/2, font_size=64)
 
 # TODO main menu should have buttons to change starting run eventually
 

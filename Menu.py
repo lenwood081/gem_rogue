@@ -15,8 +15,8 @@ class Menu:
         self._back_color = (0, 0, 0)
 
     # add a button
-    def add_button(self, text, x, y, width, height):
-        button = Button(text, x, y, width, height)
+    def add_button(self, text, x, y, font_size=32):
+        button = Button(text, x, y, font_size=font_size)
         self._buttons.add(button)
     
     # method for the menu loop

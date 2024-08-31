@@ -173,7 +173,7 @@ class Game:
             if self.pause == False:
                 updates()
             else:
-                menu.update(screen)
+                menu.update(screen, events)
             
 
             # increase enemy difficulty

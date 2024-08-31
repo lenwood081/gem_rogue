@@ -26,12 +26,11 @@ class Menu:
         
     # retrun a menu object that represent the next menu to be displayed
     def update(self, events):
-        for button, menu in self.buttons:
-            if button.update(events):
-                return menu
+        for buttons in self.buttons:
+            if buttons[0].update(events):
+                return buttons[1]()
             
     # add a button
-    def add_button(self, text, x, y, width, height, type):
-        button = Button(text, x, y, width, height)
-        menu = type()
-        self.buttons.add((button, menu))
+    def add_button(self, text, x, y, type, font_size=32):
+        button = Button(text, x, y, font_size)
+        self.buttons.append((button, type))

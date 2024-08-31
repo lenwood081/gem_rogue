@@ -9,6 +9,6 @@ class PuaseMenu(Menu):
         super().__init__()
 
         # set up buttons
-        self.add_button("testing", 500, 500, 200, 100, PuaseMenu)
+        self.add_button("testing", 500, 500, PuaseMenu)
         
     
