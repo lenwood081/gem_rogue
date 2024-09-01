@@ -5,7 +5,7 @@ import pygame
 # pause menu should estentually pause the game (no updates)
 
 class Menu:
-    def __init__(self, previous_menu) -> None:
+    def __init__(self, previous_menu):
 
         # base surface
         self.base_surf = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -36,9 +36,10 @@ class Menu:
         
     # retrun a menu object that represent the next menu to be displayed
     def update(self, events):
+
         for buttons in self.buttons:
             if buttons[0].update(events):
-                return buttons[1](self.type)
+                return buttons[1]
             
     # add a button
     def add_button(self, text, x, y, type, font_size=32):

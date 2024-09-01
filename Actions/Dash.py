@@ -13,7 +13,7 @@ class Dash(Action):
 
         # time between activations
         self.time_between = 0.05 * FRAMERATE
-        self.time = self.time_between
+        self.time = 0
 
         # move normal
         self.move_normal = True

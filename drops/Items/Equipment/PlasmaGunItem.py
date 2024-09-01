@@ -1,6 +1,7 @@
 from drops.Items.Item import Item
 from sprites.weapons.Guns.PlasmaGun import PlasmaGun 
 from Actions.WeaponFire import WeaponFire 
+import math
 
 class PlasmaGunItem(Item): 
     def __init__(self, id):
@@ -8,6 +9,7 @@ class PlasmaGunItem(Item):
 
     # added item to item list, add item to actions list
     def connect(self, parent):
+        angle = parent.neext_angle
         parent.actions.append(WeaponFire(1, "Plasma Gun", self, PlasmaGun, math.pi/8))
         pass
 

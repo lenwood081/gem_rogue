@@ -13,6 +13,7 @@ from pygame.locals import (
     KEYDOWN,
     K_ESCAPE,
     QUIT,
+    K_p
 )
 
 
@@ -85,7 +86,7 @@ class Game:
             for event in events:
                 # quit checks
                 if event.type == KEYDOWN:
-                    if event.key == K_ESCAPE or event.key == pygame.K_p:
+                    if event.key == K_ESCAPE:
                         self.pause = True
                 elif event.type == QUIT:
                     return False
