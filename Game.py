@@ -1,4 +1,5 @@
 import pygame
+import time
 from config import *
 from Background.Background import Background
 from sprites.Player import Player
@@ -34,7 +35,7 @@ class Game:
         running = True
 
         # menu manager
-        menu = MenuManager()
+       # menu = MenuManager()
 
         # game clock
         clock = pygame.time.Clock()
@@ -73,7 +74,7 @@ class Game:
         big_wave_director = Enemy_Director_Continous(enemies, 60, experiance.get_group(), projectiles, players, camera.get_offset())
 
         # spawn first enemys
-        #instant_director.activate(self.difficulty_coeff, player.pos)
+        instant_director.activate(self.difficulty_coeff, player.pos)
 
         # event varibles
         events = pygame.event.get()
@@ -118,26 +119,26 @@ class Game:
             health.draw(screen)
             exp.draw(screen)
 
-        def updates():
+        def updates(dt):
             
             # player and camera
-            player.update(keys_pressed, mouse_pressed, boundary)
+            player.update(keys_pressed, mouse_pressed, boundary, dt)
             camera.update(player.pos)
             bg.update(camera.get_offset())
             player.update_after_camera(camera.get_offset(), enemies)
 
             # director
-            #fast_director.update(self.difficulty_coeff, player.pos, camera.get_offset())
-            #slow_director.update(self.difficulty_coeff, player.pos, camera.get_offset())
-            #big_wave_director.update(self.difficulty_coeff, player.pos, camera.get_offset())
+            fast_director.update(self.difficulty_coeff, player.pos, camera.get_offset())
+            slow_director.update(self.difficulty_coeff, player.pos, camera.get_offset())
+            big_wave_director.update(self.difficulty_coeff, player.pos, camera.get_offset())
 
             # enemies
             for em in enemies:
-                em.update(player, camera.get_offset(), boundary)
+                em.update(player, camera.get_offset(), boundary, dt)
 
             # projectiles
             for proj in projectiles:
-                proj.update(camera.get_offset(), boundary)
+                proj.update(camera.get_offset(), boundary, dt)
 
             # exp
             experiance.update()
@@ -145,7 +146,6 @@ class Game:
             # HUD
             health.update(player.health, player.max_health)
             exp.update(player.level, player.exp_to_level, player.exp)
-
 
         def coeff_calculate():
             self.time += 1
@@ -155,7 +155,14 @@ class Game:
 
         # ----------------------------------- main loop ------------------------------------------------------------------
         
+        last_time = time.time()
+
         while running:
+            dt = time.time() - last_time
+            dt *= FRAMERATE
+            print(dt)
+            last_time = time.time()
+
             # get inputs
             events = pygame.event.get()
             keys_pressed = pygame.key.get_pressed()
@@ -170,17 +177,17 @@ class Game:
            
             # updates
             if self.pause == False:
-                updates()
-            else:
-                match menu.update(screen, events):
-                    case "exitgame":
-                        self.pause = False
-                        return False
-                    case "unpause":
-                        self.pause = False
-                    case _:
-                        # do nothing
-                        pass
+                updates(dt)
+          #  else:
+           #     match menu.update(screen, events):
+            #        case "exitgame":
+             #           self.pause = False
+              #          return False
+               #     case "unpause":
+                #        self.pause = False
+                 #   case _:
+                  #      # do nothing
+                   #     pass
             
 
             # increase enemy difficulty

@@ -11,6 +11,8 @@ class ItemHolder(pygame.sprite.Sprite):
     def __init__(self):
         super(ItemHolder, self).__init__()
 
+        self.dt = 1
+
         # items!
         self.items = []
         self.current_id = 0
@@ -118,8 +120,8 @@ class ItemHolder(pygame.sprite.Sprite):
 
         # preform knockback
         if knockback_dist > 0:
-            self.pos.x += unit_vector.x * knockback_dist
-            self.pos.y += unit_vector.y * knockback_dist
+            self.pos.x += unit_vector.x * knockback_dist * self.dt
+            self.pos.y += unit_vector.y * knockback_dist * self.dt
 
         # armour at 10 = %50, at 20 = %66.66 at 30 = %75 damage deflected (tenno armour calculation)
         self.health -= damage - damage*(self.armour/(self.armour + 10))
@@ -155,5 +157,11 @@ class ItemHolder(pygame.sprite.Sprite):
         item_index = self.items.index(id)
         self.items[item_index].remove(self)
         self.items.pop(item_index)
+
+    
+    # for delta time
+    def update_with_dt(self, dt):
+        self.dt = dt
+
 
 

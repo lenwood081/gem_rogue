@@ -42,8 +42,8 @@ class Action:
         self.max_charges = max(charges, self.max_charges)
 
     # use a charge
-    def use_charge(self):
-        self.duration -= 1
+    def use_charge(self, dt):
+        self.duration -= 1 * dt
         if self.duration <= 0:
             self.duration = self.max_duration
             self.charges -= 1
@@ -56,23 +56,23 @@ class Action:
         return False
         
     # update cooldwons and charges
-    def update(self):
+    def update(self, dt):
         # check if action is ongoing
         if self.activated:
-            self.use()
+            self.use(dt)
 
         if self.charges == self.max_charges:
             self.cooldown = self.cooldown_time
             return
         
         # check cooldowns
-        self.cooldown -= 1
+        self.cooldown -= 1 * dt
         if self.cooldown <= 0:
             self.charges += 1
             self.cooldown = self.cooldown_time
 
     # method to be overriden
-    def use(self):
+    def use(self, dt):
         # override this method in specific action class
         return
     

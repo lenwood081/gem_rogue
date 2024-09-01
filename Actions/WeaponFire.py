@@ -19,10 +19,10 @@ class WeaponFire(Action):
         self.fire = False
 
     # use method
-    def use(self):
+    def use(self, dt):
         if self.check_active():
             self.fire = True
-            self.use_charge()
+            self.use_charge(dt)
 
     # override check.active
     def check_active(self):
@@ -31,12 +31,12 @@ class WeaponFire(Action):
         return super().check_active()
 
     # update method
-    def update(self):
+    def update(self, dt):
         self.weapon.update(self.parent.front, self.parent.target_unit_vector, self.parent.pos, self.parent.enemy_group, self.fire,
-                           (self.parent.projectile_speed, self.parent.damage, self.parent.knockback), self.parent.cam_offset)
+                           (self.parent.projectile_speed, self.parent.damage, self.parent.knockback), self.parent.cam_offset, dt)
         if self.fire:
             self.fire = False
-        super().update()
+        super().update(dt)
         
     # draw method
     def draw(self, screen):

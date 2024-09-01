@@ -29,7 +29,7 @@ class Enemy(ItemHolder):
         self.hurt_animation = animimations[1]
 
         # base image
-        self.image = self.move_animation.animate()
+        self.image = self.move_animation.animate(self.dt)
         self.image_base = self.image
         self.hitbox_rect = self.image_base.get_rect()
         self.boundary_rect = self.hitbox_rect.copy()
@@ -109,18 +109,19 @@ class Enemy(ItemHolder):
     def being_hit(self):
         # also controlls animations
         if self.being_hurt:
-            self.time_refresh_currect -= 1
-            self.image_base = self.hurt_animation.animate() 
+            self.time_refresh_currect -= 1 * self.dt
+            self.image_base = self.hurt_animation.animate(self.dt) 
         else:
             # general move animation
-            self.image_base = self.move_animation.animate()
+            self.image_base = self.move_animation.animate(self.dt)
 
         if self.time_refresh_currect <= 0:
             self.being_hurt = False
             
 
     # update method (general) can be overriden
-    def update(self, player, cam_offset, boundary):
+    def update(self, player, cam_offset, boundary, dt):
+        self.update_with_dt(dt)
         self.cam_offset = cam_offset
 
         self.being_hit()
@@ -133,15 +134,14 @@ class Enemy(ItemHolder):
                 self.time_stunned = self.recover_time
                 self.can_attack = True
             else:
-                self.time_stunned -= 1
+                self.time_stunned -= 1 * dt
                 self.can_attack = False
 
         # actions
         for action in self.actions:
                 # for basic self activated actions such as CollideAttack
-                action.use()
-                action.update()
-        
+                action.use(dt)
+                action.update(dt)
         
         self.check_boundarys(boundary, cam_offset)  
         
@@ -152,12 +152,12 @@ class Enemy(ItemHolder):
 
     # move towards unit vector
     def move(self, unit_vector):
-        self.velocity.x = self.speed * unit_vector.x
-        self.velocity.y = self.speed * unit_vector.y
-        self.pos.move(self.speed * unit_vector.x, self.speed * unit_vector.y)
+        self.velocity.x = self.speed * unit_vector.x * self.dt
+        self.velocity.y = self.speed * unit_vector.y * self.dt
+        self.pos.move(self.velocity.x, self.velocity.y)
 
         
-    # run checks to prevent going out of bounds
+    # run checks to prevent going out of bounds 
     def check_boundarys(self, boundary, cam_offset):
         # check against tiles
         ret_val = False

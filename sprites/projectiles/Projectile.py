@@ -7,6 +7,8 @@ from classes.Direction import Direction
 class Projectile(pygame.sprite.Sprite):
     def __init__(self, start_pos, target_unit_vector, target_dir, image_url, size, attributes):
         super(Projectile, self).__init__()
+        self.dt = 1
+
         self.pos = start_pos.copy()
         self.image = pygame.transform.scale(pygame.image.load(image_url).convert_alpha(), (size[0], size[1]))
         self.base_image = self.image
@@ -91,15 +93,16 @@ class Projectile(pygame.sprite.Sprite):
             return
         
         # move based on speed and unit vector
-        self.pos.x += self.speed * self.target_unit_vector.x
-        self.pos.y += self.speed * self.target_unit_vector.y
+        self.pos.x += self.speed * self.target_unit_vector.x * self.dt
+        self.pos.y += self.speed * self.target_unit_vector.y * self.dt
 
         # decrement dist
-        self.dist -= self.speed
+        self.dist -= self.speed * self.dt
 
     # basic update loop can be overriden
-    def update(self, cam_offset, boundary):
+    def update(self, cam_offset, boundary, dt):
         assert(self.enemy_group != None) 
+        self.dt = dt
 
         # move bullet
         self.move()

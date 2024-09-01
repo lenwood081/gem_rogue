@@ -11,7 +11,7 @@ class Gun(Weapon):
         self.fire_animaiton = fire_animation
         self.muzzle_flash_animaiton = muzzle_flash
 
-        self.muzzle_image_base = self.muzzle_flash_animaiton.animate()
+        self.muzzle_image_base = self.muzzle_flash_animaiton.animate(1)
         self.muzzle_image = self.muzzle_image_base
         self.muzzle_image_rect = self.muzzle_image_base.get_rect()
 
@@ -26,6 +26,8 @@ class Gun(Weapon):
         self.gun_damage = 0
         self.knockback = 0
 
+        self.dt = 1
+
 
     # blit weapon to screen
     def draw(self, screen):
@@ -38,7 +40,9 @@ class Gun(Weapon):
 
 
     # update gun (parent attributes = (bullet_speed, bullet_damage, knockback))
-    def update(self, player_dir, target_unit_vector, player_pos, enemy_group, fire, parent_attributes, cam_offset):
+    def update(self, player_dir, target_unit_vector, player_pos, enemy_group, fire, parent_attributes, cam_offset, dt):
+        self.dt = dt
+
         unit_vector = Point.rotate_unit_vector_flip(target_unit_vector, self.angle_on_player, self.front.dir)
         self.pos.x = player_pos.x + self.offset * unit_vector.x
         self.pos.y = player_pos.y + self.offset * unit_vector.y
@@ -82,15 +86,15 @@ class Gun(Weapon):
         if self.start_fire and self.fire_animaiton.get_completed() == False:
             # display muzzle_flash
             
-            self.muzzle_image_base = self.muzzle_flash_animaiton.animate()
+            self.muzzle_image_base = self.muzzle_flash_animaiton.animate(self.dt)
             self.muzzle_image = Direction.rotate_with_flip(self.front.dir, self.muzzle_image_base)
             self.muzzle_image_rect = self.muzzle_image.get_rect(center = self.hitbox_rect.center)
-            return self.fire_animaiton.animate()
+            return self.fire_animaiton.animate(self.dt)
         
         self.start_fire = False
         self.muzzle_image = None
 
         # defualt is idle
-        return self.idle_animaiton.animate()
+        return self.idle_animaiton.animate(self.dt)
 
                 

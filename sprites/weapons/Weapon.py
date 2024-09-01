@@ -16,7 +16,7 @@ class Weapon(pygame.sprite.Sprite):
         self.idle_animaiton = idle_animation
 
         # image
-        self.image = idle_animation.animate()
+        self.image = idle_animation.animate(1)
         self.base_image = self.image
         self.hitbox_rect = self.base_image.get_rect(center=(
             self.pos.x + cam_offset.x, 

@@ -16,7 +16,7 @@ class CollideAttack(Action):
         self.enemy_object = enemy_object
 
     # attack
-    def use(self):
+    def use(self, dt):
         if pygame.Rect.colliderect(self.own_object.hitbox_rect, self.enemy_object.hitbox_rect) and self.check_active():
             self.enemy_object.take_damage(self.own_object.attack(), self.own_object.target_unit_vector, self.own_object.knockback)
-            self.use_charge()
+            self.use_charge(dt)

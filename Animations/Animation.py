@@ -21,8 +21,8 @@ class Animation:
         self.length = len(frames)
 
     # play animaiton, returns a image object, to be used when drawn
-    def animate(self):
-        if self.clock > self.frame_clock * self.tick:
+    def animate(self, dt): 
+        if self.clock > self.frame_clock * self.tick and self.frame != len(self.frames)-1:
             self.frame += 1
             self.frame_clock += self.tempo[self.frame]
 
@@ -33,7 +33,7 @@ class Animation:
             self.clock = 0
             self.frame_clock = self.tempo[self.frame]
         else:
-            self.clock += 1
+            self.clock += 1 * dt
 
         # return image
         return_image = pygame.transform.scale(pygame.image.load(self.frames[self.frame]).convert_alpha(), self.sizes[self.frame])

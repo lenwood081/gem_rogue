@@ -38,10 +38,10 @@ class Dash(Action):
             self.image_list.append((self.base_image, pos, 255/(2 + 0.2*i)))
 
     # dash
-    def use(self):
+    def use(self, dt):
         # check condition
         if self.check_active() == False or self.time > 0:
-            self.time -= 1
+            self.time -= 1 * dt
             if self.time < 0:
                 self.time = 0
             return
@@ -56,14 +56,14 @@ class Dash(Action):
             
         
         self.activated = True
-        self.use_charge()
+        self.use_charge(dt)
 
         # for duration
         if self.activated:
             self.move_normal = False
             self.own_object.set_speed(4)
-            self.own_object.velocity.x = self.own_object.speed * self.target.x
-            self.own_object.velocity.y = self.own_object.speed * self.target.y
+            self.own_object.velocity.x = self.own_object.speed * self.target.x * dt
+            self.own_object.velocity.y = self.own_object.speed * self.target.y * dt
 
             # for dash animation
             self.total_vec.move(self.own_object.velocity.x, self.own_object.velocity.y)

@@ -56,7 +56,7 @@ class Player(ItemHolder):
         # base image
         #self.base_animate = Animation(["assets/player/Player_concept1_walk1.png", "assets/player/Player_concept1_walk2.png"], (self.width, self.height), [0.3, 0.3])
         self.base_animate = Animation(["assets/player/duck_wizard.png"], (32*SCALE_FACOTOR , 32*SCALE_FACOTOR), [0.3])
-        self.image = self.base_animate.animate()
+        self.image = self.base_animate.animate(self.dt)
         self.base_image = self.image
         self.hitbox_rect = self.base_image.get_rect(center=(
             SCREEN_WIDTH/2,
@@ -66,11 +66,11 @@ class Player(ItemHolder):
         self.rect = self.hitbox_rect.copy()
         # glow
         self.radius = self.width * 0.5
-        self.glow_rate = 0.5
+        self.glow_rate = 30 / FRAMERATE
         self.num_glows = 5
         self.max_diff = 10
         self.current = 0
-        self.increasing = 30 / FRAMERATE
+        self.increasing = 1
 
         # position reletive to background (centered)
         # start in the center of the playable area
@@ -115,10 +115,10 @@ class Player(ItemHolder):
         # glow breath
         radius = self.radius * (self.num_glows*2) + self.current
         if self.current >= self.max_diff:
-            self.increasing = -30 / FRAMERATE
-        elif self.current <= self.max_diff * -1:
-            self.increasing = 30 / FRAMERATE
-        self.current += self.increasing * self.glow_rate
+            self.increasing = -1
+        elif self.current <= -self.max_diff:
+            self.increasing = 1
+        self.current += self.increasing * self.glow_rate * self.dt
 
         # draw glow
         screen.blit(Glow.circle_image_add(radius), (self.pos_screen.x - radius, self.pos_screen.y - radius), special_flags=pygame.BLEND_RGBA_ADD)
@@ -233,7 +233,9 @@ class Player(ItemHolder):
     # ---------------------------------------- updates --------------------------------------------
         
     # update loop
-    def update(self, keys_pressed, mouse_pressed, boundary):
+    def update(self, keys_pressed, mouse_pressed, boundary, dt):
+        self.update_with_dt(dt)
+
         self.move_normal = True
         self.can_attack = True
 
@@ -248,7 +250,7 @@ class Player(ItemHolder):
                 self.can_attack = False
         
             if (keys_pressed[self.action_key_array[i]] or (pygame.key.get_mods() & self.action_key_array[i]) or mouse_pressed[self.action_key_array[i]]) and action.already_active() == False:
-                action.use()
+                action.use(dt)
         
         if self.move_normal:
             x = 0
@@ -256,13 +258,13 @@ class Player(ItemHolder):
 
             # player movement
             if keys_pressed[K_s]:
-                y = -self.speed
+                y = -self.speed * dt
             if keys_pressed[K_w]:
-                y = self.speed
+                y = self.speed * dt
             if keys_pressed[K_d]:
-                x = self.speed
+                x = self.speed * dt
             if keys_pressed[K_a]:
-                x = -self.speed
+                x = -self.speed * dt
 
             # check for diagonal speed irregularity
             if x != 0 and y != 0:
@@ -273,7 +275,7 @@ class Player(ItemHolder):
         self.boundary_collision(boundary)
 
         # animation
-        self.base_image = self.base_animate.animate()
+        self.base_image = self.base_animate.animate(dt)
 
         #self.face_mouse()
         self.flip_mouse()
@@ -281,7 +283,7 @@ class Player(ItemHolder):
     # secound update for things that require background pos to be updated
     def update_after_camera(self, cam_offset, enemy_group):
         if self.immunity_frames > 0:
-            self.immunity_frames -= 1
+            self.immunity_frames -= 1 * self.dt
             if self.immunity_frames <= 0:
                 print("not immune")
                 self.immune = False
@@ -293,7 +295,7 @@ class Player(ItemHolder):
 
         # weapon update
         for action in self.actions:
-            action.update()
+            action.update(self.dt)
         
 # ------------------------ Leveling up -------------------------------
 

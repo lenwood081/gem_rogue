@@ -18,7 +18,7 @@ class BlockFodder(Enemy):
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
 
         # slightly random speed
-        self.speed = self.max_speed = random.uniform(self.speed * FRAMERATE, (self.speed+3)*FRAMERATE) / FRAMERATE  
+        self.speed = self.max_speed = random.randint(500, 600) / FRAMERATE  
 
         # attack
         self.damage = self.max_damage = 1
