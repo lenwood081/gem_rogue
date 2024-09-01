@@ -2,6 +2,7 @@ import pygame
 from config import *
 from classes.Point import Point
 from classes.Direction import Direction
+import math
 
 # when using values from here remember for time realted ones to divide by framrate!!!
 # class that is inherited for sprites that require items, dfines basic stats
@@ -9,6 +10,10 @@ from classes.Direction import Direction
 class ItemHolder(pygame.sprite.Sprite):
     def __init__(self):
         super(ItemHolder, self).__init__()
+
+        # items!
+        self.items = []
+        self.current_id = 0
 
         # width and height
         self.width = self.max_width = 23
@@ -137,5 +142,18 @@ class ItemHolder(pygame.sprite.Sprite):
     # increase speed 
     def set_speed(self, percentage):
         self.speed = self.max_speed * (1 + percentage)
+
+    # for Items
+    def pickup_item(self, itemType):
+        item = itemType(self.current_id)
+        item.connect(self)
+        self.current_id += 1
+        self.items.append(item)
+
+    # lose Item
+    def lose_item(self, id):
+        item_index = self.items.index(id)
+        self.items[item_index].remove(self)
+        self.items.pop(item_index)
 
 

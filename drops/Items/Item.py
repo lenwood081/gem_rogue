@@ -17,3 +17,6 @@ class Item:
     # for when an item is removed
     def remove(self, parent):
         pass
+
+    def __eq__(self, id):
+        return self.unique_id == id

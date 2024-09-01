@@ -3,8 +3,8 @@ from menus.Menu import Menu
 # menu that when retruned indicates the agme process
 
 class BlankMenu(Menu):
-    def __init__(self, previous_menu):
-        super().__init__(previous_menu) 
+    def __init__(self):
+        super().__init__(None, None) 
 
 
     def draw(self, screen):

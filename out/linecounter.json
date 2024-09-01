@@ -1,0 +1,1103 @@
+{
+    "extension": "linecounter",
+    "version": "0.2.7",
+    "workspace": "c:\\Users\\Lennie\\OneDrive\\projects\\gem_rogue",
+    "linecount": [
+        {
+            "version": "0.2.7",
+            "counttime": "2024-09-02 01:23:38",
+            "filesum": 159,
+            "codesum": 1812,
+            "commentsum": 495,
+            "blanksum": 674,
+            "statistics": {
+                ".txt": {
+                    "code": 135,
+                    "comment": 0,
+                    "blank": 0
+                },
+                ".py": {
+                    "code": 1636,
+                    "comment": 495,
+                    "blank": 669
+                },
+                "": {
+                    "code": 18,
+                    "comment": 0,
+                    "blank": 4
+                },
+                ".md": {
+                    "code": 2,
+                    "comment": 0,
+                    "blank": 1
+                },
+                ".gpl": {
+                    "code": 21,
+                    "comment": 0,
+                    "blank": 0
+                }
+            },
+            "filelist": [
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".gitignore"
+                },
+                {
+                    "filename": "__pycache__\\config.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "__pycache__\\Enemy.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "__pycache__\\Game.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "__pycache__\\Menu.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "Actions\\__pycache__\\Action.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "Actions\\__pycache__\\CollideAttack.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "Actions\\__pycache__\\Dash.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "Actions\\__pycache__\\WeaponFire.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 22,
+                    "code": 47,
+                    "comment": 20,
+                    "filename": "Actions\\Action.py"
+                },
+                {
+                    "blank": 5,
+                    "code": 13,
+                    "comment": 4,
+                    "filename": "Actions\\CollideAttack.py"
+                },
+                {
+                    "blank": 27,
+                    "code": 57,
+                    "comment": 15,
+                    "filename": "Actions\\Dash.py"
+                },
+                {
+                    "blank": 9,
+                    "code": 26,
+                    "comment": 9,
+                    "filename": "Actions\\WeaponFire.py"
+                },
+                {
+                    "filename": "Animations\\__pycache__\\Animation.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 10,
+                    "code": 37,
+                    "comment": 9,
+                    "filename": "Animations\\Animation.py"
+                },
+                {
+                    "filename": "assets\\background\\ash_overlay.aseprite",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\background\\ash_overlay.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\background\\background_cobble_tile1.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\background\\background_tile1.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\background\\background_tile_concept1.aseprite",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\background\\blank_tile.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\background\\boundary_box.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\background\\pebble-rock-ground.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 0,
+                    "code": 21,
+                    "comment": 0,
+                    "filename": "assets\\Color_Pallete\\slso-clr17.gpl"
+                },
+                {
+                    "filename": "assets\\Drops\\Ex.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\effects\\glow_add.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\effects\\glow_add_circle.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\enemies\\blockfodder\\base.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\enemies\\blockfodder\\hurt.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\enemies\\BlockRanged\\BloackRanged.aseprite",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\enemies\\BlockRanged\\BlockRanged.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\enemies\\BlockRanged\\BlockRanged_hurt.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\HUD\\BarOuter.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\player\\duck.aseprite",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\player\\duck.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\player\\duck_wizard.aseprite",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\player\\duck_wizard.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\player\\Player.aseprite",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\player\\Player_concept1.aseprite",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\player\\Player_concept1.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\player\\Player_concept1_walk1.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\player\\Player_concept1_walk2.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\Projectiles\\bullet_glow.aseprite",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\Projectiles\\bullet_glow_1.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\Projectiles\\NodeBullet.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\Projectiles\\simple_bullet.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\Projectiles\\White_bullet.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\UI\\buttons\\base.aseprite",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\UI\\buttons\\Enter.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\weapons\\Basic_gun.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\weapons\\NodeBlaster.aseprite",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\weapons\\NodeBlaster.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\weapons\\NodeBlaster1.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\weapons\\NodeBlaster2.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\weapons\\NodeBlaster3.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\weapons\\PlasmaFlash.aseprite",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\weapons\\PlasmaFlash.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\weapons\\PlasmaGun.aseprite",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\weapons\\PlasmaGun.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\weapons\\PlasmaGun1.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\weapons\\PlasmaGun2.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "assets\\weapons\\PlasmaGun3.png",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "Background\\__pycache__\\Background.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "Background\\__pycache__\\Tile.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "Background\\__pycache__\\TileMap.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 12,
+                    "code": 27,
+                    "comment": 10,
+                    "filename": "Background\\Background.py"
+                },
+                {
+                    "blank": 8,
+                    "code": 17,
+                    "comment": 4,
+                    "filename": "Background\\Tile.py"
+                },
+                {
+                    "blank": 8,
+                    "code": 38,
+                    "comment": 14,
+                    "filename": "Background\\TileMap.py"
+                },
+                {
+                    "filename": "Camera\\__pycache__\\Camera.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 6,
+                    "code": 12,
+                    "comment": 5,
+                    "filename": "Camera\\Camera.py"
+                },
+                {
+                    "filename": "classes\\__pycache__\\Direction.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "classes\\__pycache__\\Glow.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "classes\\__pycache__\\Point.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 7,
+                    "code": 21,
+                    "comment": 1,
+                    "filename": "classes\\Direction.py"
+                },
+                {
+                    "blank": 5,
+                    "code": 15,
+                    "comment": 0,
+                    "filename": "classes\\Glow.py"
+                },
+                {
+                    "blank": 11,
+                    "code": 46,
+                    "comment": 7,
+                    "filename": "classes\\Point.py"
+                },
+                {
+                    "blank": 5,
+                    "code": 10,
+                    "comment": 2,
+                    "filename": "config.py"
+                },
+                {
+                    "filename": "Directors\\__pycache__\\Card.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "Directors\\__pycache__\\Director.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "Directors\\__pycache__\\Enemy_Director.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "Directors\\__pycache__\\Enemy_Director_Continous.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "Directors\\__pycache__\\Enemy_Director_Instant.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 2,
+                    "code": 8,
+                    "comment": 2,
+                    "filename": "Directors\\Card.py"
+                },
+                {
+                    "blank": 12,
+                    "code": 45,
+                    "comment": 19,
+                    "filename": "Directors\\Director.py"
+                },
+                {
+                    "filename": "Directors\\Enemy_cards\\__pycache__\\EnemyCards.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 1,
+                    "code": 7,
+                    "comment": 1,
+                    "filename": "Directors\\Enemy_cards\\EnemyCards.py"
+                },
+                {
+                    "blank": 27,
+                    "code": 40,
+                    "comment": 15,
+                    "filename": "Directors\\Enemy_Director_Continous.py"
+                },
+                {
+                    "blank": 14,
+                    "code": 26,
+                    "comment": 8,
+                    "filename": "Directors\\Enemy_Director_Instant.py"
+                },
+                {
+                    "filename": "drops\\__pycache__\\Experiance.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "drops\\__pycache__\\ExperianceControl.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 16,
+                    "code": 28,
+                    "comment": 7,
+                    "filename": "drops\\Experiance.py"
+                },
+                {
+                    "blank": 5,
+                    "code": 20,
+                    "comment": 3,
+                    "filename": "drops\\ExperianceControl.py"
+                },
+                {
+                    "filename": "drops\\Items\\__pycache__\\Item.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 4,
+                    "code": 14,
+                    "comment": 2,
+                    "filename": "drops\\Items\\Equipment\\PlasmaGunItem.py"
+                },
+                {
+                    "blank": 1,
+                    "code": 2,
+                    "comment": 0,
+                    "filename": "drops\\Items\\Equipment\\ReadMe.md"
+                },
+                {
+                    "blank": 7,
+                    "code": 11,
+                    "comment": 4,
+                    "filename": "drops\\Items\\Item.py"
+                },
+                {
+                    "filename": "drops\\Items\\Passive\\__pycache__\\Quads.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 9,
+                    "code": 13,
+                    "comment": 3,
+                    "filename": "drops\\Items\\Passive\\Quads.py"
+                },
+                {
+                    "blank": 47,
+                    "code": 109,
+                    "comment": 41,
+                    "filename": "Game.py"
+                },
+                {
+                    "filename": "HUD\\__pycache__\\ExpBar.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "HUD\\__pycache__\\HealthBar.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 10,
+                    "code": 28,
+                    "comment": 7,
+                    "filename": "HUD\\ExpBar.py"
+                },
+                {
+                    "blank": 16,
+                    "code": 38,
+                    "comment": 1,
+                    "filename": "HUD\\HealthBar.py"
+                },
+                {
+                    "blank": 4,
+                    "code": 17,
+                    "comment": 0,
+                    "filename": "LICENSE"
+                },
+                {
+                    "blank": 8,
+                    "code": 16,
+                    "comment": 7,
+                    "filename": "Main.py"
+                },
+                {
+                    "blank": 12,
+                    "code": 35,
+                    "comment": 12,
+                    "filename": "Menu.py"
+                },
+                {
+                    "filename": "menu_assests\\__pycache__\\Button.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 13,
+                    "code": 42,
+                    "comment": 10,
+                    "filename": "menu_assests\\Button.py"
+                },
+                {
+                    "filename": "menus\\__pycache__\\BlankMenu.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "menus\\__pycache__\\ExitGame.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "menus\\__pycache__\\ExitMenu.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "menus\\__pycache__\\Menu.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "menus\\__pycache__\\MenuManager.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "menus\\__pycache__\\PuaseMenu.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 4,
+                    "code": 6,
+                    "comment": 1,
+                    "filename": "menus\\BlankMenu.py"
+                },
+                {
+                    "blank": 2,
+                    "code": 4,
+                    "comment": 1,
+                    "filename": "menus\\ExitGame.py"
+                },
+                {
+                    "blank": 2,
+                    "code": 4,
+                    "comment": 1,
+                    "filename": "menus\\ExitMenu.py"
+                },
+                {
+                    "blank": 12,
+                    "code": 27,
+                    "comment": 8,
+                    "filename": "menus\\Menu.py"
+                },
+                {
+                    "blank": 9,
+                    "code": 37,
+                    "comment": 4,
+                    "filename": "menus\\MenuManager.py"
+                },
+                {
+                    "blank": 6,
+                    "code": 11,
+                    "comment": 2,
+                    "filename": "menus\\PuaseMenu.py"
+                },
+                {
+                    "blank": 0,
+                    "code": 135,
+                    "comment": 0,
+                    "filename": "report.txt"
+                },
+                {
+                    "filename": "sprites\\__pycache__\\Background.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "sprites\\__pycache__\\BlockFodder.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "sprites\\__pycache__\\Enemy.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "sprites\\__pycache__\\Experiance.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "sprites\\__pycache__\\HealthBar.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "sprites\\__pycache__\\ItemHolder.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "sprites\\__pycache__\\Player.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "sprites\\__pycache__\\Projectile.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "sprites\\__pycache__\\Weapon.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "sprites\\enemies\\__pycache__\\BlockFodder.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "sprites\\enemies\\__pycache__\\BlockRanged.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "sprites\\enemies\\__pycache__\\Enemy.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 9,
+                    "code": 16,
+                    "comment": 5,
+                    "filename": "sprites\\enemies\\BlockFodder.py"
+                },
+                {
+                    "blank": 24,
+                    "code": 57,
+                    "comment": 17,
+                    "filename": "sprites\\enemies\\BlockRanged.py"
+                },
+                {
+                    "blank": 43,
+                    "code": 111,
+                    "comment": 40,
+                    "filename": "sprites\\enemies\\Enemy.py"
+                },
+                {
+                    "blank": 39,
+                    "code": 81,
+                    "comment": 38,
+                    "filename": "sprites\\ItemHolder.py"
+                },
+                {
+                    "blank": 73,
+                    "code": 193,
+                    "comment": 68,
+                    "filename": "sprites\\Player.py"
+                },
+                {
+                    "filename": "sprites\\projectiles\\__pycache__\\GlowBullet.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "sprites\\projectiles\\__pycache__\\NodeBullet.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "sprites\\projectiles\\__pycache__\\Projectile.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "sprites\\projectiles\\__pycache__\\WhiteBullet.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 5,
+                    "code": 9,
+                    "comment": 2,
+                    "filename": "sprites\\projectiles\\GlowBullet.py"
+                },
+                {
+                    "blank": 3,
+                    "code": 8,
+                    "comment": 0,
+                    "filename": "sprites\\projectiles\\NodeBullet.py"
+                },
+                {
+                    "blank": 34,
+                    "code": 69,
+                    "comment": 26,
+                    "filename": "sprites\\projectiles\\Projectile.py"
+                },
+                {
+                    "blank": 5,
+                    "code": 7,
+                    "comment": 2,
+                    "filename": "sprites\\projectiles\\WhiteBullet.py"
+                },
+                {
+                    "filename": "sprites\\weapons\\__pycache__\\BasicGun.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "sprites\\weapons\\__pycache__\\Gun.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "sprites\\weapons\\__pycache__\\PlasmaGun.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "sprites\\weapons\\__pycache__\\Weapon.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "sprites\\weapons\\Guns\\__pycache__\\BasicGun.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "sprites\\weapons\\Guns\\__pycache__\\Gun.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "sprites\\weapons\\Guns\\__pycache__\\NodeBlaster.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "filename": "sprites\\weapons\\Guns\\__pycache__\\PlasmaGun.cpython-312.pyc",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 7,
+                    "code": 14,
+                    "comment": 3,
+                    "filename": "sprites\\weapons\\Guns\\BasicGun.py"
+                },
+                {
+                    "blank": 22,
+                    "code": 56,
+                    "comment": 17,
+                    "filename": "sprites\\weapons\\Guns\\Gun.py"
+                },
+                {
+                    "blank": 7,
+                    "code": 25,
+                    "comment": 4,
+                    "filename": "sprites\\weapons\\Guns\\NodeBlaster.py"
+                },
+                {
+                    "blank": 6,
+                    "code": 18,
+                    "comment": 3,
+                    "filename": "sprites\\weapons\\Guns\\PlasmaGun.py"
+                },
+                {
+                    "blank": 19,
+                    "code": 37,
+                    "comment": 11,
+                    "filename": "sprites\\weapons\\Weapon.py"
+                }
+            ]
+        }
+    ]
+}

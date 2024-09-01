@@ -9,8 +9,10 @@ class PlasmaGunItem(Item):
 
     # added item to item list, add item to actions list
     def connect(self, parent):
-        angle = parent.neext_angle
-        parent.actions.append(WeaponFire(1, "Plasma Gun", self, PlasmaGun, math.pi/8))
+        super().connected(parent)
+        
+        angle = parent.next_angle()
+        parent.actions.append(WeaponFire(1, "Plasma Gun", self, PlasmaGun, angle))
         pass
 
     # for when an item is removed

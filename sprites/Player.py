@@ -9,6 +9,7 @@ from Animations.Animation import Animation
 from sprites.ItemHolder import ItemHolder
 from Actions.Dash import Dash
 from Actions.WeaponFire import WeaponFire 
+from drops.Items.Passive.Quads import Quads
 from pygame.locals import (
     K_w,
     K_a,
@@ -36,7 +37,7 @@ class Player(ItemHolder):
         self.height = self.max_height = 32*SCALE_FACOTOR
 
         # speed
-        self.speed = self.max_speed = 900 / FRAMERATE
+        self.speed = self.max_speed = 700 / FRAMERATE
 
         # level
         self.level = 0
@@ -134,30 +135,58 @@ class Player(ItemHolder):
         #pygame.draw.rect(screen, "blue", self.rect, width=2)
 
     def boundary_collision(self, collision_group):
-        # call on self
+        # maximum change in velocity (if greater than this then use increments)
+        dist = 64*SCALE_FACOTOR
+        x_safe = y_safe = True
+
+        # call on self TODO update other collision detection on projectiles and enemys
         for tile in collision_group:
-            # could be optimised by checking first if there is a collision then checking left and right
-            self.boundary_rect.center = (SCREEN_WIDTH/2 + self.velocity.x, SCREEN_HEIGHT/2 - self.velocity.y)
-            if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
-                # check x
-                self.boundary_rect.center = (SCREEN_WIDTH/2 + self.velocity.x, SCREEN_HEIGHT/2)
-                if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
-                    # left hand edge
-                    if self.velocity.x > 0:
-                        self.pos.x = tile.pos.x - self.width/2
-                    # right hand side
-                    elif self.velocity.x < 0:
-                        self.pos.x = tile.pos.x + tile.width + self.width/2
-    
-                # check y
-                self.boundary_rect.center = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - self.velocity.y)
+            x = (int)(math.fabs(self.velocity.x // dist) + 1)
+            y = (int)(math.fabs(self.velocity.y // dist) + 1)
+
+            # check y
+            for y_i in range(y):
+                vel_y = dist * math.copysign(1, self.velocity.y) * (y_i)
+
+                # for last one
+                if y_i == y-1:
+                    vel_y = self.velocity.y
+
+                self.boundary_rect.center = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - vel_y)
                 if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
                     # top
-                    if self.velocity.y > 0:
+                    if vel_y > 0:
                         self.pos.y = tile.pos.y - tile.height - self.height/2
                     # bottom
-                    elif self.velocity.y < 0:
+                    elif vel_y < 0:
                         self.pos.y = tile.pos.y + self.height/2
+                    y_safe = False
+                    break
+
+            # check x
+            for x_i in range(x):
+                vel_x = dist * math.copysign(1, self.velocity.x) * (x_i)
+
+                # for last one
+                if x_i == x-1:
+                    vel_x = self.velocity.x
+
+                self.boundary_rect.center = (SCREEN_WIDTH/2 + vel_x, SCREEN_HEIGHT/2)
+                if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
+                    # left hand edge
+                    if vel_x > 0:
+                        self.pos.x = tile.pos.x - self.width/2
+                    # right hand side
+                    elif vel_x < 0:
+                        self.pos.x = tile.pos.x + tile.width + self.width/2 
+                    x_safe = False
+                    break
+
+        if x_safe:
+            self.pos.move(self.velocity.x, 0)
+        
+        if y_safe:
+            self.pos.move(0, self.velocity.y)
 
 
     # ------------------------------------------ facing mouse --------------------------------
@@ -241,7 +270,6 @@ class Player(ItemHolder):
                 y /= math.sqrt(2)
             self.velocity = Point(x, y)
 
-        self.pos.move(self.velocity.x, self.velocity.y)
         self.boundary_collision(boundary)
 
         # animation

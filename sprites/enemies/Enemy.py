@@ -142,11 +142,11 @@ class Enemy(ItemHolder):
                 action.use()
                 action.update()
         
+        
+        self.check_boundarys(boundary, cam_offset)  
+        
         if self.move_normal:
             self.move(unit_vector)
-            
-        self.check_boundarys(boundary, cam_offset)  
-
         self.hitbox_rect.center = (self.pos.x + cam_offset.x, -self.pos.y + cam_offset.y)
         self.rect.center = self.hitbox_rect.center
 

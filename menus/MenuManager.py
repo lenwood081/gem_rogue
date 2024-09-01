@@ -24,7 +24,6 @@ class MenuManager:
 
         new_menu = self.menu.update(events)
         if new_menu:
-            new_menu = new_menu() 
             if isinstance(new_menu, ExitMenu):
                 self.menu = PuaseMenu()
                 return "unpause"
