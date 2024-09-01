@@ -15,20 +15,20 @@ class Background:
         y_dim = (int)(BG_HEIGHT //tile_dimensions[1] + 1)
 
         # tilemap
-        self.base_tiles = TileMap([[0 for i in range(y_dim)] for i in range(x_dim)], ["assets/background/blank_tile.png"], Point(0, 0))
+        self.base_tiles = TileMap([[0 for i in range(y_dim)] for i in range(x_dim)], ["assets/background/background_cobble_tile1.png"], Point(0, 0))
 
         # ------------------------------ tiles for collisions --------------------------------------
 
         # construct array of boundary tiles
         boundary = [[0 if j == 0 or i == 0 or j == y_dim+1 or i == x_dim+1 else -1 for j in range(y_dim + 2)] for i in range(x_dim + 2)]
-        boundary[5][5] = 0
+        #boundary[5][5] = 0
         self.boundary_tiles = TileMap(boundary, ["assets/background/boundary_box.png"], Point(-tile_dimensions[0], tile_dimensions[1]))
         self.boundary_tiles.add_collisions(collisions_group)
         self.boundary_tiles.shoot_through(5, 5, True)
 
         # for effects
         self.surf = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
-        self.surf.fill(BG_HORROR_SHADE)
+        self.surf.fill((50, 50, 50))
         self.surf2 = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.surf2.fill(BG_OVERLAY_SHADE)
 
@@ -41,7 +41,7 @@ class Background:
         self.boundary_tiles.draw(screen, cam_offset)
 
         # makes it dark
-        #screen.blit(self.surf, (0,0), special_flags=pygame.BLEND_RGBA_SUB)
+        screen.blit(self.surf, (0,0), special_flags=pygame.BLEND_RGBA_SUB)
 
 
     def draw_after(self, screen, cam_offset):

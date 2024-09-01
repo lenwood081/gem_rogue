@@ -2,6 +2,8 @@ from config import *
 import random
 from sprites.enemies.Enemy import Enemy
 from Animations.Animation import Animation
+from sprites.weapons.Guns.PlasmaGun import PlasmaGun
+from Actions.WeaponFire import WeaponFire
 
 """
 this is the main basic enemy in the game, should just move towards the player,
@@ -20,6 +22,7 @@ class BlockFodder(Enemy):
 
         # attack
         self.damage = self.max_damage = 1
+        self.can_attack = True
 
         # health and armour
         self.health = self.max_health = 6

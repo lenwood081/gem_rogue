@@ -85,11 +85,8 @@ class Game:
             for event in events:
                 # quit checks
                 if event.type == KEYDOWN:
-                    if event.key == K_ESCAPE:
-                        return False
-                    # for pauseing
-                    elif event.key == pygame.K_p:
-                        self.pause = (self.pause == False)
+                    if event.key == K_ESCAPE or event.key == pygame.K_p:
+                        self.pause = True
                 elif event.type == QUIT:
                     return False
             return True
@@ -163,8 +160,9 @@ class Game:
             keys_pressed = pygame.key.get_pressed()
             mouse_pressed = pygame.mouse.get_pressed()
 
-            # event handeler
-            running = quit_handler()
+            # event handeler if game is running
+            if self.pause == False:
+                running = quit_handler()
 
             # blit to screen
             blit_entiites()
@@ -173,7 +171,7 @@ class Game:
             if self.pause == False:
                 updates()
             else:
-                menu.update(screen, events)
+                self.pause = menu.update(screen, events)
             
 
             # increase enemy difficulty

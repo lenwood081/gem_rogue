@@ -5,7 +5,7 @@ import pygame
 # pause menu should estentually pause the game (no updates)
 
 class Menu:
-    def __init__(self) -> None:
+    def __init__(self, previous_menu) -> None:
 
         # base surface
         self.base_surf = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -14,6 +14,7 @@ class Menu:
 
         # list of button path pairs (button, menu)
         self.buttons = []
+        self.previous_menu = previous_menu
 
 
     # draw method should be overriden
@@ -23,12 +24,21 @@ class Menu:
         for button, menu in self.buttons:
             button.draw(screen)
 
+    # event_handler
+    def event_handler(self, events):
+        for event in events:
+            # upause check (no matter what level of menu)
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    return self.previous_menu()
+            return True
+
         
     # retrun a menu object that represent the next menu to be displayed
     def update(self, events):
         for buttons in self.buttons:
             if buttons[0].update(events):
-                return buttons[1]()
+                return buttons[1](self.type)
             
     # add a button
     def add_button(self, text, x, y, type, font_size=32):
