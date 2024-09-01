@@ -30,7 +30,7 @@ class Player(ItemHolder):
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
 
         # health
-        self.health = self.max_health = 10
+        self.health = self.max_health = 1000
 
         # dimensions
         self.width = self.max_width = 32*SCALE_FACOTOR
@@ -93,6 +93,9 @@ class Player(ItemHolder):
         # enemy_group
         self.enemy_group = None
 
+        # allows wall going through
+        self.trans = True
+
         # actions
         self.action_key_array = []
         self.actions.append(Dash(2, 3, self))
@@ -135,6 +138,10 @@ class Player(ItemHolder):
         #pygame.draw.rect(screen, "blue", self.rect, width=2)
 
     def boundary_collision(self, collision_group):
+        if self.trans:
+            self.pos.move(self.velocity.x, self.velocity.y)
+            return
+
         # maximum change in velocity (if greater than this then use increments)
         dist = 64*SCALE_FACOTOR
         x_safe = y_safe = True

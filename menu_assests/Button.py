@@ -32,7 +32,6 @@ class Button(pygame.sprite.Sprite):
 
     # false means no click, true means click
     def draw(self, screen):
-        
         screen.blit(self.surf, self.rect)
 
     # kill button

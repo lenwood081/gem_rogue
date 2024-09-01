@@ -6,7 +6,7 @@ from sprites.Player import Player
 from drops.ExperianceControl import ExperianceControl
 from Directors.Enemy_Director_Continous import Enemy_Director_Continous
 from Directors.Enemy_Director_Instant import Enemy_Director_Instant
-from menus.MenuManager import MenuManager
+from menus.Menu import PauseMenu
 from Camera.Camera import Camera
 from HUD.HealthBar import HealthBar
 from HUD.ExpBar import ExpBar
@@ -35,7 +35,7 @@ class Game:
         running = True
 
         # menu manager
-       # menu = MenuManager()
+        menu = PauseMenu()
 
         # game clock
         clock = pygame.time.Clock()
@@ -89,6 +89,7 @@ class Game:
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         self.pause = True
+                        print("pasuing")
                 elif event.type == QUIT:
                     return False
             return True
@@ -118,6 +119,10 @@ class Game:
             # hud
             health.draw(screen)
             exp.draw(screen)
+
+            # menu if paused
+            if self.pause:
+                menu.draw(screen)
 
         def updates(dt):
             
@@ -160,7 +165,6 @@ class Game:
         while running:
             dt = time.time() - last_time
             dt *= FRAMERATE
-            print(dt)
             last_time = time.time()
 
             # get inputs
@@ -172,22 +176,15 @@ class Game:
             if self.pause == False:
                 running = quit_handler()
 
-            # blit to screen
-            blit_entiites()
-           
             # updates
             if self.pause == False:
                 updates(dt)
-          #  else:
-           #     match menu.update(screen, events):
-            #        case "exitgame":
-             #           self.pause = False
-              #          return False
-               #     case "unpause":
-                #        self.pause = False
-                 #   case _:
-                  #      # do nothing
-                   #     pass
+            else:
+                if menu.update(events) == False:
+                    self.pause = False
+
+            # blit to screen
+            blit_entiites()
             
 
             # increase enemy difficulty
