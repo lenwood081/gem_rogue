@@ -171,7 +171,15 @@ class Game:
             if self.pause == False:
                 updates()
             else:
-                self.pause = menu.update(screen, events)
+                match menu.update(screen, events):
+                    case "exitgame":
+                        self.pause = False
+                        return False
+                    case "unpause":
+                        self.pause = False
+                    case _:
+                        # do nothing
+                        pass
             
 
             # increase enemy difficulty

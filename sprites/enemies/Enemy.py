@@ -54,7 +54,7 @@ class Enemy(ItemHolder):
             self.enemy = enemy
 
         # add collidattack action
-        self.actions.append(CollideAttack(1, 1, self, enemy))
+        self.actions.append(CollideAttack(0.5, 1, self, enemy))
 
      # draw method
     def draw(self, screen):

@@ -29,3 +29,5 @@ class BlockFodder(Enemy):
         self.armour = self.max_armour = 2
 
         # -----------------------------------------------------------------
+
+        

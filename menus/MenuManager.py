@@ -1,6 +1,6 @@
 from menus.PuaseMenu import PuaseMenu
-from menus.Menu import Menu
 from menus.ExitMenu import ExitMenu
+from menus.ExitGame import ExitGame
 from pygame.locals import (
     KEYDOWN,
     K_ESCAPE,
@@ -15,22 +15,24 @@ class MenuManager:
         self.menu = PuaseMenu(self.quit_menu)
         
 
-    # choose the menu to show returns true or false (false mean unpause)
+    # choose the menu to show returns "pause", "unpause" and "exitgame"
     def update(self, screen, events):
         # check for quit events
         if self.quit_handler(events) == False:
-            return False
+            return "unpause"
 
         new_menu = self.menu.update(events)
         if new_menu:
             if isinstance(new_menu, ExitMenu):
                 self.menu = PuaseMenu(self.quit_menu)
-                return False
+                return "unpause"
+            elif isinstance(new_menu, ExitGame):
+                return "exitgame"
             else:
                 self.menu = new_menu
 
         self.draw(screen)
-        return True
+        return "pause"
     
     def quit_handler(self, events):
         for event in events:

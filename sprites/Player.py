@@ -94,7 +94,7 @@ class Player(ItemHolder):
 
         # actions
         self.action_key_array = []
-        self.actions.append(Dash(5, 3, self))
+        self.actions.append(Dash(2, 3, self))
         self.action_key_array.append(KMOD_LSHIFT)
         self.actions.append(WeaponFire(1, "Plasma Gun", self, PlasmaGun, math.pi/8))
         self.action_key_array.append(MOUSE1)
