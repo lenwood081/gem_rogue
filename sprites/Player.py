@@ -109,6 +109,7 @@ class Player(ItemHolder):
         self.pickup_item(PlasmaGunItem) 
         self.pickup_item(PlasmaGunItem) 
         self.pickup_item(PlasmaGunItem) 
+        #self.pickup_item(PlasmaGunItem) 
         self.pickup_item(DashItem) 
 
         

@@ -5,6 +5,10 @@ class Item:
         # item name and type
         self.name = name
         self.type = type
+
+        # need to be implimented in the parent class
+        self.description = "Defualt description"
+        self.icon = None
         
         # this will identify the item in a item or action list as will be always unique per entity
         self.unique_id = id

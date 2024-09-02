@@ -182,15 +182,22 @@ class Game:
             if self.pause == False:
                 updates(dt)
             else:
-                if menu.update(events) == False:
+                ret_val = menu.update(events)
+
+                if ret_val == menu.EXIT_GAME:
                     self.pause = False
+                    return False
+                elif ret_val == menu.BACK or ret_val == menu.EXIT_MENU:
+                    self.pause = False
+                
 
             # blit to screen
             blit_entiites()
             
 
-            # increase enemy difficulty
-            coeff_calculate()
+            # increase enemy difficulty if not paused
+            if self.pause == False:
+                coeff_calculate()
 
             # player death
             if len(players) == 0:

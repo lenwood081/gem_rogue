@@ -7,7 +7,7 @@ class Button(pygame.sprite.Sprite):
         self.pos = Point(x, y)
 
         # text
-        self.font = pygame.font.Font(None, 64)
+        self.font = pygame.font.Font(None, font_size)
         self.button_text = pygame.font.Font.render(self.font, text, 1, (20, 20, 20))
 
         # up down top left for padding
