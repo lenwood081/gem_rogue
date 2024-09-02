@@ -1,11 +1,14 @@
 from Actions.Action import Action
-from config import FRAMERATE
+from config import (FRAMERATE, SCALE_FACOTOR)
 from classes.Point import Point
+from classes.Direction import Direction
+from classes.Glow import Glow
+import pygame
 
 # TODO add animations
 
 class Dash(Action):
-    def __init__(self, cooldown, charges, own_object):
+    def __init__(self, cooldown, charges, own_object, angle):
         super().__init__(cooldown, charges, "dash", 0.1)
 
         # briefly significantly increase player speed
@@ -29,12 +32,27 @@ class Dash(Action):
         # image, pos_division, alpha tuple
         self.image_list = []
 
+        # icon
+        self.angle = angle
+        self.pos = self.own_object.pos.copy()
+        self.offset = 25 * SCALE_FACOTOR
+
+        # image
+        self.base_image_active = pygame.transform.scale(pygame.image.load("assets/Equipment/Dash_ready.png").convert_alpha(), (16*SCALE_FACOTOR, 16*SCALE_FACOTOR))
+        self.base_image_deactive = pygame.transform.scale(pygame.image.load("assets/Equipment/Dash_not_ready.png").convert_alpha(), (16*SCALE_FACOTOR, 16*SCALE_FACOTOR))
+        self.image = self.base_image_active
+        self.hitbox_rect = self.base_image_active.get_rect(center=(
+            self.pos.x + own_object.cam_offset.x, 
+            -self.pos.y + own_object.cam_offset.y
+        ))
+        self.rect = self.hitbox_rect.copy()
+
     # setup images
     def setup_images(self):
         self.image_list.clear()
         for i in range(10):
             pos = self.start_pos.copy()
-            pos.move(self.total_vec.x/(1.2+0.2*i), self.total_vec.y/(1.2+0.2*i))
+            pos.move(self.total_vec.x/(1+0.3*i), self.total_vec.y/(1+0.3*i))
             self.image_list.append((self.base_image, pos, 255/(2 + 0.2*i)))
 
     # dash
@@ -62,12 +80,13 @@ class Dash(Action):
         if self.activated:
             self.move_normal = False
             self.own_object.set_speed(4)
-            self.own_object.velocity.x = self.own_object.speed * self.target.x * dt
-            self.own_object.velocity.y = self.own_object.speed * self.target.y * dt
 
             # for dash animation
             self.total_vec.move(self.own_object.velocity.x, self.own_object.velocity.y)
             self.setup_images()
+
+            self.own_object.velocity.x = self.own_object.speed * self.target.x * dt
+            self.own_object.velocity.y = self.own_object.speed * self.target.y * dt            
         else:
             self.own_object.set_speed(0)
             self.time = self.time_between
@@ -80,6 +99,32 @@ class Dash(Action):
     def draw(self, screen):
         super().draw(screen)
 
+        # rotate image
+        self.base_image_use = self.base_image_deactive
+        
+        if self.check_active():
+            self.base_image_use = self.base_image_active
+
+        unit_vector = Point.rotate_unit_vector_flip(self.own_object.target_unit_vector, self.angle, self.own_object.front.dir)
+        self.pos.x = self.own_object.pos.x + self.offset * unit_vector.x
+        self.pos.y = self.own_object.pos.y + self.offset * unit_vector.y
+
+        # face target
+        self.image = Direction.rotate_with_flip(self.own_object.front.dir, self.base_image_use)
+        self.rect = self.image.get_rect(center=self.hitbox_rect.center)
+        self.hitbox_rect.center = (self.pos.x + self.own_object.cam_offset.x, -self.pos.y + self.own_object.cam_offset.y)
+        self.rect.center = self.hitbox_rect.center
+
+        if self.check_active():
+            # give it a small glow
+            screen.blit(Glow.circle_image_add(12*SCALE_FACOTOR), (
+                self.rect.centerx - 12*SCALE_FACOTOR,
+                self.rect.centery - 12*SCALE_FACOTOR,
+            ), special_flags=pygame.BLEND_RGBA_ADD)
+
+        screen.blit(self.image, self.rect)
+
+        # silohette images
         cam_offset = self.own_object.cam_offset
         for image in self.image_list:
             rect = image[0].get_rect(center = (

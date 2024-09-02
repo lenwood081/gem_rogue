@@ -94,19 +94,18 @@ class Player(ItemHolder):
         self.enemy_group = None
 
         # allows wall going through
-        self.trans = True
+        self.trans = False
 
         # actions
         self.action_key_array = []
-        self.actions.append(Dash(2, 3, self))
+        self.actions.append(Dash(4, 3, self, math.pi/2))
         self.action_key_array.append(KMOD_LSHIFT)
+
         self.actions.append(WeaponFire(1, "Plasma Gun", self, PlasmaGun, math.pi/8))
         self.action_key_array.append(MOUSE1)
         self.actions.append(WeaponFire(1, "Plasma Gun", self, PlasmaGun, -math.pi/8))
         self.action_key_array.append(MOUSE1)
         self.actions.append(WeaponFire(1, "Plasma Gun", self, PlasmaGun, -math.pi/3))
-        self.action_key_array.append(MOUSE1)
-        self.actions.append(WeaponFire(1, "Plasma Gun", self, PlasmaGun, math.pi/3))
         self.action_key_array.append(MOUSE1)
         
         
@@ -163,10 +162,13 @@ class Player(ItemHolder):
                 if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
                     # top
                     if vel_y > 0:
+                        self.velocity.y = self.pos.y + (tile.pos.y - tile.height - self.height/2)
                         self.pos.y = tile.pos.y - tile.height - self.height/2
                     # bottom
                     elif vel_y < 0:
+                        self.velocity.y = self.pos.y + (tile.pos.y + self.height/2)
                         self.pos.y = tile.pos.y + self.height/2
+
                     y_safe = False
                     break
 
@@ -182,9 +184,11 @@ class Player(ItemHolder):
                 if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
                     # left hand edge
                     if vel_x > 0:
+                        self.velocity.x = self.pos.x + (tile.pos.x - self.width/2)
                         self.pos.x = tile.pos.x - self.width/2
                     # right hand side
                     elif vel_x < 0:
+                        self.velocity.x = self.pos.x + (tile.pos.x + tile.width + self.width/2 )
                         self.pos.x = tile.pos.x + tile.width + self.width/2 
                     x_safe = False
                     break
@@ -321,9 +325,13 @@ class Player(ItemHolder):
 
     # leveling up
     def level_up_player(self):
+
         self.level_up()
         # eponentual
         self.exp_to_level *= 2 
+
+# -------------------------------- Action skills -----------------------------------------------
+
 
 
 

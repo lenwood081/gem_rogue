@@ -34,8 +34,7 @@ class Game:
         # game loop
         running = True
 
-        # menu manager
-        menu = PauseMenu()
+        
 
         # game clock
         clock = pygame.time.Clock()
@@ -53,6 +52,9 @@ class Game:
         players = pygame.sprite.Group()
         player = Player(projectiles)
         players.add(player)
+        
+        # menu manager
+        menu = PauseMenu(player)
 
         # camera
         camera = Camera(player.pos)
