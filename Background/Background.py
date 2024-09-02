@@ -24,7 +24,6 @@ class Background:
         #boundary[5][5] = 0
         self.boundary_tiles = TileMap(boundary, ["assets/background/boundary_box.png"], Point(-tile_dimensions[0], tile_dimensions[1]))
         self.boundary_tiles.add_collisions(collisions_group)
-        self.boundary_tiles.shoot_through(5, 5, True)
 
         # for effects
         self.surf = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))

@@ -1,4 +1,4 @@
-import math
+from effects.Particle import HollowParticle
 from Actions.Action import Action
 from config import (FRAMERATE, SCALE_FACOTOR)
 from utility.Point import Point
@@ -13,6 +13,9 @@ class Dash(Action):
         super().__init__(cooldown, charges, parent, "dash", 0.1)
 
         self.class_name = "Utility"
+
+        # get reference to particel group
+        self.particle_group = parent.particle_group
 
         # time between activations
         self.time_between = 0.05 * FRAMERATE
@@ -39,6 +42,8 @@ class Dash(Action):
         self.velocity = Point(0, 0)
         self.speed = self.parent.speed*0.9
         self.too_far = False
+        self.reavtivate = True
+        self.activate_particle = None
 
         # image
         self.base_image_active = pygame.transform.scale(pygame.image.load("assets/Equipment/Dash_ready.png").convert_alpha(), (12*SCALE_FACOTOR, 12*SCALE_FACOTOR))
@@ -108,6 +113,14 @@ class Dash(Action):
         
         if self.check_active():
             self.base_image_use = self.base_image_active
+            if self.reavtivate == False:
+                self.activate_particle = HollowParticle(80, self.pos.x, self.pos.y, duration=0.1, width=3, alpha=200, follow=True)
+                self.particle_group.add(self.activate_particle)
+            self.reavtivate = True
+        else:
+            self.reavtivate = False
+
+        
 
         unit_vector = Point.rotate_unit_vector_flip(self.parent.target_unit_vector, self.angle, self.parent.front.dir)
         par_pos = Point(self.parent.pos.x + self.offset * unit_vector.x, self.parent.pos.y + self.offset * unit_vector.y)
@@ -125,6 +138,10 @@ class Dash(Action):
                 self.too_far = True
             self.pos.x -= self.velocity.x * self.speed * self.parent.dt
             self.pos.y -= self.velocity.y * self.speed * self.parent.dt
+
+        # particle follow effect
+        if self.activate_particle:
+            self.activate_particle.update_with_follow(self.parent.dt, self.pos.x, self.pos.y)
 
         # face target
         self.image = Direction.rotate_with_flip(self.parent.front.dir, self.base_image_use)

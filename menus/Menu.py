@@ -26,7 +26,6 @@ class Menu:
         self.EXIT_MENU = "exit"
         self.BACK = "back"
 
-
     # draw method should be overriden
     def draw(self, screen):
         if self.current_menu == None:

@@ -6,7 +6,7 @@ class Quads(Item):
     def __init__(self, id):
         super().__init__("Quads", "Passive", id)
 
-        self.speed_increase = 2
+        self.speed_increase = 1.05
         
 
     # produce effect

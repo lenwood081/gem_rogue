@@ -8,7 +8,7 @@ class PlasmaGunItem(Item):
     def __init__(self, id):
         super().__init__("Plasma Gun", "Active", id)
         self.icon = pygame.transform.scale(pygame.image.load("assets/weapons/PlasmaGun1.png").convert_alpha(), (28*8, 16*8))
-        self.description = "Shoot balls of plasma instead of bullets, can hit multiple targets however have little to no knockback potentual."
+        self.description = "Shoot balls of plasma instead of bullets, can hit multiple targets however has little to no knockback potentual."
 
     # added item to item list, add item to actions list
     def connect(self, parent):

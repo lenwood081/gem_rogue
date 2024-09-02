@@ -9,6 +9,7 @@ from Directors.Enemy_Director_Instant import Enemy_Director_Instant
 from menus.Menu import PauseMenu
 from Camera.Camera import Camera
 from HUD.HealthBar import HealthBar
+from effects.Particle import HollowParticle
 from HUD.ExpBar import ExpBar
 from pygame.locals import (
     KEYDOWN,
@@ -34,7 +35,8 @@ class Game:
         # game loop
         running = True
 
-        
+        # particles
+        paritcles = pygame.sprite.Group()
 
         # game clock
         clock = pygame.time.Clock()
@@ -50,7 +52,7 @@ class Game:
 
         # player
         players = pygame.sprite.Group()
-        player = Player(projectiles)
+        player = Player(projectiles, paritcles)
         players.add(player)
         
         # menu manager
@@ -82,6 +84,8 @@ class Game:
         events = pygame.event.get()
         keys_pressed = pygame.key.get_pressed()
         mouse_pressed = pygame.mouse.get_pressed()
+
+      
 
         # ----------------------------------- code for functions that run in main loop -----------------------------------
         
@@ -126,6 +130,10 @@ class Game:
             if self.pause:
                 menu.draw(screen)
 
+             # particles
+            for particle in paritcles:
+                particle.draw(screen, camera.get_offset())
+
         def updates(dt):
             
             # player and camera
@@ -154,6 +162,10 @@ class Game:
             health.update(player.health, player.max_health)
             exp.update(player.level, player.exp_to_level, player.exp)
 
+            # particles
+            for particle in paritcles:
+                particle.update(dt)
+
         def coeff_calculate():
             self.time += 1
             equivalent_secounds = self.time / FRAMERATE
@@ -167,6 +179,7 @@ class Game:
         while running:
             dt = time.time() - last_time
             dt *= FRAMERATE
+            print(dt)
             last_time = time.time()
 
             # get inputs
@@ -190,7 +203,6 @@ class Game:
                 elif ret_val == menu.BACK or ret_val == menu.EXIT_MENU:
                     self.pause = False
                 
-
             # blit to screen
             blit_entiites()
             

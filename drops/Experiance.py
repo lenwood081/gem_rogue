@@ -10,8 +10,8 @@ class Experiance(pygame.sprite.Sprite):
 
         # center position
         self.pos = pos.copy()
-        self.width = 16*SCALE_FACOTOR
-        self.height = 16*SCALE_FACOTOR
+        self.width = 10*SCALE_FACOTOR
+        self.height = 10*SCALE_FACOTOR
 
         # decide on exp image
         images = ["assets/Drops/Ex.png"]

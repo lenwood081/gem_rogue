@@ -23,7 +23,7 @@ MOUSE1 = 0
 # TODO link weapon and projectile damage to player damage
 
 class Player(ItemHolder):
-    def __init__(self, projectile_group):
+    def __init__(self, projectile_group, particle_group):
         super(Player, self).__init__()
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
 
@@ -85,10 +85,9 @@ class Player(ItemHolder):
         self.exp = 0
         self.exp_to_level = 10
 
-        # projectile group
+        # groups
         self.projectile_group = projectile_group
-
-        # enemy_group
+        self.particle_group = particle_group
         self.enemy_group = None
 
         # allows wall going through
@@ -111,6 +110,13 @@ class Player(ItemHolder):
         self.pickup_item(PlasmaGunItem) 
         #self.pickup_item(PlasmaGunItem) 
         self.pickup_item(DashItem) 
+
+        self.pickup_item(Quads)
+        self.pickup_item(Quads)
+        self.pickup_item(Quads)
+        self.pickup_item(Quads)
+        self.pickup_item(Quads)
+        self.pickup_item(Quads)
 
         
         

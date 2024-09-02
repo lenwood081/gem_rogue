@@ -16,6 +16,7 @@ class ItemHolder(pygame.sprite.Sprite):
         # items!
         self.items = []
         self.current_id = 0
+        self.particle_group = None
 
         # width and height
         self.width = self.max_width = 23
@@ -46,6 +47,7 @@ class ItemHolder(pygame.sprite.Sprite):
         self.target_unit_vector = Point(0, 0)
         self.front = Direction(0)
         self.move_normal = True
+        self.projectile_group = None
 
         # attacking
         self.damage = self.max_damage = 1
