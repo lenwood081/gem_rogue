@@ -11,7 +11,7 @@ from config import *
 # TODO impliment knoockbacl with target unnit vector and strength
 
 class Enemy(ItemHolder):
-    def __init__(self, pos, animimations, size, experiance_group, projectile_group, enemy_group, cam_offset):
+    def __init__(self, pos, animimations, size, experiance_group, projectile_group, enemy_group, particle_group, cam_offset):
         super(Enemy, self).__init__()
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
 
@@ -45,6 +45,7 @@ class Enemy(ItemHolder):
         # drops
         self.experiance_group = experiance_group
         self.projectile_group = projectile_group
+        self.particle_group = particle_group
 
         self.cam_offset = cam_offset
         self.enemy_group = enemy_group

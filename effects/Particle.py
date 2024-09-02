@@ -27,6 +27,8 @@ class Particle(pygame.sprite.Sprite):
         self.time_alive += 1 / FRAMERATE * dt
 
 
+# ------------------------------------------------------------------------------------------
+
 class HollowParticle(Particle):
     def __init__(self, w, x, y, color=(0, 255, 0), duration=3, width=5, alpha=255, follow=False):
         super().__init__(w, w, x, y, duration=duration) 
@@ -71,6 +73,30 @@ class HollowParticle(Particle):
         self.radius_outside += self.radius_grow_rate * dt
         self.radius_inside = max(self.radius_outside - self.rad_width, 0)
 
+
+# ------------------------------------------------------------------------------------------
+
+class HitCircle(Particle):
+    def __init__(self, w, x, y, color=(1, 1, 1), duration=0.1, width=3, alpha=255):
+        super().__init__(w, w, x, y, duration=duration)
+
+        self.inner_color = color
+        self.outer_color = (255- color[0], 255- color[1], 255- color[2])
+
+        # two cicles, one is the border
+        self.radius_outside = w/2
+        self.radius_inside = w/2 - width
+        self.radius_grow_rate = (w/2 / self.duration) / FRAMERATE
+        self.blit_surf.set_colorkey((0, 0, 0))
+        self.blit_surf.set_alpha(alpha)
+
+    # update
+    def update(self, dt):
+        super().update(dt)
+
+        # circle drawing
+        pygame.draw.circle(self.blit_surf, self.outer_color, (self.width/2, self.height/2), self.radius_outside)
+        pygame.draw.circle(self.blit_surf, self.inner_color, (self.width/2, self.height/2), self.radius_inside)
         
 
     

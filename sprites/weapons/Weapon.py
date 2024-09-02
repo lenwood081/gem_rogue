@@ -27,7 +27,7 @@ class Weapon(pygame.sprite.Sprite):
         # general
         self.width = size[0]
         self.height = size[1]
-        self.angle_on_player = 0
+        self.angle_on_player = 0 
 
         # used to determine if firing
         self.start_fire = False

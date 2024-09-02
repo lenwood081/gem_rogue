@@ -72,10 +72,10 @@ class Game:
         enemies = pygame.sprite.Group()
     
         # enemey directors
-        instant_director = Enemy_Director_Instant(150, enemies, experiance.get_group(), projectiles, players, camera.get_offset())
-        fast_director = Enemy_Director_Continous(enemies, 5, experiance.get_group(), projectiles, players, camera.get_offset())
-        slow_director = Enemy_Director_Continous(enemies, 15, experiance.get_group(), projectiles, players, camera.get_offset())
-        big_wave_director = Enemy_Director_Continous(enemies, 60, experiance.get_group(), projectiles, players, camera.get_offset())
+        instant_director = Enemy_Director_Instant(150, enemies, experiance.get_group(), projectiles, paritcles, players, camera.get_offset())
+        fast_director = Enemy_Director_Continous(enemies, 5, experiance.get_group(), projectiles, paritcles, players, camera.get_offset())
+        slow_director = Enemy_Director_Continous(enemies, 15, experiance.get_group(), projectiles, paritcles, players, camera.get_offset())
+        big_wave_director = Enemy_Director_Continous(enemies, 60, experiance.get_group(), projectiles, paritcles, players, camera.get_offset())
 
         # spawn first enemys
         instant_director.activate(self.difficulty_coeff, player.pos)
@@ -143,9 +143,9 @@ class Game:
             player.update_after_camera(camera.get_offset(), enemies)
 
             # director
-            fast_director.update(self.difficulty_coeff, player.pos, camera.get_offset())
-            slow_director.update(self.difficulty_coeff, player.pos, camera.get_offset())
-            big_wave_director.update(self.difficulty_coeff, player.pos, camera.get_offset())
+            fast_director.update(self.difficulty_coeff, player.pos, camera.get_offset(), dt)
+            slow_director.update(self.difficulty_coeff, player.pos, camera.get_offset(), dt)
+            big_wave_director.update(self.difficulty_coeff, player.pos, camera.get_offset(), dt)
 
             # enemies
             for em in enemies:
