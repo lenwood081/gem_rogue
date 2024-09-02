@@ -45,7 +45,7 @@ class BlockRanged(Enemy):
         self.stutter_tolerance = 20
 
         # add gun
-        self.actions.append(WeaponFire(1, "Node Blaster", self, NodeBlaster, 0))
+        self.actions.append(WeaponFire(1, "Node Blaster", self, NodeBlaster))
 
     # move method override
     def move(self, unit_vector):

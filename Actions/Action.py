@@ -1,12 +1,14 @@
 from config import FRAMERATE
 
 class Action:
-    def __init__(self, cooldown, charges, name, duration=0):
+    def __init__(self, cooldown, charges, parent, name, duration=0):
         assert(charges > 0)
         assert(cooldown >= 0)
 
         # action name
         self.name = name
+        self.parent = parent
+        self.angle = 0
 
         # cooldown amount
         self.cooldown_time = cooldown * FRAMERATE
@@ -84,6 +86,10 @@ class Action:
     # retruns whether the action is active
     def already_active(self):
         return self.activated
+    
+    # change angle
+    def change_angle(self, angle):
+        self.angle = angle
         
 
         

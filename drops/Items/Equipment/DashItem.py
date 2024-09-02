@@ -1,16 +1,15 @@
 from drops.Items.Item import Item
-from sprites.weapons.Guns.PlasmaGun import PlasmaGun 
-from Actions.WeaponFire import WeaponFire 
+from Actions.Dash import Dash
 
-class PlasmaGunItem(Item): 
+class DashItem(Item): 
     def __init__(self, id):
-        super().__init__("Plasma Gun", "Weapon", id)
+        super().__init__("Dash", "Utility", id)
 
     # added item to item list, add item to actions list
     def connect(self, parent):
         super().connect(parent)
         
-        parent.actions.append(WeaponFire(1, "Plasma Gun", parent, PlasmaGun))
+        parent.actions.append(Dash(3, 3, parent))
         parent.determine_angles()
 
     # for when an item is removed

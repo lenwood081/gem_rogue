@@ -3,13 +3,11 @@ from config import *
 from classes.Point import Point
 from classes.Direction import Direction
 from classes.Glow import Glow
-from sprites.weapons.Guns.BasicGun import BasicGun
-from sprites.weapons.Guns.PlasmaGun import PlasmaGun
 from Animations.Animation import Animation
 from sprites.ItemHolder import ItemHolder
-from Actions.Dash import Dash
-from Actions.WeaponFire import WeaponFire 
 from drops.Items.Passive.Quads import Quads
+from drops.Items.Equipment.PlasmaGunItem import PlasmaGunItem
+from drops.Items.Equipment.DashItem import DashItem
 from pygame.locals import (
     K_w,
     K_a,
@@ -97,16 +95,22 @@ class Player(ItemHolder):
         self.trans = False
 
         # actions
+        self.angle = 0
         self.action_key_array = []
-        self.actions.append(Dash(4, 3, self, math.pi/2))
-        self.action_key_array.append(KMOD_LSHIFT)
+        
+        # action keys (order is inside then outside positive to negative)
+        self.action_key_array.append(MOUSE1) # pos2
+        self.action_key_array.append(MOUSE1) # pos1
+        self.action_key_array.append(MOUSE1) # pos3
+        self.action_key_array.append(KMOD_LSHIFT) # pos4
 
-        self.actions.append(WeaponFire(1, "Plasma Gun", self, PlasmaGun, math.pi/8))
-        self.action_key_array.append(MOUSE1)
-        self.actions.append(WeaponFire(1, "Plasma Gun", self, PlasmaGun, -math.pi/8))
-        self.action_key_array.append(MOUSE1)
-        self.actions.append(WeaponFire(1, "Plasma Gun", self, PlasmaGun, -math.pi/3))
-        self.action_key_array.append(MOUSE1)
+        # add active items
+        self.active_item_cap = 4
+        self.pickup_item(PlasmaGunItem) 
+        self.pickup_item(PlasmaGunItem) 
+        self.pickup_item(PlasmaGunItem) 
+        self.pickup_item(DashItem) 
+
         
         
 
@@ -332,7 +336,35 @@ class Player(ItemHolder):
 
 # -------------------------------- Action skills -----------------------------------------------
 
+    # for determining the angle to place the next skill (should change for weapons and utility)
+    def determine_angles(self):
+        # check not full
+        if len(self.actions) == 4:
+            pass
+            # determine which to switch out
 
+        # check which angles 0 -> math.pi/8, -math.pi/8 -> 0, math.pi/6, -math.pi/6 ->  math.pi/8, -math.pi/8, -math.pi/3, math.pi/3
+        odd_or_even = 0
+        if len(self.actions) % 2 == 0:
+            # even
+            print("even")
+            odd_or_even = 1
 
+        # change angles
+        curr_angle = odd_or_even * 1/10
+        past = 0
+        for i in range(len(self.actions)):
+            self.actions[past].change_angle(math.pi*curr_angle)
+            past += 1
+            if curr_angle != 0:
+                curr_angle *= -1
+                self.actions[past].change_angle(math.pi*curr_angle)
+                past += 1
+                curr_angle *= -1
+            else:
+                curr_angle = 1/8
 
+            if past == len(self.actions):
+                break
+            curr_angle *= 2 + odd_or_even * 1
 

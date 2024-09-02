@@ -3,7 +3,7 @@ from config import *
 
 # checks if a weapon can fire
 class WeaponFire(Action):
-    def __init__(self, charges, name, parent, type, angle):
+    def __init__(self, charges, name, parent, type):
         # weapon 
         self.weapon = type(parent.pos, parent.cam_offset, parent.projectile_group)
 
@@ -11,11 +11,10 @@ class WeaponFire(Action):
         cooldown = 1/(parent.attack_rate * self.weapon.fire_rate_mod)
 
         # Action constructer
-        super().__init__(cooldown, charges, name)
+        super().__init__(cooldown, charges, parent, name)
 
         # reference to parent
-        self.parent = parent
-        self.weapon.angle_on_player = angle
+        self.weapon.angle_on_player = 0
         self.fire = False
 
     # use method
@@ -41,4 +40,9 @@ class WeaponFire(Action):
     # draw method
     def draw(self, screen):
         self.weapon.draw(screen)
+
+    # angle
+    def change_angle(self, angle):
+        super().change_angle(angle)
+        self.weapon.angle_on_player = angle
 
