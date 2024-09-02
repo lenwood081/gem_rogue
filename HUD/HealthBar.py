@@ -1,5 +1,5 @@
 import pygame
-from classes.Point import Point
+from utility.Point import Point
 from config import (
     SCREEN_WIDTH,
 )

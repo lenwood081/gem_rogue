@@ -1,8 +1,8 @@
 import pygame
 import random
 import math
-from classes.Point import Point
-from classes.Direction import Direction
+from utility.Point import Point
+from utility.Direction import Direction
 from drops.Experiance import Experiance
 from sprites.ItemHolder import ItemHolder
 from Actions.CollideAttack import CollideAttack

@@ -1,8 +1,8 @@
 import pygame
 import random
-from classes.Point import Point
+from utility.Point import Point
 from config import SCALE_FACOTOR
-from classes.Glow import Glow
+from utility.Glow import Glow
 
 class Experiance(pygame.sprite.Sprite):
     def __init__(self, pos, amount):

@@ -1,6 +1,6 @@
 import pygame
 from sprites.projectiles.Projectile import Projectile
-from classes.Direction import Direction
+from utility.Direction import Direction
 from config import SCALE_FACOTOR
 
 class NodeBullet(Projectile):

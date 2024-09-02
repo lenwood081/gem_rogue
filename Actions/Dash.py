@@ -1,9 +1,9 @@
 import math
 from Actions.Action import Action
 from config import (FRAMERATE, SCALE_FACOTOR)
-from classes.Point import Point
-from classes.Direction import Direction
-from classes.Glow import Glow
+from utility.Point import Point
+from utility.Direction import Direction
+from utility.Glow import Glow
 import pygame
 
 # TODO add animations
@@ -43,6 +43,7 @@ class Dash(Action):
         # image
         self.base_image_active = pygame.transform.scale(pygame.image.load("assets/Equipment/Dash_ready.png").convert_alpha(), (12*SCALE_FACOTOR, 12*SCALE_FACOTOR))
         self.base_image_deactive = pygame.transform.scale(pygame.image.load("assets/Equipment/Dash_not_ready.png").convert_alpha(), (12*SCALE_FACOTOR, 12*SCALE_FACOTOR))
+        self.base_image_deactive.set_alpha(150)   
         self.image = self.base_image_active
         self.hitbox_rect = self.base_image_active.get_rect(center=(
             self.pos.x + parent.cam_offset.x, 

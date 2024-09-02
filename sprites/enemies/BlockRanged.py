@@ -1,7 +1,7 @@
 import math
 import random
 from sprites.enemies.Enemy import Enemy
-from classes.Point import Point
+from utility.Point import Point
 from sprites.weapons.Guns.NodeBlaster import NodeBlaster
 from Actions.WeaponFire import WeaponFire 
 from Animations.Animation import Animation

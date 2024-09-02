@@ -9,7 +9,7 @@ class DashItem(Item):
     def connect(self, parent):
         super().connect(parent)
         
-        parent.actions.append(Dash(3, 3, parent))
+        parent.actions.append(Dash(4, 3, parent))
         parent.determine_angles()
 
     # for when an item is removed

@@ -2,7 +2,7 @@ import pygame
 import numpy
 from Background.Tile import Tile
 from config import *
-from classes.Point import Point
+from utility.Point import Point
 
 class TileMap:
     # for purely visual

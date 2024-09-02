@@ -1,6 +1,6 @@
 from config import *
 import pygame
-from classes.Point import Point
+from utility.Point import Point
 
 class Tile(pygame.sprite.Sprite):
     def __init__(self, pos, image):

@@ -1,4 +1,4 @@
-from classes.Point import Point
+from utility.Point import Point
 from config import *
 
 # Camera position is the offset of the player and the screen

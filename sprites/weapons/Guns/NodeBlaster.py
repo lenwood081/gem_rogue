@@ -2,7 +2,7 @@ import pygame
 import math
 from sprites.weapons.Guns.Gun import Gun
 from sprites.projectiles.NodeBullet import NodeBullet
-from classes.Direction import Direction
+from utility.Direction import Direction
 from Animations.Animation import Animation
 from config import *
 

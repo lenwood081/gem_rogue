@@ -1,6 +1,6 @@
 import pygame
 import math
-from classes.Direction import Direction
+from utility.Direction import Direction
  
 # impliment global projectile group, so that ptojectiles continue to be updated after their propiagtors death
 

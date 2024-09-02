@@ -1,5 +1,5 @@
 import pygame
-from classes.Point import Point
+from utility.Point import Point
 from config import *
 from sprites.weapons.Guns.Gun import Gun
 from sprites.projectiles.WhiteBullet import WhiteBullet

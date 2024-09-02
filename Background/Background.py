@@ -1,6 +1,6 @@
 import pygame
 from config import *
-from classes.Point import Point
+from utility.Point import Point
 from Background.TileMap import TileMap
 
 # changed this to tiles (scaled by 2.5)

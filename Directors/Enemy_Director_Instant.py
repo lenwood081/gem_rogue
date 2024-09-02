@@ -1,7 +1,7 @@
 from Directors.Director import Director
 from Directors.Card import Card
 from Directors.Enemy_cards.EnemyCards import ENEMYCARDS
-from classes.Point import Point
+from utility.Point import Point
 from config import *
 
 

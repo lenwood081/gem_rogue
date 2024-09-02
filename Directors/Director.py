@@ -1,6 +1,6 @@
 import numpy
 import random
-from classes.Point import Point
+from utility.Point import Point
 from config import *
 
 # simplilar to how directors work in risk of rain 2

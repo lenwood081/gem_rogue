@@ -1,6 +1,6 @@
 import pygame
-from classes.Point import Point
-from classes.Direction import Direction
+from utility.Point import Point
+from utility.Direction import Direction
 from config import FRAMERATE
 
 class Weapon(pygame.sprite.Sprite):

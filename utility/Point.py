@@ -1,5 +1,5 @@
 import math
-from classes.Direction import Direction
+from utility.Direction import Direction
 
 # makes easier to control position
 class Point:

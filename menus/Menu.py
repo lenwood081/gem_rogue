@@ -90,6 +90,10 @@ class EquipmentWindow(Menu):
     def __init__(self, player):
         super().__init__(player)
 
+        # main buttons
+        self.add_button("Back", 200, 200, None)
+        
+        # item displays
         
 
         

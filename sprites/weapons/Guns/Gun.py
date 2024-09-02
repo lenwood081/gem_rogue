@@ -1,7 +1,7 @@
 import pygame
-from classes.Point import Point
+from utility.Point import Point
 from sprites.weapons.Weapon import Weapon
-from classes.Direction import Direction
+from utility.Direction import Direction
 
 class Gun(Weapon):
     def __init__(self, pos, cam_offset, idle_animaiton, fire_animation, muzzle_flash, size, projectile_group):

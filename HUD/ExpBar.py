@@ -1,6 +1,6 @@
 import pygame
 from config import *
-from classes.Point import Point
+from utility.Point import Point
 
 class ExpBar(pygame.sprite.Sprite):
     def __init__(self, player):

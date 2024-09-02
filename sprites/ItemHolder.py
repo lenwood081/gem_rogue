@@ -1,7 +1,7 @@
 import pygame
 from config import *
-from classes.Point import Point
-from classes.Direction import Direction
+from utility.Point import Point
+from utility.Direction import Direction
 import math
 
 # when using values from here remember for time realted ones to divide by framrate!!!

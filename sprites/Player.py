@@ -1,8 +1,8 @@
 import pygame
 from config import *
-from classes.Point import Point
-from classes.Direction import Direction
-from classes.Glow import Glow
+from utility.Point import Point
+from utility.Direction import Direction
+from utility.Glow import Glow
 from Animations.Animation import Animation
 from sprites.ItemHolder import ItemHolder
 from drops.Items.Passive.Quads import Quads

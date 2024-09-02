@@ -1,5 +1,5 @@
 import pygame
-from classes.Point import Point
+from utility.Point import Point
 
 class Button(pygame.sprite.Sprite):
     def __init__(self, text, x, y, font_size=32, padding=(20, 20, 20, 20)):
