@@ -337,7 +337,7 @@ class Player(ItemHolder):
 # -------------------------------- Action skills -----------------------------------------------
 
     # for determining the angle to place the next skill (should change for weapons and utility)
-    def determine_angles(self):
+    def personalise_angles(self, action_subset, rotation):
         # check not full
         if len(self.actions) == 4:
             pass
@@ -345,26 +345,34 @@ class Player(ItemHolder):
 
         # check which angles 0 -> math.pi/8, -math.pi/8 -> 0, math.pi/6, -math.pi/6 ->  math.pi/8, -math.pi/8, -math.pi/3, math.pi/3
         odd_or_even = 0
-        if len(self.actions) % 2 == 0:
+        if len(action_subset) % 2 == 0:
             # even
-            print("even")
             odd_or_even = 1
+
 
         # change angles
         curr_angle = odd_or_even * 1/10
         past = 0
-        for i in range(len(self.actions)):
-            self.actions[past].change_angle(math.pi*curr_angle)
+
+        for i in range(len(action_subset)):
+            action_subset[past].change_angle(math.pi*curr_angle+rotation)
             past += 1
             if curr_angle != 0:
                 curr_angle *= -1
-                self.actions[past].change_angle(math.pi*curr_angle)
+                action_subset[past].change_angle(math.pi*curr_angle+rotation)
                 past += 1
                 curr_angle *= -1
             else:
                 curr_angle = 1/8
 
-            if past == len(self.actions):
+            if past == len(action_subset):
                 break
             curr_angle *= 2 + odd_or_even * 1
+
+    def determine_angles(self):
+        weapons = [action for action in self.actions if action.class_name == "Weapon"]
+        utility = [action for action in self.actions if action.class_name == "Utility"]
+        self.personalise_angles(weapons, 0)
+        self.personalise_angles(utility, math.pi)
+
 

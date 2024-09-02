@@ -6,13 +6,14 @@ class WeaponFire(Action):
     def __init__(self, charges, name, parent, type):
         # weapon 
         self.weapon = type(parent.pos, parent.cam_offset, parent.projectile_group)
+        
 
         # determine cooldown based on attack_rate
         cooldown = 1/(parent.attack_rate * self.weapon.fire_rate_mod)
 
         # Action constructer
         super().__init__(cooldown, charges, parent, name)
-
+        self.class_name = "Weapon"
         # reference to parent
         self.weapon.angle_on_player = 0
         self.fire = False

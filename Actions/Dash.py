@@ -12,6 +12,8 @@ class Dash(Action):
     def __init__(self, cooldown, charges, parent):
         super().__init__(cooldown, charges, parent, "dash", 0.1)
 
+        self.class_name = "Utility"
+
         # time between activations
         self.time_between = 0.05 * FRAMERATE
         self.time = 0
@@ -35,7 +37,8 @@ class Dash(Action):
         self.pos = self.parent.pos.copy()
         self.offset = 30 * SCALE_FACOTOR
         self.velocity = Point(0, 0)
-        self.speed = self.parent.speed/2
+        self.speed = self.parent.speed*0.9
+        self.too_far = False
 
         # image
         self.base_image_active = pygame.transform.scale(pygame.image.load("assets/Equipment/Dash_ready.png").convert_alpha(), (12*SCALE_FACOTOR, 12*SCALE_FACOTOR))
@@ -105,15 +108,20 @@ class Dash(Action):
         if self.check_active():
             self.base_image_use = self.base_image_active
 
-        unit_vector = Point.rotate_unit_vector_flip(self.parent.target_unit_vector, self.angle + math.pi, self.parent.front.dir)
+        unit_vector = Point.rotate_unit_vector_flip(self.parent.target_unit_vector, self.angle, self.parent.front.dir)
         par_pos = Point(self.parent.pos.x + self.offset * unit_vector.x, self.parent.pos.y + self.offset * unit_vector.y)
         self.speed = self.parent.speed* 0.9
+        if self.too_far:
+            self.speed = self.parent.speed* 1.3
         self.velocity = Point.unit_vector(self.pos, par_pos)
 
         # check if close enough
         if Point.euclidian_dist(self.pos, par_pos) < self.speed:
             self.pos = par_pos.copy()
+            self.too_far = False
         else:
+            if Point.euclidian_dist(self.pos, par_pos) > 250:
+                self.too_far = True
             self.pos.x -= self.velocity.x * self.speed * self.parent.dt
             self.pos.y -= self.velocity.y * self.speed * self.parent.dt
 

@@ -5,6 +5,8 @@ class Action:
         assert(charges > 0)
         assert(cooldown >= 0)
 
+        self.class_name = "None"
+
         # action name
         self.name = name
         self.parent = parent

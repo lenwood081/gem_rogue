@@ -5,10 +5,11 @@ import pygame
 
 class CollideAttack(Action):
     def __init__(self, cooldown, charges, parent, enemy_object):
-        super().__init__(cooldown, charges, parent, "collide attack")
+        super().__init__(cooldown, charges, parent, "Collide Attack")
 
         # two ItemHolder subclass objects
         self.enemy_object = enemy_object
+        
     
     # set enemy
     def set_new_enemy(self, enemy_object):
