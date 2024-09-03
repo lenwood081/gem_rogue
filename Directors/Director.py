@@ -2,13 +2,15 @@ import numpy
 import random
 from utility.Point import Point
 from config import *
+from Background.TileMap import TileMap
+from Background.Tile import Tile
 
 # simplilar to how directors work in risk of rain 2
 
 # for both spawners make sure to take into account player pos
 
 class Director:
-    def __init__(self, credits, group, experiance_group, projectile_group, particle_group, players, cam_offset):
+    def __init__(self, credits, group, experiance_group, projectile_group, particle_group, players, spawn_map:TileMap, cam_offset):
         # directors current credits
         self.credits = credits
         self.credit_multiplier = 1
@@ -18,6 +20,8 @@ class Director:
         self.experiance_group = experiance_group
         self.projectile_group = projectile_group
         self.particle_group = particle_group
+        self.players = players
+        self.spawn_map = spawn_map
 
         # spawm count
         self.spawn_count = group.__len__()
@@ -26,30 +30,51 @@ class Director:
         self.index = -1
 
         # player aura
-        self.players = players
         self.player = None
         # select a player
         for player in players:
             self.player = player
         self.player_aura = 300
+
         self.player_pos = player.pos
         self.cam_offset = cam_offset
 
     # for spawning
     def spawn_monster(self, cards):
-        #print("before", self.credits)
         self.credits -= cards[self.index].cost
-        # create a buffer for monsters so they dont glitch out of bounds
-        monster_pos = Point(random.randint(64, BG_WIDTH - 64), random.randint(-BG_HEIGHT+ 64, -64))
-        # make sure point is not too close to player
+
+        # decide on a random spawnable tile
+        tileP = None;
+
         while True:
-            if monster_pos.x < self.player_pos.x - self.player_aura or monster_pos.x > self.player_pos.x + self.player_aura:
-                if monster_pos.y < self.player_pos.y - 300 or monster_pos.y > self.player_pos.y + self.player_aura:
+            attempt_index = random.randint(0, self.spawn_map.length)
+            i = 0
+            breaking = False
+            for tile_row in self.spawn_map.tile_array:
+                for tile in tile_row:
+                    if i == attempt_index:
+                        tileP = tile
+                        breaking = True
+                        break
+                    i += 1
+                if breaking:
                     break;
-            monster_pos = Point(random.randint(64, BG_WIDTH - 64), random.randint(-BG_HEIGHT+ 64, -64))
-        self.group.add(cards[self.index].type(monster_pos, self.experiance_group, self.projectile_group, self.players, self.particle_group, self.cam_offset))
-        #print("Spawning", cards[self.index].name)
-        #print("after", self.credits)
+
+            # check spawing is false
+            if isinstance(tileP, Tile) == False:
+                continue;
+            
+            if tileP.spawning:
+                continue;
+
+            # else spawn
+            break;
+
+
+        # spawn there, indicate first (spawning circle)
+
+        tileP.spawning = True
+        tileP.enemy = cards[self.index].type(tileP.center_pos, self.experiance_group, self.projectile_group, self.players, self.particle_group, self.cam_offset)
 
     # choose monster
     def choose_monster_index(self, cards):

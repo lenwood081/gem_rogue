@@ -2,6 +2,7 @@ import pygame
 import time
 from config import *
 from Background.Background import Background
+from Background.Stage import Stage
 from sprites.Player import Player
 from drops.ExperianceControl import ExperianceControl
 from Directors.Enemy_Director_Continous import Enemy_Director_Continous
@@ -47,9 +48,7 @@ class Game:
         # projectiles group
         projectiles = pygame.sprite.Group()
 
-        # background
-        bg = Background(boundary)
-
+        
         # player
         players = pygame.sprite.Group()
         player = Player(projectiles, paritcles)
@@ -70,15 +69,19 @@ class Game:
         
         # enemies
         enemies = pygame.sprite.Group()
+        
+        # background
+        stage1 = Stage(boundary, paritcles, enemies, experiance.get_group(), projectiles, players, camera.get_offset(), self.difficulty_coeff)
+
     
         # enemey directors
-        instant_director = Enemy_Director_Instant(150, enemies, experiance.get_group(), projectiles, paritcles, players, camera.get_offset())
-        fast_director = Enemy_Director_Continous(enemies, 5, experiance.get_group(), projectiles, paritcles, players, camera.get_offset())
-        slow_director = Enemy_Director_Continous(enemies, 15, experiance.get_group(), projectiles, paritcles, players, camera.get_offset())
-        big_wave_director = Enemy_Director_Continous(enemies, 60, experiance.get_group(), projectiles, paritcles, players, camera.get_offset())
+        #instant_director = Enemy_Director_Instant(150, enemies, experiance.get_group(), projectiles, paritcles, players, camera.get_offset())
+        #fast_director = Enemy_Director_Continous(enemies, 5, experiance.get_group(), projectiles, paritcles, players, camera.get_offset())
+        #slow_director = Enemy_Director_Continous(enemies, 15, experiance.get_group(), projectiles, paritcles, players, camera.get_offset())
+        #big_wave_director = Enemy_Director_Continous(enemies, 60, experiance.get_group(), projectiles, paritcles, players, camera.get_offset())
 
         # spawn first enemys
-        instant_director.activate(self.difficulty_coeff, player.pos)
+        #instant_director.activate(self.difficulty_coeff, player.pos)
 
         # event varibles
         events = pygame.event.get()
@@ -105,7 +108,7 @@ class Game:
             screen.fill(BLACK)
 
             # blit calls
-            bg.draw(screen, camera.get_offset())
+            stage1.draw(screen, camera.get_offset())
 
             experiance.draw(screen, camera.get_offset())
             
@@ -120,7 +123,7 @@ class Game:
                 proj.draw(screen)
 
             # after rendering effects
-            bg.draw_after(screen, camera.get_offset())
+            stage1.draw_after(screen)
             
             # hud
             health.draw(screen)
@@ -139,13 +142,13 @@ class Game:
             # player and camera
             player.update(keys_pressed, mouse_pressed, boundary, dt)
             camera.update(player.pos)
-            bg.update(camera.get_offset())
+            stage1.update(camera.get_offset(), dt)
             player.update_after_camera(camera.get_offset(), enemies)
 
             # director
-            fast_director.update(self.difficulty_coeff, player.pos, camera.get_offset(), dt)
-            slow_director.update(self.difficulty_coeff, player.pos, camera.get_offset(), dt)
-            big_wave_director.update(self.difficulty_coeff, player.pos, camera.get_offset(), dt)
+            #fast_director.update(self.difficulty_coeff, player.pos, camera.get_offset(), dt)
+            #slow_director.update(self.difficulty_coeff, player.pos, camera.get_offset(), dt)
+            #big_wave_director.update(self.difficulty_coeff, player.pos, camera.get_offset(), dt)
 
             # enemies
             for em in enemies:

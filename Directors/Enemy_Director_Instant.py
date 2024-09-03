@@ -6,17 +6,16 @@ from config import *
 
 
 class Enemy_Director_Instant(Director):
-    def __init__(self, credits, group, experiance_group, projectile_group, particle_group, players, cam_offset):
+    def __init__(self, credits, group, experiance_group, projectile_group, particle_group, players, spawn_map, cam_offset):
         # get credits from user
-        super(Enemy_Director_Instant, self).__init__(credits, group, experiance_group, projectile_group, particle_group, players, cam_offset)
+        super(Enemy_Director_Instant, self).__init__(credits, group, experiance_group, projectile_group, particle_group, players, spawn_map, cam_offset)
 
         # counts the number of the current monster being spawned (if above 4, pick a new one)
         self.count_monster = 0
         self.base_credits = credits        
 
 
-    def activate(self, coeff, player_pos):
-        self.player_pos = player_pos.copy()
+    def activate(self, coeff):
 
         # assign credits
         self.credits = self.credits * coeff

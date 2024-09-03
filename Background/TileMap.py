@@ -6,18 +6,19 @@ from utility.Point import Point
 
 class TileMap:
     # for purely visual
-    def __init__(self, index_array, tile_types, pos):
+    def __init__(self, index_array, tile_types, pos, enemy_group):
         assert(len(tile_types) > 0)
         # topleft
         self.pos = pos.copy()
 
         # height width
-        temp_tile = Tile(Point(0,0), tile_types[0])
+        temp_tile = Tile(Point(0,0), tile_types[0], enemy_group)
         self.width = temp_tile.width
         self.height = temp_tile.height
 
         # tile array
-        self.tile_array = numpy.array([[Tile(Point(i * self.width + self.pos.x, j * -self.height + self.pos.y), tile_types[index_array[i][j]]) if index_array[i][j] >= 0 else 0 for j in range(len(index_array[i]))] for i in range(len(index_array))])
+        self.tile_array = numpy.array([[Tile(Point(i * self.width + self.pos.x, j * -self.height + self.pos.y), tile_types[index_array[i][j]], enemy_group) if index_array[i][j] >= 0 else 0 for j in range(len(index_array[i]))] for i in range(len(index_array))])
+        self.length = len(self.tile_array) * len(self.tile_array[0])
 
     # make shoot though
     def shoot_through(self, x, y, bool):
@@ -51,10 +52,10 @@ class TileMap:
             x += self.width
 
     # for boundary boes so that the rect is always updated
-    def update(self, cam_offset):
+    def update(self, cam_offset, dt):
         for tile_column in self.tile_array:
             for tile in tile_column:
                 # checks not
                 if isinstance(tile , Tile):
-                    tile.update(cam_offset)
+                    tile.update(cam_offset, dt)
 

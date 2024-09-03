@@ -6,9 +6,9 @@ import random
 # basic Enemy director, for continuous spawns (can be fast or slow)
 
 class Enemy_Director_Continous(Director):
-    def __init__(self, group, wave_freq, experiance_group, projectile_group, particle_group, players, cam_offset):
+    def __init__(self, group, wave_freq, experiance_group, projectile_group, particle_group, players, spawn_map, cam_offset):
         # continous directors start with zero credits
-        super(Enemy_Director_Continous, self).__init__(0, group, experiance_group, projectile_group, particle_group, players, cam_offset)
+        super(Enemy_Director_Continous, self).__init__(0, group, experiance_group, projectile_group, particle_group, players, spawn_map, cam_offset)
 
         # spawn intervals
         self.time_till_next_spawn = 0
