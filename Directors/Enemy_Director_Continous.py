@@ -19,12 +19,10 @@ class Enemy_Director_Continous(Director):
 
         
     # update loop
-    def update(self, coeff, player_pos, cam_offset, dt):
+    def update(self, coeff, cam_offset, dt):
         self.cam_offset = cam_offset
         self.spawn_diff_time = random.uniform(0.1*FRAMERATE, FRAMERATE)
         self.wave_diff_time = random.uniform(self.wave_freq*FRAMERATE, (self.wave_freq + self.wave_freq/2)*FRAMERATE)
-
-        self.player_pos = player_pos.copy()
 
         # credit increase per framerate
         self.credits += (self.credit_multiplier * (1+coeff))/FRAMERATE

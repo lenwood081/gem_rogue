@@ -73,16 +73,6 @@ class Game:
         # background
         stage1 = Stage(boundary, paritcles, enemies, experiance.get_group(), projectiles, players, camera.get_offset(), self.difficulty_coeff)
 
-    
-        # enemey directors
-        #instant_director = Enemy_Director_Instant(150, enemies, experiance.get_group(), projectiles, paritcles, players, camera.get_offset())
-        #fast_director = Enemy_Director_Continous(enemies, 5, experiance.get_group(), projectiles, paritcles, players, camera.get_offset())
-        #slow_director = Enemy_Director_Continous(enemies, 15, experiance.get_group(), projectiles, paritcles, players, camera.get_offset())
-        #big_wave_director = Enemy_Director_Continous(enemies, 60, experiance.get_group(), projectiles, paritcles, players, camera.get_offset())
-
-        # spawn first enemys
-        #instant_director.activate(self.difficulty_coeff, player.pos)
-
         # event varibles
         events = pygame.event.get()
         keys_pressed = pygame.key.get_pressed()
@@ -122,6 +112,10 @@ class Game:
             for proj in projectiles:
                 proj.draw(screen)
 
+            # particles
+            for particle in paritcles:
+                particle.draw(screen, camera.get_offset())  
+
             # after rendering effects
             stage1.draw_after(screen)
             
@@ -133,22 +127,16 @@ class Game:
             if self.pause:
                 menu.draw(screen)
 
-             # particles
-            for particle in paritcles:
-                particle.draw(screen, camera.get_offset())
-
         def updates(dt):
             
             # player and camera
             player.update(keys_pressed, mouse_pressed, boundary, dt)
             camera.update(player.pos)
-            stage1.update(camera.get_offset(), dt)
-            player.update_after_camera(camera.get_offset(), enemies)
 
-            # director
-            #fast_director.update(self.difficulty_coeff, player.pos, camera.get_offset(), dt)
-            #slow_director.update(self.difficulty_coeff, player.pos, camera.get_offset(), dt)
-            #big_wave_director.update(self.difficulty_coeff, player.pos, camera.get_offset(), dt)
+            # stage
+            stage1.update(camera.get_offset(), dt, self.difficulty_coeff)
+
+            player.update_after_camera(camera.get_offset(), enemies)
 
             # enemies
             for em in enemies:
@@ -169,8 +157,8 @@ class Game:
             for particle in paritcles:
                 particle.update(dt)
 
-        def coeff_calculate():
-            self.time += 1
+        def coeff_calculate(dt):
+            self.time += 1 + dt
             equivalent_secounds = self.time / FRAMERATE
             self.difficulty_coeff = equivalent_secounds/60 * (self.difficulty_factor) * 0.2 + 1
 
@@ -199,7 +187,6 @@ class Game:
                 updates(dt)
             else:
                 ret_val = menu.update(events)
-
                 if ret_val == menu.EXIT_GAME:
                     self.pause = False
                     return False
@@ -212,7 +199,7 @@ class Game:
 
             # increase enemy difficulty if not paused
             if self.pause == False:
-                coeff_calculate()
+                coeff_calculate(dt)
 
             # player death
             if len(players) == 0:

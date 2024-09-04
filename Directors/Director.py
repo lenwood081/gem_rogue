@@ -29,14 +29,6 @@ class Director:
         # current spawn card index (-1 means new card must be selected)
         self.index = -1
 
-        # player aura
-        self.player = None
-        # select a player
-        for player in players:
-            self.player = player
-        self.player_aura = 300
-
-        self.player_pos = player.pos
         self.cam_offset = cam_offset
 
     # for spawning
@@ -45,7 +37,6 @@ class Director:
 
         # decide on a random spawnable tile
         tileP = None;
-
         while True:
             attempt_index = random.randint(0, self.spawn_map.length)
             i = 0
@@ -69,12 +60,9 @@ class Director:
 
             # else spawn
             break;
-
-
+        
         # spawn there, indicate first (spawning circle)
-
-        tileP.spawning = True
-        tileP.enemy = cards[self.index].type(tileP.center_pos, self.experiance_group, self.projectile_group, self.players, self.particle_group, self.cam_offset)
+        tileP.spawn_enemy( cards[self.index].type(tileP.center_pos, self.experiance_group, self.projectile_group, self.players, self.particle_group, self.cam_offset))
 
     # choose monster
     def choose_monster_index(self, cards):

@@ -39,27 +39,40 @@ class Stage:
         # spawn only on tilemap tiles where spawnable = True
 
         instant_director = Enemy_Director_Instant(150, self.enemies, self.experiance, self.projectiles, self.particles, self.players, self.base_tiles, cam_offset)
-        fast_director = Enemy_Director_Continous(self.enemies, 5, self.experiance, self.projectiles, self.particles, self.players, self.base_tiles, cam_offset)
+        self.fast_director = Enemy_Director_Continous(self.enemies, 2, self.experiance, self.projectiles, self.particles, self.players, self.base_tiles, cam_offset)
+        self.intermetdiate_director = Enemy_Director_Continous(self.enemies, 9, self.experiance, self.projectiles, self.particles, self.players, self.base_tiles, cam_offset)
+        self.slow_director = Enemy_Director_Continous(self.enemies, 20, self.experiance, self.projectiles, self.particles, self.players, self.base_tiles, cam_offset)
 
         instant_director.activate(diff_coeff)
+
+        # for effects
+        self.surf = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.surf.fill((50, 50, 50))
+        self.surf2 = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.surf2.fill(BG_OVERLAY_SHADE)
  
 
     # update
-    def update(self, cam_offset, dt):
+    def update(self, cam_offset, dt, diff_coeff):
+        # update enemy spawners
+        self.fast_director.update(diff_coeff, cam_offset, dt)
+        self.intermetdiate_director.update(diff_coeff, cam_offset, dt)
+        self.slow_director.update(diff_coeff, cam_offset, dt)
+
         # update boundary tiles
         self.boundary_tiles.update(cam_offset, dt)
         
         # update enemy spawners 
         self.base_tiles.update(cam_offset, dt)
 
-        pass
-
     def draw(self, screen, cam_offset):
         # blit stage_tiles 
         self.base_tiles.draw(screen, cam_offset)
         self.boundary_tiles.draw(screen, cam_offset)
 
-
+        # makes it dark
+        screen.blit(self.surf, (0,0), special_flags=pygame.BLEND_RGBA_SUB)
 
     def draw_after(self, screen):
+        screen.blit(self.surf, (0,0), special_flags=pygame.BLEND_RGBA_SUB)
         pass

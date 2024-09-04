@@ -16,7 +16,6 @@ class Enemy_Director_Instant(Director):
 
 
     def activate(self, coeff):
-
         # assign credits
         self.credits = self.credits * coeff
 

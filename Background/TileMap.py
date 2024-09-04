@@ -47,7 +47,7 @@ class TileMap:
                         if y + self.height + cam_offset.y >= 0 and y + cam_offset.y <= SCREEN_HEIGHT:
                             # checks is a tile
                             if isinstance(tile, Tile):
-                                tile.draw(screen, cam_offset)
+                                tile.draw(screen)
                         y += self.height
             x += self.width
 

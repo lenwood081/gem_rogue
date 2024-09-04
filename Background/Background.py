@@ -5,6 +5,9 @@ from Background.TileMap import TileMap
 
 # changed this to tiles (scaled by 2.5)
 
+# achived code
+
+"""
 class Background:
     def __init__(self, collisions_group):
         # ------------------------------- tiles for background (visual and trodden on) -------------------------------
@@ -46,4 +49,4 @@ class Background:
     def draw_after(self, screen, cam_offset):
         screen.blit(self.surf, (0,0), special_flags=pygame.BLEND_RGBA_SUB)
         pass
-        
+"""
