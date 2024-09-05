@@ -35,7 +35,7 @@ class Stage:
 
         # tilemap
         self.generate_stage(3000, 3000, 0.7)
-        self.base_tiles = TileMap(self.final_array, ["assets/background/background_cobble_tile1.png"], Point(0, 0), enemy_group)
+        self.base_tiles = TileMap(self.final_array, ["assets/background/simple_tile_1.png"], Point(0, 0), enemy_group)
 
         # ------------------------------ tiles for collisions --------------------------------------
 
@@ -122,7 +122,7 @@ class Stage:
                         # get center and spawn pos for player
                         # also the section where flood filling occurs
                         self.player_start_pos.move(x*self.tile_dimensions[0]+self.tile_dimensions[0]/2, -(y*self.tile_dimensions[1] + self.tile_dimensions[1]/2))
-                        self.center_points = ([x, y], [x-1][y], [x][y-1], [x-1][y-1])
+                        self.center_points = ([x, y], [x-1, y], [x, y-1], [x-1, y-1])
                         intital_grid[x][y] = 2 
                         number_of_tiles -= 1
                         first = False
@@ -220,10 +220,9 @@ class Stage:
         there is no more 2's to connect to
         """
         num_paths = random.randint(1, 4)
-
-        # ----------------------------------------------------------------------------------------------------------------------------
         
 
+        # ----------------------------------------------------------------------------------------------------------------------------
 
         # recast to 0's and -1
         self.final_array = [[0 if intital_grid[i][j] == 2 else -1 for j in range(y_dim+2)] for i in range(x_dim+2)]
