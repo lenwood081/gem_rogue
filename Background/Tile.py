@@ -11,7 +11,7 @@ class Tile(pygame.sprite.Sprite):
         
 
         # image (it is assumed all tiles are 64 x 64)
-        self.image = pygame.transform.rotozoom(pygame.image.load(image).convert_alpha(), 0, SCALE_FACOTOR)
+        self.image = pygame.transform.scale(pygame.image.load(image).convert_alpha(), (32*SCALE_FACOTOR, 32*SCALE_FACOTOR))
         self.rect = self.image.get_rect()
 
         self.width = self.image.get_width()

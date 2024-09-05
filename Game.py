@@ -1,16 +1,12 @@
 import pygame
 import time
 from config import *
-from Background.Background import Background
 from Background.Stage import Stage
 from sprites.Player import Player
 from drops.ExperianceControl import ExperianceControl
-from Directors.Enemy_Director_Continous import Enemy_Director_Continous
-from Directors.Enemy_Director_Instant import Enemy_Director_Instant
 from menus.Menu import PauseMenu
 from Camera.Camera import Camera
 from HUD.HealthBar import HealthBar
-from effects.Particle import HollowParticle
 from HUD.ExpBar import ExpBar
 from pygame.locals import (
     KEYDOWN,
@@ -72,6 +68,7 @@ class Game:
         
         # background
         stage1 = Stage(boundary, paritcles, enemies, experiance.get_group(), projectiles, players, camera.get_offset(), self.difficulty_coeff)
+        player.set_position(stage1.player_start_pos)
 
         # event varibles
         events = pygame.event.get()

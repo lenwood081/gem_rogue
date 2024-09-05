@@ -72,7 +72,7 @@ class Player(ItemHolder):
 
         # position reletive to background (centered)
         # start in the center of the playable area
-        self.pos = Point(BG_WIDTH/2 + self.width/2, -BG_HEIGHT/2 - self.height/2)
+        self.pos = Point(0, 0)
 
         # position to the center of the screen
         self.pos_screen = Point(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
@@ -153,7 +153,7 @@ class Player(ItemHolder):
             return
 
         # maximum change in velocity (if greater than this then use increments)
-        dist = 64*SCALE_FACOTOR
+        dist = 32*SCALE_FACOTOR
         x_safe = y_safe = True
 
         # call on self TODO update other collision detection on projectiles and enemys
@@ -173,11 +173,11 @@ class Player(ItemHolder):
                 if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
                     # top
                     if vel_y > 0:
-                        self.velocity.y = self.pos.y + (tile.pos.y - tile.height - self.height/2)
+                        self.velocity.y = self.pos.y - (tile.pos.y - tile.height - self.height/2)
                         self.pos.y = tile.pos.y - tile.height - self.height/2
                     # bottom
                     elif vel_y < 0:
-                        self.velocity.y = self.pos.y + (tile.pos.y + self.height/2)
+                        self.velocity.y = self.pos.y - (tile.pos.y + self.height/2)
                         self.pos.y = tile.pos.y + self.height/2
 
                     y_safe = False
@@ -195,11 +195,11 @@ class Player(ItemHolder):
                 if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
                     # left hand edge
                     if vel_x > 0:
-                        self.velocity.x = self.pos.x + (tile.pos.x - self.width/2)
+                        self.velocity.x = self.pos.x - (tile.pos.x - self.width/2)
                         self.pos.x = tile.pos.x - self.width/2
                     # right hand side
                     elif vel_x < 0:
-                        self.velocity.x = self.pos.x + (tile.pos.x + tile.width + self.width/2 )
+                        self.velocity.x = self.pos.x - (tile.pos.x + tile.width + self.width/2 )
                         self.pos.x = tile.pos.x + tile.width + self.width/2 
                     x_safe = False
                     break
@@ -381,5 +381,9 @@ class Player(ItemHolder):
         utility = [action for action in self.actions if action.class_name == "Utility"]
         self.personalise_angles(weapons, 0)
         self.personalise_angles(utility, math.pi)
+
+    # set position
+    def set_position(self, pos):
+        self.pos = pos.copy()
 
 
