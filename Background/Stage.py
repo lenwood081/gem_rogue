@@ -75,10 +75,10 @@ class Stage:
         # update enemy spawners 
         self.base_tiles.update(cam_offset, dt)
 
-    def draw(self, screen, cam_offset):
+    def draw(self, screen, cam_offset, dt):
         # blit stage_tiles 
-        self.base_tiles.draw(screen, cam_offset)
-        self.boundary_tiles.draw(screen, cam_offset)
+        self.base_tiles.draw(screen, cam_offset, dt)
+        self.boundary_tiles.draw(screen, cam_offset, dt)
 
         # makes it dark
         screen.blit(self.surf, (0,0), special_flags=pygame.BLEND_RGBA_SUB)

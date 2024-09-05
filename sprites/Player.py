@@ -28,7 +28,7 @@ class Player(ItemHolder):
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
 
         # health
-        self.health = self.max_health = 1000
+        self.health = self.max_health = 100
 
         # dimensions
         self.width = self.max_width = 32*SCALE_FACOTOR
@@ -111,12 +111,10 @@ class Player(ItemHolder):
         #self.pickup_item(PlasmaGunItem) 
         self.pickup_item(DashItem) 
 
-        self.pickup_item(Quads)
-        self.pickup_item(Quads)
-        self.pickup_item(Quads)
-        self.pickup_item(Quads)
-        self.pickup_item(Quads)
-        self.pickup_item(Quads)
+        #self.pickup_item(Quads)
+        #self.pickup_item(Quads)
+        #self.pickup_item(Quads)
+        #self.pickup_item(Quads)
 
         
         
@@ -146,70 +144,6 @@ class Player(ItemHolder):
         # debugging
         #pygame.draw.rect(screen, "red", self.hitbox_rect, width=2)
         #pygame.draw.rect(screen, "blue", self.rect, width=2)
-
-    def boundary_collision(self, collision_group):
-        if self.trans:
-            self.pos.move(self.velocity.x, self.velocity.y)
-            return
-
-        # maximum change in velocity (if greater than this then use increments)
-        dist = 32*SCALE_FACOTOR
-        x_safe = y_safe = True
-
-        # call on self TODO update other collision detection on projectiles and enemys
-        for tile in collision_group:
-            x = (int)(math.fabs(self.velocity.x // dist) + 1)
-            y = (int)(math.fabs(self.velocity.y // dist) + 1)
-
-            # check y
-            for y_i in range(y):
-                vel_y = dist * math.copysign(1, self.velocity.y) * (y_i)
-
-                # for last one
-                if y_i == y-1:
-                    vel_y = self.velocity.y
-
-                self.boundary_rect.center = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2 - vel_y)
-                if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
-                    # top
-                    if vel_y > 0:
-                        self.velocity.y = self.pos.y - (tile.pos.y - tile.height - self.height/2)
-                        self.pos.y = tile.pos.y - tile.height - self.height/2
-                    # bottom
-                    elif vel_y < 0:
-                        self.velocity.y = self.pos.y - (tile.pos.y + self.height/2)
-                        self.pos.y = tile.pos.y + self.height/2
-
-                    y_safe = False
-                    break
-
-            # check x
-            for x_i in range(x):
-                vel_x = dist * math.copysign(1, self.velocity.x) * (x_i)
-
-                # for last one
-                if x_i == x-1:
-                    vel_x = self.velocity.x
-
-                self.boundary_rect.center = (SCREEN_WIDTH/2 + vel_x, SCREEN_HEIGHT/2)
-                if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
-                    # left hand edge
-                    if vel_x > 0:
-                        self.velocity.x = self.pos.x - (tile.pos.x - self.width/2)
-                        self.pos.x = tile.pos.x - self.width/2
-                    # right hand side
-                    elif vel_x < 0:
-                        self.velocity.x = self.pos.x - (tile.pos.x + tile.width + self.width/2 )
-                        self.pos.x = tile.pos.x + tile.width + self.width/2 
-                    x_safe = False
-                    break
-
-        if x_safe:
-            self.pos.move(self.velocity.x, 0)
-        
-        if y_safe:
-            self.pos.move(0, self.velocity.y)
-
 
     # ------------------------------------------ facing mouse --------------------------------
 
@@ -294,7 +228,7 @@ class Player(ItemHolder):
                 y /= math.sqrt(2)
             self.velocity = Point(x, y)
 
-        self.boundary_collision(boundary)
+        self.boundary_collision(boundary, SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
 
         # animation
         self.base_image = self.base_animate.animate(dt)

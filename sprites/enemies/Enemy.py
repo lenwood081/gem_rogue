@@ -104,7 +104,7 @@ class Enemy(ItemHolder):
         self.rect = self.image.get_rect(center=self.hitbox_rect.center)
         self.front.dir = player_dir.dir + math.pi/2
         self.target_unit_vector = player_unit_vector.copy()
-        return player_unit_vector
+ 
     
     # check for being hit
     def being_hit(self):
@@ -122,11 +122,13 @@ class Enemy(ItemHolder):
 
     # update method (general) can be overriden
     def update(self, player, cam_offset, boundary, dt):
+        self.velocity = Point(0, 0)
+
         self.update_with_dt(dt)
         self.cam_offset = cam_offset
 
         self.being_hit()
-        unit_vector = self.move_towards_player(player.pos)
+        self.move_towards_player(player.pos)
         if self.stunned:
             # stop from moveing and attacking
             self.velocity = Point(0, 0)
@@ -144,18 +146,20 @@ class Enemy(ItemHolder):
                 action.use(dt)
                 action.update(dt)
         
-        self.check_boundarys(boundary, cam_offset)  
         
         if self.move_normal:
-            self.move(unit_vector)
+            self.move(self.target_unit_vector)
+
+        # known error where moveing side ways causes an error 
+        self.boundary_collision(boundary, self.pos.x + cam_offset.x, -self.pos.y + cam_offset.y)
+
         self.hitbox_rect.center = (self.pos.x + cam_offset.x, -self.pos.y + cam_offset.y)
         self.rect.center = self.hitbox_rect.center
 
-    # move towards unit vector
+    # update velocity towards unit vector
     def move(self, unit_vector):
         self.velocity.x = self.speed * unit_vector.x * self.dt
         self.velocity.y = self.speed * unit_vector.y * self.dt
-        self.pos.move(self.velocity.x, self.velocity.y)
 
         
     # run checks to prevent going out of bounds 

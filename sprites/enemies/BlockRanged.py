@@ -47,20 +47,16 @@ class BlockRanged(Enemy):
         # add gun
         self.actions.append(WeaponFire(1, "Node Blaster", self, NodeBlaster))
 
-    # move method override
+    # move method override updates the target velocity
     def move(self, unit_vector):
-        self.velocity = Point(0, 0)
-
         # if too close move away
         if self.dist_player < self.too_close:
-            self.pos.move(-self.speed * unit_vector.x * self.dt, -self.speed * unit_vector.y * self.dt)
             self.velocity = Point(-self.speed * unit_vector.x * self.dt, -self.speed * unit_vector.y * self.dt)
             self.can_attack = True
             return
 
         # if too far away move directly towards player
         if self.dist_player > self.lock_on_dist:
-            self.pos.move(self.speed * unit_vector.x * self.dt, self.speed * unit_vector.y * self.dt)
             self.velocity = Point(self.speed * unit_vector.x * self.dt, self.speed * unit_vector.y * self.dt)
             self.can_attack = False
             return
@@ -72,13 +68,10 @@ class BlockRanged(Enemy):
 
         # if too close to either edge to prevent stuttering
         if self.dist_player < self.too_close + self.stutter_tolerance:
-            self.pos.move(-self.speed * unit_vector.x * self.dt, -self.speed * unit_vector.y * self.dt)
             self.velocity = Point(self.speed * -unit_vector.x * self.dt, self.speed * -unit_vector.y * self.dt)
         elif self.dist_player > self.lock_on_dist - self.stutter_tolerance:
-            self.pos.move(self.speed * unit_vector.x * self.dt, self.speed * unit_vector.y * self.dt)
             self.velocity = Point(self.speed * unit_vector.x * self.dt, self.speed * unit_vector.y * self.dt)
 
-        self.pos.move(self.speed * new_unit_vector.x * self.dt, self.speed * new_unit_vector.y * self.dt)
         self.velocity.x += self.speed * new_unit_vector.x * self.dt
         self.velocity.y += self.speed * new_unit_vector.y * self.dt
 
@@ -90,8 +83,8 @@ class BlockRanged(Enemy):
         self.circle_timer_current += 1 * self.dt
 
     # override to make detcetion better for ranged units
-    def check_boundarys(self, boundary, cam_offset):
-        hit = super().check_boundarys(boundary, cam_offset)
+    def boundary_collision(self, boundary, x_bound, y_bound):
+        hit = super().boundary_collision(boundary, x_bound, y_bound)
 
         if hit:
             # flip turning direction

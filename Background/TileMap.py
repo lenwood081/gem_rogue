@@ -35,7 +35,8 @@ class TileMap:
                     collision_group.add(tile)
 
     # draws tileset to screen
-    def draw(self, screen, cam_offset):
+    def draw(self, screen, cam_offset, dt):
+        self.update(cam_offset, dt)
         # blit tiles only when needed to 
         x = self.pos.x
         y = -self.pos.y

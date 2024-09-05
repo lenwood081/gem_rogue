@@ -20,7 +20,7 @@ class Game:
     def __init__(self):
         #self.modifiers 1 - alot (gonna scale with time)
         self.difficulty_coeff = 1
-        self.difficulty_factor = 3
+        self.difficulty_factor = 10
         self.time = 0
         self.pause = False
 
@@ -95,7 +95,7 @@ class Game:
             screen.fill(BLACK)
 
             # blit calls
-            stage1.draw(screen, camera.get_offset())
+            stage1.draw(screen, camera.get_offset(), dt)
 
             experiance.draw(screen, camera.get_offset())
             
@@ -170,6 +170,10 @@ class Game:
             print(dt)
             last_time = time.time()
 
+            # increase enemy difficulty if not paused
+            if self.pause == False:
+                coeff_calculate(dt)
+
             # get inputs
             events = pygame.event.get()
             keys_pressed = pygame.key.get_pressed()
@@ -194,9 +198,6 @@ class Game:
             blit_entiites()
             
 
-            # increase enemy difficulty if not paused
-            if self.pause == False:
-                coeff_calculate(dt)
 
             # player death
             if len(players) == 0:
