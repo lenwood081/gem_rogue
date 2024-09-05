@@ -29,12 +29,13 @@ class Stage:
         # player start position
         self.center_points = ()
         self.player_start_pos = Point(0, 0)
+        self.iniciated = False
 
         # ------------------------------- tiles for background (visual and trodden on) -------------------------------
         self.tile_dimensions = (32*SCALE_FACOTOR, 32*SCALE_FACOTOR)
 
         # tilemap
-        self.generate_stage(3000, 3000, 0.7)
+        self.generate_stage(2000, 2000, 0.6)
         self.base_tiles = TileMap(self.final_array, ["assets/background/simple_tile_1.png"], Point(0, 0), enemy_group)
 
         # ------------------------------ tiles for collisions --------------------------------------
@@ -48,26 +49,30 @@ class Stage:
 
         # spawn only on tilemap tiles where spawnable = True
 
-        instant_director = Enemy_Director_Instant(150, self.enemies, self.experiance, self.projectiles, self.particles, self.players, self.base_tiles, cam_offset)
+        self.instant_director = Enemy_Director_Instant(150, self.enemies, self.experiance, self.projectiles, self.particles, self.players, self.base_tiles, cam_offset)
         self.fast_director = Enemy_Director_Continous(self.enemies, 2, self.experiance, self.projectiles, self.particles, self.players, self.base_tiles, cam_offset)
         self.intermetdiate_director = Enemy_Director_Continous(self.enemies, 9, self.experiance, self.projectiles, self.particles, self.players, self.base_tiles, cam_offset)
         self.slow_director = Enemy_Director_Continous(self.enemies, 20, self.experiance, self.projectiles, self.particles, self.players, self.base_tiles, cam_offset)
 
-        instant_director.activate(diff_coeff)
 
         # for effects
         self.surf = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.surf.fill((50, 50, 50))
         self.surf2 = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.surf2.fill(BG_OVERLAY_SHADE)
+
+    def iniciate(self, diff_coeff):
+        #self.iniciated = True
+        self.instant_director.activate(diff_coeff)
  
 
     # update
     def update(self, cam_offset, dt, diff_coeff):
-        # update enemy spawners
-        self.fast_director.update(diff_coeff, cam_offset, dt)
-        self.intermetdiate_director.update(diff_coeff, cam_offset, dt)
-        self.slow_director.update(diff_coeff, cam_offset, dt)
+        if self.iniciated:
+            # update enemy spawners
+            self.fast_director.update(diff_coeff, cam_offset, dt)
+            self.intermetdiate_director.update(diff_coeff, cam_offset, dt)
+            self.slow_director.update(diff_coeff, cam_offset, dt)
 
         # update boundary tiles
         self.boundary_tiles.update(cam_offset, dt)
@@ -75,10 +80,10 @@ class Stage:
         # update enemy spawners 
         self.base_tiles.update(cam_offset, dt)
 
-    def draw(self, screen, cam_offset, dt):
+    def draw(self, screen, cam_offset):
         # blit stage_tiles 
-        self.base_tiles.draw(screen, cam_offset, dt)
-        self.boundary_tiles.draw(screen, cam_offset, dt)
+        self.base_tiles.draw(screen, cam_offset)
+        self.boundary_tiles.draw(screen, cam_offset)
 
         # makes it dark
         screen.blit(self.surf, (0,0), special_flags=pygame.BLEND_RGBA_SUB)
@@ -213,6 +218,8 @@ class Stage:
                         # check up 
                         if j-1 >= 0 and intital_grid[i][j-1] != 2:
                             intital_grid[i][j-1] = -2
+
+                        
 
         # ----------------------------------------------------------------------------------------------------------------------------
         """

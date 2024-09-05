@@ -31,7 +31,10 @@ class Enemy(ItemHolder):
         # base image
         self.image = self.move_animation.animate(self.dt)
         self.image_base = self.image
-        self.hitbox_rect = self.image_base.get_rect()
+        self.hitbox_rect = self.image_base.get_rect(center=(
+            self.pos.x + cam_offset.x,
+            -self.pos.y + cam_offset.y,
+        ))
         self.boundary_rect = self.hitbox_rect.copy()
         self.rect = self.hitbox_rect.copy()
 
@@ -65,7 +68,7 @@ class Enemy(ItemHolder):
             action.draw(screen)
 
         # debugging
-        #pygame.draw.rect(screen, "red", self.hitbox_rect, width=2)
+        pygame.draw.rect(screen, "red", self.hitbox_rect, width=2)
         #pygame.draw.rect(screen, "blue", self.rect, width=2)
 
     # occurs when colliding with a player
@@ -150,6 +153,13 @@ class Enemy(ItemHolder):
         if self.move_normal:
             self.move(self.target_unit_vector)
 
+        # these checks are for boundary control
+        if math.fabs(self.velocity.y) <= 1:
+            self.velocity.y = 0
+
+        if math.fabs(self.velocity.x) <= 1:
+            self.velocity.x = 0
+        
         # known error where moveing side ways causes an error 
         self.boundary_collision(boundary, self.pos.x + cam_offset.x, -self.pos.y + cam_offset.y)
 
@@ -161,39 +171,6 @@ class Enemy(ItemHolder):
         self.velocity.x = self.speed * unit_vector.x * self.dt
         self.velocity.y = self.speed * unit_vector.y * self.dt
 
-        
-    # run checks to prevent going out of bounds 
-    def check_boundarys(self, boundary, cam_offset):
-        # check against tiles
-        ret_val = False
-        for tile in boundary:   
-            self.boundary_rect.center = (self.pos.x + cam_offset.x, -self.pos.y + cam_offset.y)
-            if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
-                # check x
-                self.boundary_rect.center = (self.pos.x + cam_offset.x, -self.pos.y + cam_offset.y + self.velocity.y)
-                if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
-                    # left hand edge
-                    if self.velocity.x > 0:
-                        self.pos.x = tile.pos.x - self.width/2
-                    # right hand side
-                    elif self.velocity.x < 0:
-                        self.pos.x = tile.pos.x + tile.width + self.width/2
-
-                # check y
-                self.boundary_rect.center = (self.pos.x + cam_offset.x - self.velocity.x, -self.pos.y + cam_offset.y)
-                if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
-                    # top
-                    if self.velocity.y > 0:
-                        self.pos.y = tile.pos.y - tile.height - self.height/2
-                    # bottom
-                    elif self.velocity.y < 0:
-                        self.pos.y = tile.pos.y + self.height/2
-                
-                # movement restricted =>
-                ret_val = True
-        
-        return ret_val
-        
 
     
 

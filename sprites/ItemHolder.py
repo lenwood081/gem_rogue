@@ -176,11 +176,13 @@ class ItemHolder(pygame.sprite.Sprite):
             return False
 
         # maximum change in velocity (if greater than this then use increments)
-        dist = 32*SCALE_FACOTOR
+        dist = 31*SCALE_FACOTOR
         x_safe = y_safe = True
 
+        print(self.velocity.x, self.velocity.y)
+
         # call on self TODO update other collision detection on projectiles and enemys
-        for tile in collision_group:
+        for i, tile in enumerate(collision_group):
             x = (int)(math.fabs(self.velocity.x // dist) + 1)
             y = (int)(math.fabs(self.velocity.y // dist) + 1)
 
@@ -198,11 +200,14 @@ class ItemHolder(pygame.sprite.Sprite):
                     if vel_y > 0:
                         self.velocity.y = self.pos.y - (tile.pos.y - tile.height - self.height/2)
                         self.pos.y = tile.pos.y - tile.height - self.height/2
+                        print("top", i)
+                        
                     # bottom
                     elif vel_y < 0:
                         self.velocity.y = self.pos.y - (tile.pos.y + self.height/2)
                         self.pos.y = tile.pos.y + self.height/2
-
+                        print("bottom", i)
+                        
                     y_safe = False
                     break
 
@@ -219,13 +224,16 @@ class ItemHolder(pygame.sprite.Sprite):
                     # left hand edge
                     if vel_x > 0:
                         self.velocity.x = self.pos.x - (tile.pos.x - self.width/2)
-                        self.pos.x = tile.pos.x - self.width/2
+                        self.pos.x = tile.pos.x - self.width/2 - 1
+                        print("left", i)
                     # right hand side
                     elif vel_x < 0:
                         self.velocity.x = self.pos.x - (tile.pos.x + tile.width + self.width/2 )
-                        self.pos.x = tile.pos.x + tile.width + self.width/2 
+                        self.pos.x = tile.pos.x + tile.width + self.width/2 + 1
+                        print("right", i)
                     x_safe = False
                     break
+
 
         if x_safe:
             self.pos.move(self.velocity.x, 0)

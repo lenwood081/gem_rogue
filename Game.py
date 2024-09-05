@@ -69,6 +69,7 @@ class Game:
         # background
         stage1 = Stage(boundary, paritcles, enemies, experiance.get_group(), projectiles, players, camera.get_offset(), self.difficulty_coeff)
         player.set_position(stage1.player_start_pos)
+        stage1.iniciate(1)
 
         # event varibles
         events = pygame.event.get()
@@ -95,7 +96,7 @@ class Game:
             screen.fill(BLACK)
 
             # blit calls
-            stage1.draw(screen, camera.get_offset(), dt)
+            stage1.draw(screen, camera.get_offset())
 
             experiance.draw(screen, camera.get_offset())
             
@@ -139,6 +140,8 @@ class Game:
             for em in enemies:
                 em.update(player, camera.get_offset(), boundary, dt)
 
+            
+
             # projectiles
             for proj in projectiles:
                 proj.update(camera.get_offset(), boundary, dt)
@@ -167,7 +170,6 @@ class Game:
         while running:
             dt = time.time() - last_time
             dt *= FRAMERATE
-            print(dt)
             last_time = time.time()
 
             # increase enemy difficulty if not paused
