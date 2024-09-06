@@ -69,7 +69,7 @@ class Enemy(ItemHolder):
 
         # debugging
         pygame.draw.rect(screen, "red", self.hitbox_rect, width=2)
-        #pygame.draw.rect(screen, "blue", self.rect, width=2)
+        pygame.draw.rect(screen, "blue", self.rect, width=2)
 
     # occurs when colliding with a player
     # if in an attck then does more damage
@@ -153,12 +153,7 @@ class Enemy(ItemHolder):
         if self.move_normal:
             self.move(self.target_unit_vector)
 
-        # these checks are for boundary control
-        if math.fabs(self.velocity.y) <= 1:
-            self.velocity.y = 0
 
-        if math.fabs(self.velocity.x) <= 1:
-            self.velocity.x = 0
         
         # known error where moveing side ways causes an error 
         self.boundary_collision(boundary, self.pos.x + cam_offset.x, -self.pos.y + cam_offset.y)

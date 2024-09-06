@@ -91,7 +91,7 @@ class Player(ItemHolder):
         self.enemy_group = None
 
         # allows wall going through
-        self.trans = True
+        self.trans = False
 
         # actions
         self.angle = 0
@@ -111,10 +111,10 @@ class Player(ItemHolder):
         #self.pickup_item(PlasmaGunItem) 
         self.pickup_item(DashItem) 
 
-        #self.pickup_item(Quads)
-        #self.pickup_item(Quads)
-        #self.pickup_item(Quads)
-        #self.pickup_item(Quads)
+        self.pickup_item(Quads)
+        self.pickup_item(Quads)
+        self.pickup_item(Quads)
+        self.pickup_item(Quads)
 
         
         

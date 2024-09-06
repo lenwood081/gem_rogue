@@ -176,7 +176,7 @@ class ItemHolder(pygame.sprite.Sprite):
             return False
 
         # maximum change in velocity (if greater than this then use increments)
-        dist = 31*SCALE_FACOTOR
+        dist = 32*SCALE_FACOTOR
         x_safe = y_safe = True
 
         print(self.velocity.x, self.velocity.y)
@@ -198,13 +198,13 @@ class ItemHolder(pygame.sprite.Sprite):
                 if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
                     # top
                     if vel_y > 0:
-                        self.velocity.y = self.pos.y - (tile.pos.y - tile.height - self.height/2)
+                        self.velocity.y = (tile.pos.y - tile.height - self.height/2) - self.pos.y
                         self.pos.y = tile.pos.y - tile.height - self.height/2
                         print("top", i)
                         
                     # bottom
                     elif vel_y < 0:
-                        self.velocity.y = self.pos.y - (tile.pos.y + self.height/2)
+                        self.velocity.y = (tile.pos.y + self.height/2) - self.pos.y
                         self.pos.y = tile.pos.y + self.height/2
                         print("bottom", i)
                         
@@ -212,8 +212,9 @@ class ItemHolder(pygame.sprite.Sprite):
                     break
 
             # check x
+
             for x_i in range(x):
-                vel_x = dist * math.copysign(1, self.velocity.x) * (x_i)
+                vel_x = dist * math.copysign(1, self.velocity.x)* (x_i)
 
                 # for last one
                 if x_i == x-1:
@@ -223,13 +224,13 @@ class ItemHolder(pygame.sprite.Sprite):
                 if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
                     # left hand edge
                     if vel_x > 0:
-                        self.velocity.x = self.pos.x - (tile.pos.x - self.width/2)
-                        self.pos.x = tile.pos.x - self.width/2 - 1
+                        self.velocity.x = (tile.pos.x - self.width/2) - self.pos.x
+                        self.pos.x = tile.pos.x - self.width/2
                         print("left", i)
                     # right hand side
                     elif vel_x < 0:
-                        self.velocity.x = self.pos.x - (tile.pos.x + tile.width + self.width/2 )
-                        self.pos.x = tile.pos.x + tile.width + self.width/2 + 1
+                        self.velocity.x = (tile.pos.x + tile.width + self.width/2) - self.pos.x
+                        self.pos.x = tile.pos.x + tile.width + self.width/2
                         print("right", i)
                     x_safe = False
                     break
