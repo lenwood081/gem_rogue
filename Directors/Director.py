@@ -62,7 +62,7 @@ class Director:
             break;
         
         # spawn there, indicate first (spawning circle)
-        tileP.spawn_enemy( cards[self.index].type(tileP.center_pos, self.experiance_group, self.projectile_group, self.players, self.particle_group, self.cam_offset))
+        tileP.spawn_enemy(cards[self.index].type(tileP.pos, self.experiance_group, self.projectile_group, self.players, self.particle_group, self.cam_offset))
 
     # choose monster
     def choose_monster_index(self, cards):

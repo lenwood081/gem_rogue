@@ -41,10 +41,10 @@ class TileMap:
         y = -self.pos.y
         for tile_column in self.tile_array:
             # check if on screen
-            if x + self.width + cam_offset.x >= 0 and x + cam_offset.x <= SCREEN_WIDTH:
+            if x + self.width + cam_offset.x >= self.width/2 and x + cam_offset.x <= SCREEN_WIDTH + self.width/2:
                     y = -self.pos.y
                     for tile in tile_column:
-                        if y + self.height + cam_offset.y >= 0 and y + cam_offset.y <= SCREEN_HEIGHT:
+                        if y + self.height + cam_offset.y >= self.height/2 and y + cam_offset.y <= SCREEN_HEIGHT + self.height/2:
                             # checks is a tile
                             if isinstance(tile, Tile):
                                 tile.draw(screen)

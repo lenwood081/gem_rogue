@@ -18,6 +18,9 @@ class Stage:
         self.particles = particles_group
         self.players = player_group
 
+        # death tile group
+        self.death_group = pygame.sprite.Group()
+
         # w, h
         self.width = 0
         self.height = 0
@@ -25,6 +28,7 @@ class Stage:
         # tile_arrays
         self.boundary_array = []
         self.final_array = []
+        self.death_array = []
 
         # player start position
         self.center_points = ()
@@ -44,6 +48,8 @@ class Stage:
         self.boundary_tiles = TileMap(self.boundary_array, ["assets/background/boundary_box.png"], Point(0, 0), enemy_group)
         self.boundary_tiles.add_collisions(collisions_group)
 
+        #self.death_tiles = TileMap(self.death_array, ["assets/background/background_tile1.png"], Point(0, 0), enemy_group)
+        #self.death_tiles.add_collisions(collisions_group)
 
         # ------------------------------------ enemey directors -----------------------------------------
 
@@ -79,11 +85,23 @@ class Stage:
         
         # update enemy spawners 
         self.base_tiles.update(cam_offset, dt)
+        
+        # update death tiles
+        #self.death_tiles.update(cam_offset, dt)
+
+        # check if anything is out of bounds and remove them
+        """
+        for tile in self.death_group:
+            for enemy in self.enemies:
+                if pygame.Rect.colliderect(tile.rect, enemy.hitbox_rect):
+                    enemy.death()
+        """
 
     def draw(self, screen, cam_offset):
         # blit stage_tiles 
         self.base_tiles.draw(screen, cam_offset)
         self.boundary_tiles.draw(screen, cam_offset)
+        #self.death_tiles.draw(screen, cam_offset)
 
         # makes it dark
         screen.blit(self.surf, (0,0), special_flags=pygame.BLEND_RGBA_SUB)
@@ -110,7 +128,7 @@ class Stage:
         number_of_tiles = number_of_tiles_intitial
         
         # generate initial grid
-        intital_grid = numpy.array([[-1 for i in range(y_dim+2)] for j in range(x_dim+2)])
+        initial_grid = numpy.array([[-1 for i in range(y_dim+4)] for j in range(x_dim+4)])
 
         
         # ------------------------------------ generation idea one ----------------------------------
@@ -120,43 +138,59 @@ class Stage:
         first = True
         for point in range(num_of_points):
             while True:
-                x = random.randint(x_dim//5, (x_dim)//2)
-                y = random.randint(x_dim//5, (y_dim)//2)
-                if intital_grid[x][y] == -1:
+                x = random.randint(x_dim//6, (x_dim)//2)
+                y = random.randint(x_dim//6, (y_dim)//2)
+                if initial_grid[x][y] == -1:
                     if first:
                         # get center and spawn pos for player
                         # also the section where flood filling occurs
                         self.player_start_pos.move(x*self.tile_dimensions[0]+self.tile_dimensions[0]/2, -(y*self.tile_dimensions[1] + self.tile_dimensions[1]/2))
                         self.center_points = ([x, y], [x-1, y], [x, y-1], [x-1, y-1])
-                        intital_grid[x][y] = 2 
+                        initial_grid[x][y] = 2 
+                        initial_grid[x][y-1] = 2 
+                        initial_grid[x][y+1] = 2 
+                        initial_grid[x-1][y] = 2 
+                        initial_grid[x-1][y-1] = 2 
+                        initial_grid[x-1][y+1] = 2 
+                        initial_grid[x+1][y] = 2 
+                        initial_grid[x+1][y-1] = 2 
+                        initial_grid[x+1][y+1] = 2 
                         number_of_tiles -= 1
                         first = False
                     else:
-                        intital_grid[x][y] = 0
+                        initial_grid[x][y] = 0 
+                        initial_grid[x][y-1] = 0 
+                        initial_grid[x][y+1] = 0 
+                        initial_grid[x-1][y] = 0 
+                        initial_grid[x-1][y-1] = 0 
+                        initial_grid[x-1][y+1] = 0 
+                        initial_grid[x+1][y] = 0 
+                        initial_grid[x+1][y-1] = 0 
+                        initial_grid[x+1][y+1] = 0
                     break;
 
         # generate from those points
         while number_of_tiles > 0:
             # very costly 
-            for i in range(1, x_dim):
-                for j in range(1, y_dim):
-                    if intital_grid[i][j] >= 1:
+            for i in range(2, x_dim):
+                for j in range(2, y_dim):
+                    if initial_grid[i][j] >= 1:
                         # check right 
-                        if i+1 <= x_dim-1 and intital_grid[i+1][j] == -1:
-                            intital_grid[i+1][j] = 0
+                        if i+1 <= x_dim-1 and initial_grid[i+1][j] == -1:
+                            initial_grid[i+1][j] = 0
                         # check left 
-                        if i-1 >= 0 and intital_grid[i-1][j] == -1:
-                            intital_grid[i-1][j] = 0
+                        if i-1 >= 0 and initial_grid[i-1][j] == -1:
+                            initial_grid[i-1][j] = 0
                         # check right 
-                        if j+1 <= y_dim-1 and intital_grid[i][j+1] == -1:
-                            intital_grid[i][j+1] = 0
+                        if j+1 <= y_dim-1 and initial_grid[i][j+1] == -1:
+                            initial_grid[i][j+1] = 0
                         # check right 
-                        if j-1 >= 0 and intital_grid[i][j-1] == -1:
-                            intital_grid[i][j-1] = 0
+                        if j-1 >= 0 and initial_grid[i][j-1] == -1:
+                            initial_grid[i][j-1] = 0
                     
-                    if intital_grid[i][j] == 0:
+                    if initial_grid[i][j] == 0:
                         if number_of_tiles > 0:
-                            intital_grid[i][j] = 1
+                            initial_grid[i][j] = 1
                             number_of_tiles -= 1
 
         # connected platforms
@@ -166,30 +200,30 @@ class Stage:
         # pick a point and flood fill anything not connected is discarded
         while incomplete:
             incomplete = False
-            for i in range(1, x_dim):
-                for j in range(1, y_dim):
-                    if intital_grid[i][j] == 2:
+            for i in range(2, x_dim):
+                for j in range(2, y_dim):
+                    if initial_grid[i][j] == 2:
                         
                         # ------------------------------------------ noraml --------------------------------------
 
                         # check right 
-                        if i+1 <= x_dim-1 and intital_grid[i+1][j] == 1:
-                            intital_grid[i+1][j] = 2
+                        if i+1 <= x_dim-1 and initial_grid[i+1][j] == 1:
+                            initial_grid[i+1][j] = 2
                             num_of_points_found += 1
                             incomplete = True
                         # check left 
-                        if i-1 >= 0 and intital_grid[i-1][j] == 1:
-                            intital_grid[i-1][j] = 2
+                        if i-1 >= 0 and initial_grid[i-1][j] == 1:
+                            initial_grid[i-1][j] = 2
                             num_of_points_found += 1
                             incomplete = True
                         # check down
-                        if j+1 <= y_dim-1 and intital_grid[i][j+1] == 1:
-                            intital_grid[i][j+1] = 2
+                        if j+1 <= y_dim-1 and initial_grid[i][j+1] == 1:
+                            initial_grid[i][j+1] = 2
                             num_of_points_found += 1
                             incomplete = True
                         # check up
-                        if j-1 >= 0 and intital_grid[i][j-1] == 1:
-                            intital_grid[i][j-1] = 2
+                        if j-1 >= 0 and initial_grid[i][j-1] == 1:
+                            initial_grid[i][j-1] = 2
                             num_of_points_found += 1
                             incomplete = True
 
@@ -199,25 +233,39 @@ class Stage:
         # -------------------------------------------- method 3 super tiles, with bridgeing -----------------------------------------
 
         
-        for i in range(x_dim+2):
-                for j in range(y_dim+2):
-                    if intital_grid[i][j] == 2:
+        for i in range(x_dim+4):
+                for j in range(y_dim+4):
+                    if initial_grid[i][j] == 2:
                         # boundrys will be recorded as -2 in the initial_array
 
                         # ------------------------------------- boundarys --------------------------------------------
 
                         # check right 
-                        if i+1 <= x_dim+1 and intital_grid[i+1][j] != 2:
-                            intital_grid[i+1][j] = -2
+                        if i+1 <= x_dim+2 and initial_grid[i+1][j] != 2:
+                            initial_grid[i+1][j] = -2
                         # check left 
-                        if i-1 >= 0 and intital_grid[i-1][j] != 2:
-                            intital_grid[i-1][j] = -2
+                        if i-1 >= 0 and initial_grid[i-1][j] != 2:
+                            initial_grid[i-1][j] = -2
                         # check down
-                        if j+1 <= y_dim+1 and intital_grid[i][j+1] != 2:
-                            intital_grid[i][j+1] = -2
+                        if j+1 <= y_dim+2 and initial_grid[i][j+1] != 2:
+                            initial_grid[i][j+1] = -2
                         # check up 
-                        if j-1 >= 0 and intital_grid[i][j-1] != 2:
-                            intital_grid[i][j-1] = -2
+                        if j-1 >= 0 and initial_grid[i][j-1] != 2:
+                            initial_grid[i][j-1] = -2
+
+                        # check diagonal lower right
+                        if i+1 <= x_dim+2 and j+1 <= y_dim+2 and initial_grid[i+1][j+1] != 2:
+                            initial_grid[i+1][j+1] = -2
+                        # check diagonal lower left
+                        if i-1 >= 0 and j+1 <= y_dim+2 and initial_grid[i-1][j+1] != 2:
+                            initial_grid[i-1][j+1] = -2
+                        # check diagonal upper right
+                        if i+1 <= x_dim+2 and j-1 >= 0 and initial_grid[i+1][j-1] != 2:
+                            initial_grid[i+1][j-1] = -2
+                        # check diagonal upper left
+                        if i-1 >= 0 and j-1 >= 0 and initial_grid[i-1][j-1] != 2:
+                            initial_grid[i-1][j-1] = -2
+                        
 
                         
 
@@ -232,7 +280,7 @@ class Stage:
         # ----------------------------------------------------------------------------------------------------------------------------
 
         # recast to 0's and -1
-        self.final_array = [[0 if intital_grid[i][j] == 2 else -1 for j in range(y_dim+2)] for i in range(x_dim+2)]
-        self.boundary_array = [[0 if intital_grid[i][j] == -2 else -1 for j in range(y_dim+2)] for i in range(x_dim+2)]
-        
+        self.final_array = [[0 if initial_grid[i][j] == 2 else -1 for j in range(y_dim+4)] for i in range(x_dim+4)]
+        self.boundary_array = [[0 if initial_grid[i][j] == -2 else -1 for j in range(y_dim+4)] for i in range(x_dim+4)]
+        #self.death_array = [[0 if self.final_array[i][j] == -1 and self.boundary_array[i][j] == -1 else -1 for j in range(y_dim+4)] for i in range(x_dim+4)]
 

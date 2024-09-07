@@ -42,7 +42,7 @@ class Tile(pygame.sprite.Sprite):
                 self.spawning = False
 
 
-        self.rect.topleft = (cam_offset.x + self.pos.x, cam_offset.y - self.pos.y)
+        self.rect.center = (cam_offset.x + self.pos.x, cam_offset.y - self.pos.y)
 
     # draw method
     def draw(self, screen):

@@ -153,8 +153,12 @@ class Enemy(ItemHolder):
         if self.move_normal:
             self.move(self.target_unit_vector)
 
+        if -2 <= self.velocity.y <= 2:
+            self.velocity.y = 0
 
-        
+        if -2 <= self.velocity.x <= 2:
+            self.velocity.x = 0
+
         # known error where moveing side ways causes an error 
         self.boundary_collision(boundary, self.pos.x + cam_offset.x, -self.pos.y + cam_offset.y)
 

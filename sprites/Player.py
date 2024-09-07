@@ -91,7 +91,7 @@ class Player(ItemHolder):
         self.enemy_group = None
 
         # allows wall going through
-        self.trans = False
+        self.trans = True
 
         # actions
         self.angle = 0
@@ -241,7 +241,6 @@ class Player(ItemHolder):
         if self.immunity_frames > 0:
             self.immunity_frames -= 1 * self.dt
             if self.immunity_frames <= 0:
-                print("not immune")
                 self.immune = False
 
         # updates store of cam_offset
