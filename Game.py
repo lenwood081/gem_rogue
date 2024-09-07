@@ -194,8 +194,6 @@ class Game:
                 
             # blit to screen
             blit_entiites()
-            
-
 
             # player death
             if len(players) == 0:

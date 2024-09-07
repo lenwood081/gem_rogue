@@ -34,7 +34,7 @@ class Stage:
         self.death_array = []
 
         # player start position
-        self.center_points = ()
+        self.center_point = Point(0, 0)
         self.player_start_pos = Point(0, 0)
         self.iniciated = False
 
@@ -126,7 +126,8 @@ class Stage:
 
     # ----------------------------------------- Tilemap stage generation -------------------------
 
-    def generate_stage(self, width, height, percantage_fill):
+    # paths is a tuple ((x, y), (x, y), (x, y)...) indicating the direction of entry
+    def generate_stage(self, width, height, percantage_fill, paths):
         # percentage_tollerance TODO
 
         # decide on a random weight and width
@@ -159,7 +160,7 @@ class Stage:
                         # get center and spawn pos for player
                         # also the section where flood filling occurs
                         self.player_start_pos.move(x*self.tile_dimensions[0]+self.tile_dimensions[0]/2, -(y*self.tile_dimensions[1] + self.tile_dimensions[1]/2))
-                        self.center_points = ([x, y], [x-1, y], [x, y-1], [x-1, y-1])
+                        self.center_point = Point(x, y)
                         initial_grid[x][y] = 2 
                         initial_grid[x][y-1] = 2 
                         initial_grid[x][y+1] = 2 
@@ -247,48 +248,62 @@ class Stage:
         # -------------------------------------------- method 3 super tiles, with bridgeing -----------------------------------------
 
         
-        for i in range(x_dim+4):
-                for j in range(y_dim+4):
-                    if initial_grid[i][j] == 2:
-                        # boundrys will be recorded as -2 in the initial_array
-
-                        # ------------------------------------- boundarys --------------------------------------------
-
-                        # check right 
-                        if i+1 <= x_dim+2 and initial_grid[i+1][j] != 2:
-                            initial_grid[i+1][j] = -2
-                        # check left 
-                        if i-1 >= 0 and initial_grid[i-1][j] != 2:
-                            initial_grid[i-1][j] = -2
-                        # check down
-                        if j+1 <= y_dim+2 and initial_grid[i][j+1] != 2:
-                            initial_grid[i][j+1] = -2
-                        # check up 
-                        if j-1 >= 0 and initial_grid[i][j-1] != 2:
-                            initial_grid[i][j-1] = -2
-
-                        # check diagonal lower right
-                        if i+1 <= x_dim+2 and j+1 <= y_dim+2 and initial_grid[i+1][j+1] != 2:
-                            initial_grid[i+1][j+1] = -2
-                        # check diagonal lower left
-                        if i-1 >= 0 and j+1 <= y_dim+2 and initial_grid[i-1][j+1] != 2:
-                            initial_grid[i-1][j+1] = -2
-                        # check diagonal upper right
-                        if i+1 <= x_dim+2 and j-1 >= 0 and initial_grid[i+1][j-1] != 2:
-                            initial_grid[i+1][j-1] = -2
-                        # check diagonal upper left
-                        if i-1 >= 0 and j-1 >= 0 and initial_grid[i-1][j-1] != 2:
-                            initial_grid[i-1][j-1] = -2
-                        
-
-                        
-
         # ----------------------------------------------------------------------------------------------------------------------------
         """
         for generating pathways they will connect directly to the center 4 squares and span from them, they will only start generating once 
         there is no more 2's to connect to
         """
-        num_paths = random.randint(1, 4)
+        
+        # middle point of the path must align with the center 2
+        for path in paths:
+            x = self.center_point.x
+            y = self.center_point.y
+            while True:
+                # x axis
+                if path[1] == 0:
+                    x += path[0]
+                    # check 
+                
+        
+        
+        # ------------------------------------- boundarys --------------------------------------------
+        
+        for i in range(x_dim+4):
+            for j in range(y_dim+4):
+                if initial_grid[i][j] == 2:
+                    # boundrys will be recorded as -2 in the initial_array
+
+
+                    # check right 
+                    if i+1 <= x_dim+2 and initial_grid[i+1][j] != 2:
+                        initial_grid[i+1][j] = -2
+                    # check left 
+                    if i-1 >= 0 and initial_grid[i-1][j] != 2:
+                        initial_grid[i-1][j] = -2
+                    # check down
+                    if j+1 <= y_dim+2 and initial_grid[i][j+1] != 2:
+                        initial_grid[i][j+1] = -2
+                    # check up 
+                    if j-1 >= 0 and initial_grid[i][j-1] != 2:
+                        initial_grid[i][j-1] = -2
+
+                    # check diagonal lower right
+                    if i+1 <= x_dim+2 and j+1 <= y_dim+2 and initial_grid[i+1][j+1] != 2:
+                        initial_grid[i+1][j+1] = -2
+                    # check diagonal lower left
+                    if i-1 >= 0 and j+1 <= y_dim+2 and initial_grid[i-1][j+1] != 2:
+                        initial_grid[i-1][j+1] = -2
+                    # check diagonal upper right
+                    if i+1 <= x_dim+2 and j-1 >= 0 and initial_grid[i+1][j-1] != 2:
+                        initial_grid[i+1][j-1] = -2
+                    # check diagonal upper left
+                    if i-1 >= 0 and j-1 >= 0 and initial_grid[i-1][j-1] != 2:
+                        initial_grid[i-1][j-1] = -2
+                    
+
+                        
+
+        
         
 
         # ----------------------------------------------------------------------------------------------------------------------------
