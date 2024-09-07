@@ -187,49 +187,49 @@ class ItemHolder(pygame.sprite.Sprite):
             y = (int)(math.fabs(self.velocity.y // dist) + 1)
 
             # check y
-            if y_safe:
-                for y_i in range(y):
-                    vel_y = dist * math.copysign(1, self.velocity.y) * (y_i)
 
-                    # for last one
-                    if y_i == y-1:
-                        vel_y = self.velocity.y
+            for y_i in range(y):
+                vel_y = dist * math.copysign(1, self.velocity.y) * (y_i)
 
-                    self.boundary_rect.center = (x_bound_point, y_bound_point - vel_y)
-                    if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
-                        # top
-                        if vel_y > 0:
-                            self.velocity.y = (tile.pos.y - tile.height - self.height/2) - self.pos.y
-                            self.pos.y = tile.pos.y - tile.height/2 - self.height/2
-                            
-                        # bottom
-                        elif vel_y < 0:
-                            self.velocity.y = (tile.pos.y + self.height/2) - self.pos.y
-                            self.pos.y = tile.pos.y + tile.height/2 + self.height/2
-                            
-                        y_safe = False
+                # for last one
+                if y_i == y-1:
+                    vel_y = self.velocity.y
+
+                self.boundary_rect.center = (x_bound_point, y_bound_point - vel_y)
+                if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
+                    # top
+                    if vel_y > 0:
+                        self.velocity.y = (tile.pos.y - tile.height/2 - self.height/2) - self.pos.y
+                        self.pos.y = tile.pos.y - tile.height/2 - self.height/2
+                        
+                    # bottom
+                    elif vel_y < 0:
+                        self.velocity.y = (tile.pos.y + tile.height/2 + self.height/2) - self.pos.y
+                        self.pos.y = tile.pos.y + tile.height/2 + self.height/2
+                        
+                    y_safe = False
                         
 
             # check x
-            if x_safe:
-                for x_i in range(x):
-                    vel_x = dist * math.copysign(1, self.velocity.x)* (x_i)
 
-                    # for last one
-                    if x_i == x-1:
-                        vel_x = self.velocity.x
+            for x_i in range(x):
+                vel_x = dist * math.copysign(1, self.velocity.x)* (x_i)
 
-                    self.boundary_rect.center = (x_bound_point + vel_x, y_bound_point)
-                    if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
-                        # left hand edge
-                        if vel_x > 0:
-                            self.velocity.x = (tile.pos.x - self.width/2) - self.pos.x
-                            self.pos.x = tile.pos.x - tile.width/2 - self.width/2
-                        # right hand side
-                        elif vel_x < 0:
-                            self.velocity.x = (tile.pos.x + tile.width + self.width/2) - self.pos.x
-                            self.pos.x = tile.pos.x + tile.width/2 + self.width/2
-                        x_safe = False
+                # for last one
+                if x_i == x-1:
+                    vel_x = self.velocity.x
+
+                self.boundary_rect.center = (x_bound_point + vel_x, y_bound_point)
+                if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
+                    # left hand edge
+                    if vel_x > 0:
+                        self.velocity.x = (tile.pos.x - tile.width/2 - self.width/2) - self.pos.x
+                        self.pos.x = tile.pos.x - tile.width/2 - self.width/2
+                    # right hand side
+                    elif vel_x < 0:
+                        self.velocity.x = (tile.pos.x + tile.width/2 + self.width/2) - self.pos.x
+                        self.pos.x = tile.pos.x + tile.width/2 + self.width/2
+                    x_safe = False
                         
 
 

@@ -10,6 +10,9 @@ import numpy
 
 class Stage:
     def __init__(self, collisions_group, particles_group, enemy_group, experiance_group, projectile_group, player_group, cam_offset, diff_coeff):
+        # if true will remove from group, and be collected as garbage
+        self.to_remove = False
+         
         # groups
         self.enemies = enemy_group
         self.experiance = experiance_group
@@ -17,7 +20,7 @@ class Stage:
         self.collisions = collisions_group
         self.particles = particles_group
         self.players = player_group
-
+        
         # death tile group
         self.death_group = pygame.sprite.Group()
 
@@ -67,9 +70,20 @@ class Stage:
         self.surf2 = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.surf2.fill(BG_OVERLAY_SHADE)
 
+    # start enemy spawning
     def iniciate(self, diff_coeff):
-        #self.iniciated = True
+        self.iniciated = True
         self.instant_director.activate(diff_coeff)
+    
+    # kill all enemys 
+    def clear(self):
+        self.iniciated = False
+        for enemy in self.enemies:
+            enemy.kill()
+
+    # delete stage
+    def deactivate(self):
+        self.to_remove = True
  
 
     # update

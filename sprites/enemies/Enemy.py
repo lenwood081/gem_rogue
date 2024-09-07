@@ -68,8 +68,8 @@ class Enemy(ItemHolder):
             action.draw(screen)
 
         # debugging
-        pygame.draw.rect(screen, "red", self.hitbox_rect, width=2)
-        pygame.draw.rect(screen, "blue", self.rect, width=2)
+        # pygame.draw.rect(screen, "red", self.hitbox_rect, width=2)
+        # pygame.draw.rect(screen, "blue", self.rect, width=2)
 
     # occurs when colliding with a player
     # if in an attck then does more damage

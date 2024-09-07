@@ -34,7 +34,7 @@ class Game:
 
         # particles
         paritcles = pygame.sprite.Group()
-
+        
         # game clock
         clock = pygame.time.Clock()
         
@@ -44,7 +44,6 @@ class Game:
         # projectiles group
         projectiles = pygame.sprite.Group()
 
-        
         # player
         players = pygame.sprite.Group()
         player = Player(projectiles, paritcles)
@@ -75,7 +74,6 @@ class Game:
         events = pygame.event.get()
         keys_pressed = pygame.key.get_pressed()
         mouse_pressed = pygame.mouse.get_pressed()
-
       
 
         # ----------------------------------- code for functions that run in main loop -----------------------------------
@@ -126,7 +124,6 @@ class Game:
                 menu.draw(screen)
 
         def updates(dt):
-            
             # player and camera
             player.update(keys_pressed, mouse_pressed, boundary, dt)
             camera.update(player.pos)
@@ -162,7 +159,6 @@ class Game:
             equivalent_secounds = self.time / FRAMERATE
             self.difficulty_coeff = equivalent_secounds/60 * (self.difficulty_factor) * 0.2 + 1
 
-
         # ----------------------------------- main loop ------------------------------------------------------------------
         
         last_time = time.time()
@@ -171,7 +167,7 @@ class Game:
             dt = time.time() - last_time
             dt *= FRAMERATE
             last_time = time.time()
-
+            self.
             # increase enemy difficulty if not paused
             if self.pause == False:
                 coeff_calculate(dt)
@@ -180,7 +176,7 @@ class Game:
             events = pygame.event.get()
             keys_pressed = pygame.key.get_pressed()
             mouse_pressed = pygame.mouse.get_pressed()
-
+            
             # event handeler if game is running
             if self.pause == False:
                 running = quit_handler()
