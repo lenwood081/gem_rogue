@@ -15,6 +15,7 @@ class Glow:
         image = pygame.transform.scale(pygame.image.load("assets/player/bullet_glow_1.png").convert_alpha(), (width*2, height*2))
         return image
     
+    @staticmethod
     def circle_image_add(radius):
         image = pygame.transform.scale(pygame.image.load("assets/effects/glow_add_circle.png").convert_alpha(), (radius*2, radius*2))
         return image

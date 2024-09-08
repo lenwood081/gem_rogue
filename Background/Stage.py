@@ -11,7 +11,7 @@ numpy.set_printoptions(threshold=sys.maxsize)
 
 
 class Stage:
-    def __init__(self, collisions_group, particles_group, enemy_group, experiance_group, projectile_group, player_group, cam_offset, diff_coeff):
+    def __init__(self, collisions_group, particles_group, enemy_group, experiance_group, projectile_group, player_group, cam_offset):
         # if true will remove from group, and be collected as garbage
         self.to_remove = False
          
@@ -274,8 +274,7 @@ class Stage:
                     if initial_grid[x][y] == 2 or initial_grid[x-1][y] == 2 or initial_grid[x+1][y] == 2:
                         self.threeByThree(initial_grid, x, y, 2)
                         break
-                
-        print(initial_grid)
+            
         
         # ------------------------------------- boundarys --------------------------------------------
         

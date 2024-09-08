@@ -68,8 +68,8 @@ class Game:
         enemies = pygame.sprite.Group()
         
         # background
-        stage1 = Stage(boundary, paritcles, enemies, experiance.get_group(), projectiles, players, camera.get_offset(), self.difficulty_coeff)
-        path = Path(Point(stage1.width, -stage1.height/2), Point(0, 0), 8)
+        stage1 = Stage(boundary, paritcles, enemies, experiance.get_group(), projectiles, players, camera.get_offset())
+        path = Path(Point(stage1.width, -stage1.height/2),Point(stage1.width*10, -stage1.height/2), (1, 0))
         player.set_position(stage1.player_start_pos)
         stage1.iniciate(1)
 

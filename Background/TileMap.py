@@ -22,8 +22,9 @@ class TileMap:
 
     # make shoot though
     def shoot_through(self, x, y, bool):
-        if isinstance(self.tile_array[x][y], Tile):
-            self.tile_array[x][y].shoot_through = bool
+        tile = self.tile_array[x][y]
+        if isinstance(tile, Tile):
+            tile.is_shoot_through = bool
     
     # add to collisions
     def add_collisions(self, collision_group):

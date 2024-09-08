@@ -43,7 +43,7 @@ class Projectile(pygame.sprite.Sprite):
         self.first_update = True
 
         # enemy group
-        self.enemy_group = None
+        self.enemy_group = pygame.sprite.Group()
 
     # needs to be run atleast once
     def set_enemy_group(self, group:pygame.sprite.Group):
@@ -64,8 +64,8 @@ class Projectile(pygame.sprite.Sprite):
                     return
         
         if self.first_update == False:
-            tile = pygame.sprite.spritecollideany(self, boundary)
-            if tile and tile.shoot_through == False:
+            tile = pygame.sprite.spritecollideany(self, boundary) # type: ignore
+            if tile and tile.is_shoot_through == False:
                 self.take_damage(1)
 
     # deal damage to objects
