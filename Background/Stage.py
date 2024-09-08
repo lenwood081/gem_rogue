@@ -6,6 +6,8 @@ from Background.TileMap import TileMap
 from Directors.Enemy_Director_Continous import Enemy_Director_Continous
 from Directors.Enemy_Director_Instant import Enemy_Director_Instant 
 import numpy
+import sys
+numpy.set_printoptions(threshold=sys.maxsize)
 
 
 class Stage:
@@ -42,7 +44,7 @@ class Stage:
         self.tile_dimensions = (32*SCALE_FACOTOR, 32*SCALE_FACOTOR)
 
         # tilemap
-        self.generate_stage(2000, 2000, 0.6)
+        self.generate_stage(1000, 1000, 0.7, ((-1, 1), (-1, 0), (1, -1), (0, -1)))
         self.base_tiles = TileMap(self.final_array, ["assets/background/simple_tile_1.png"], Point(0, 0), enemy_group)
 
         # ------------------------------ tiles for collisions --------------------------------------
@@ -126,13 +128,12 @@ class Stage:
 
     # ----------------------------------------- Tilemap stage generation -------------------------
 
-    # paths is a tuple ((x, y), (x, y), (x, y)...) indicating the direction of entry
     def generate_stage(self, width, height, percantage_fill, paths):
         # percentage_tollerance TODO
 
         # decide on a random weight and width
-        self.width = random.randint(width-width//2, width+width//2)
-        self.height = random.randint(height-height//2, height+height//2)
+        self.width = width
+        self.height = height
 
         # calculate number of tiles in each axis
         x_dim = (int)(self.width // self.tile_dimensions[0] + 1)
@@ -154,7 +155,7 @@ class Stage:
         for point in range(num_of_points):
             while True:
                 x = random.randint(x_dim//6, (x_dim)//2)
-                y = random.randint(x_dim//6, (y_dim)//2)
+                y = random.randint(y_dim//6, (y_dim)//2)
                 if initial_grid[x][y] == -1:
                     if first:
                         # get center and spawn pos for player
@@ -162,26 +163,10 @@ class Stage:
                         self.player_start_pos.move(x*self.tile_dimensions[0]+self.tile_dimensions[0]/2, -(y*self.tile_dimensions[1] + self.tile_dimensions[1]/2))
                         self.center_point = Point(x, y)
                         initial_grid[x][y] = 2 
-                        initial_grid[x][y-1] = 2 
-                        initial_grid[x][y+1] = 2 
-                        initial_grid[x-1][y] = 2 
-                        initial_grid[x-1][y-1] = 2 
-                        initial_grid[x-1][y+1] = 2 
-                        initial_grid[x+1][y] = 2 
-                        initial_grid[x+1][y-1] = 2 
-                        initial_grid[x+1][y+1] = 2 
                         number_of_tiles -= 1
                         first = False
                     else:
                         initial_grid[x][y] = 0 
-                        initial_grid[x][y-1] = 0 
-                        initial_grid[x][y+1] = 0 
-                        initial_grid[x-1][y] = 0 
-                        initial_grid[x-1][y-1] = 0 
-                        initial_grid[x-1][y+1] = 0 
-                        initial_grid[x+1][y] = 0 
-                        initial_grid[x+1][y-1] = 0 
-                        initial_grid[x+1][y+1] = 0
                     break;
 
         # generate from those points
@@ -202,7 +187,7 @@ class Stage:
                         # check right 
                         if j-1 >= 0 and initial_grid[i][j-1] == -1:
                             initial_grid[i][j-1] = 0
-                    
+
                     if initial_grid[i][j] == 0:
                         if number_of_tiles > 0:
                             initial_grid[i][j] = 1
@@ -215,8 +200,8 @@ class Stage:
         # pick a point and flood fill anything not connected is discarded
         while incomplete:
             incomplete = False
-            for i in range(2, x_dim):
-                for j in range(2, y_dim):
+            for i in range(x_dim+4):
+                for j in range(y_dim+4):
                     if initial_grid[i][j] == 2:
                         
                         # ------------------------------------------ noraml --------------------------------------
@@ -254,17 +239,43 @@ class Stage:
         there is no more 2's to connect to
         """
         
+        # paths is a tuple ((x, y), (x, y), (x, y)...) indicating the direction of entry
+        # -1 means not that axis, 0 means left or top, 1 means right or bottom
+        
+        # print(initial_grid)
+        
         # middle point of the path must align with the center 2
         for path in paths:
-            x = self.center_point.x
-            y = self.center_point.y
+            x = 0
+            y = 0
+            
+            if path[0] == -1:
+                x = self.center_point.x
+                y = path[1] * y_dim
+            if path[1] == -1:
+                y = self.center_point.y
+                x = path[1] * x_dim
+                
+            # start from outwards and build in
             while True:
                 # x axis
-                if path[1] == 0:
-                    x += path[0]
+                if path[1] == -1:
+                    increment = 1 - 2 * path[0]
+                    x += increment
                     # check 
+                    if initial_grid[x][y] == 2 or initial_grid[x][y-1] == 2 or initial_grid[x][y+1] == 2:
+                        self.threeByThree(initial_grid, x, y, 2)
+                        break
+                    
+                if path[0] == -1:
+                    increment = 1 - 2 * path[1]
+                    y += increment
+                    # check 
+                    if initial_grid[x][y] == 2 or initial_grid[x-1][y] == 2 or initial_grid[x+1][y] == 2:
+                        self.threeByThree(initial_grid, x, y, 2)
+                        break
                 
-        
+        print(initial_grid)
         
         # ------------------------------------- boundarys --------------------------------------------
         
@@ -300,12 +311,6 @@ class Stage:
                     if i-1 >= 0 and j-1 >= 0 and initial_grid[i-1][j-1] != 2:
                         initial_grid[i-1][j-1] = -2
                     
-
-                        
-
-        
-        
-
         # ----------------------------------------------------------------------------------------------------------------------------
 
         # recast to 0's and -1
@@ -313,3 +318,13 @@ class Stage:
         self.boundary_array = [[0 if initial_grid[i][j] == -2 else -1 for j in range(y_dim+4)] for i in range(x_dim+4)]
         #self.death_array = [[0 if self.final_array[i][j] == -1 and self.boundary_array[i][j] == -1 else -1 for j in range(y_dim+4)] for i in range(x_dim+4)]
 
+    def threeByThree(self, grid, x, y, value):
+        grid[x][y] = value
+        grid[x][y-1] = value 
+        grid[x][y+1] = value 
+        grid[x-1][y] = value 
+        grid[x-1][y-1] = value
+        grid[x-1][y+1] = value
+        grid[x+1][y] = value
+        grid[x+1][y-1] = value
+        grid[x+1][y+1] = value

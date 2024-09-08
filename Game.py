@@ -2,6 +2,8 @@ import pygame
 import time
 from config import *
 from Background.Stage import Stage
+from Background.Path import Path
+from utility.Point import Point
 from sprites.Player import Player
 from drops.ExperianceControl import ExperianceControl
 from menus.Menu import PauseMenu
@@ -67,6 +69,7 @@ class Game:
         
         # background
         stage1 = Stage(boundary, paritcles, enemies, experiance.get_group(), projectiles, players, camera.get_offset(), self.difficulty_coeff)
+        path = Path(Point(stage1.width, -stage1.height/2), Point(0, 0), 8)
         player.set_position(stage1.player_start_pos)
         stage1.iniciate(1)
 
@@ -95,6 +98,8 @@ class Game:
 
             # blit calls
             stage1.draw(screen, camera.get_offset())
+            
+            path.draw(screen, camera.get_offset())
 
             experiance.draw(screen, camera.get_offset())
             
@@ -130,6 +135,8 @@ class Game:
 
             # stage
             stage1.update(camera.get_offset(), dt, self.difficulty_coeff)
+            
+            path.update(camera.get_offset(), dt)
 
             player.update_after_camera(camera.get_offset(), enemies)
 
@@ -167,7 +174,7 @@ class Game:
             dt = time.time() - last_time
             dt *= FRAMERATE
             last_time = time.time()
-            self.
+
             # increase enemy difficulty if not paused
             if self.pause == False:
                 coeff_calculate(dt)

@@ -91,7 +91,7 @@ class Player(ItemHolder):
         self.enemy_group = None
 
         # allows wall going through
-        self.trans = False
+        self.trans = True
 
         # actions
         self.angle = 0
