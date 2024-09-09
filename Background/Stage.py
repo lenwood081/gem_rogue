@@ -11,7 +11,7 @@ numpy.set_printoptions(threshold=sys.maxsize)
 
 
 class Stage:
-    def __init__(self, collisions_group, particles_group, enemy_group, experiance_group, projectile_group, player_group, cam_offset):
+    def __init__(self, collisions_group, particles_group, enemy_group, experiance_group, projectile_group, player_group, cam_offset, entry_path="left"):
         # if true will remove from group, and be collected as garbage
         self.to_remove = False
          
@@ -42,9 +42,11 @@ class Stage:
 
         # ------------------------------- tiles for background (visual and trodden on) -------------------------------
         self.tile_dimensions = (32*SCALE_FACOTOR, 32*SCALE_FACOTOR)
+        self.num_paths = random.randint(2, 4)
+        self.exit_paths = ()
 
         # tilemap
-        self.generate_stage(1000, 1000, 0.7, ((-1, 1), (-1, 0), (1, -1), (0, -1)))
+        self.generate_stage(1000, 1000, 0.7, entry_path)
         self.base_tiles = TileMap(self.final_array, ["assets/background/simple_tile_1.png"], Point(0, 0), enemy_group)
 
         # ------------------------------ tiles for collisions --------------------------------------
@@ -128,7 +130,7 @@ class Stage:
 
     # ----------------------------------------- Tilemap stage generation -------------------------
 
-    def generate_stage(self, width, height, percantage_fill, paths):
+    def generate_stage(self, width, height, percantage_fill, entry_path):
         # percentage_tollerance TODO
 
         # decide on a random weight and width
@@ -154,8 +156,8 @@ class Stage:
         first = True
         for point in range(num_of_points):
             while True:
-                x = random.randint(x_dim//6, (x_dim)//2)
-                y = random.randint(y_dim//6, (y_dim)//2)
+                x = random.randint(x_dim//6+1, (x_dim)//2)
+                y = random.randint(y_dim//6+1, (y_dim)//2)
                 if initial_grid[x][y] == -1:
                     if first:
                         # get center and spawn pos for player
@@ -242,7 +244,14 @@ class Stage:
         # paths is a tuple ((x, y), (x, y), (x, y)...) indicating the direction of entry
         # -1 means not that axis, 0 means left or top, 1 means right or bottom
         
-        # print(initial_grid)
+        # print(initial_grid
+        paths = []
+        PATHS = {"top": (-1, 0), "bottom": (-1, 1), "left": (0, -1), "right": (1, -1)}
+        # entry path will always be to the first
+        paths.append(PATHS.pop(entry_path))
+        for i in range(1, self.num_paths):
+            temp = PATHS.pop(random.choice(list(PATHS.keys())))
+            paths.append(temp)
         
         # middle point of the path must align with the center 2
         for path in paths:
