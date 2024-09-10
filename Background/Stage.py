@@ -28,8 +28,8 @@ class Stage:
         self.death_group = pygame.sprite.Group()
 
         # w, h
-        self.width = 1000
-        self.height = 1000
+        self.width = 2000
+        self.height = 2000
 
         # tile_arrays
         self.boundary_array = []
@@ -138,8 +138,8 @@ class Stage:
         first = True
         for point in range(num_of_points):
             while True:
-                x = random.randint(x_dim//6+1, (x_dim)//2)
-                y = random.randint(y_dim//6+1, (y_dim)//2)
+                x = random.randint(x_dim//7+1, (x_dim)//2)
+                y = random.randint(y_dim//7+1, (y_dim)//2)
                 if initial_grid[x][y] == -1:
                     if first:
                         # get center and spawn pos for player
