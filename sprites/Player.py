@@ -84,7 +84,7 @@ class Player(ItemHolder):
         self.collect_range = 100
         self.exp = 0
         self.exp_to_level = 10
-
+        
         # groups
         self.projectile_group = projectile_group
         self.particle_group = particle_group
