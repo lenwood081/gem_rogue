@@ -4,8 +4,13 @@ from config import SCALE_FACOTOR
 from utility.Point import Point
 import math
 
+# TODO impliment doors
+
 class Path:
-    def __init__(self, start, end, orientation):
+    def __init__(self, start, end, orientation, end_stage):
+        # stage to end at
+        destination_stage = end_stage
+
         # same as in stage (0 for not axis or 1) reletive to starting stage
         self.start_orientation = orientation
                 
@@ -19,7 +24,7 @@ class Path:
         self.create_path(3, start, end)
 
         # base tiles
-        self.base_tiles = TileMap(self.path_grid, ["assets/background/simple_tile_1.png"], start, self.none_group)
+        self.base_tiles = TileMap(self.path_grid, ["assets/background/background_cobble_tile1.png"], start, self.none_group)
         
     # tunnel in direction
     def create_path(self,  path_width, start, end):
