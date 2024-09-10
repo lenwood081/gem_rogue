@@ -11,9 +11,10 @@ numpy.set_printoptions(threshold=sys.maxsize)
 
 
 class Stage:
-    def __init__(self, collisions_group, particles_group, enemy_group, experiance_group, projectile_group, player_group, cam_offset, diff_coeff):
+    def __init__(self, collisions_group, particles_group, enemy_group, experiance_group, projectile_group, player_group, cam_offset, position, entry_path="left"):
         # if true will remove from group, and be collected as garbage
         self.to_remove = False
+        self.pos = position.copy()
          
         # groups
         self.enemies = enemy_group
@@ -27,34 +28,32 @@ class Stage:
         self.death_group = pygame.sprite.Group()
 
         # w, h
-        self.width = 0
-        self.height = 0
+        self.width = 2000
+        self.height = 2000
 
         # tile_arrays
         self.boundary_array = []
         self.final_array = []
-        self.death_array = []
 
         # player start position
         self.center_point = Point(0, 0)
-        self.player_start_pos = Point(0, 0)
+        self.player_start_pos = position.copy()
         self.iniciated = False
 
         # ------------------------------- tiles for background (visual and trodden on) -------------------------------
         self.tile_dimensions = (32*SCALE_FACOTOR, 32*SCALE_FACOTOR)
+        self.num_paths = random.randint(2, 4)
+        self.exit_paths = []
 
         # tilemap
-        self.generate_stage(1000, 1000, 0.7, ((-1, 1), (-1, 0), (1, -1), (0, -1)))
-        self.base_tiles = TileMap(self.final_array, ["assets/background/simple_tile_1.png"], Point(0, 0), enemy_group)
+        self.generate_stage(0.7, entry_path)
+        self.base_tiles = TileMap(self.final_array, ["assets/background/simple_tile_1.png"], self.pos, enemy_group)
 
         # ------------------------------ tiles for collisions --------------------------------------
 
-
-        self.boundary_tiles = TileMap(self.boundary_array, ["assets/background/boundary_box.png"], Point(0, 0), enemy_group)
+        self.boundary_tiles = TileMap(self.boundary_array, ["assets/background/boundary_box.png"], self.pos, enemy_group)
         self.boundary_tiles.add_collisions(collisions_group)
 
-        #self.death_tiles = TileMap(self.death_array, ["assets/background/background_tile1.png"], Point(0, 0), enemy_group)
-        #self.death_tiles.add_collisions(collisions_group)
 
         # ------------------------------------ enemey directors -----------------------------------------
 
@@ -86,7 +85,6 @@ class Stage:
     # delete stage
     def deactivate(self):
         self.to_remove = True
- 
 
     # update
     def update(self, cam_offset, dt, diff_coeff):
@@ -102,16 +100,6 @@ class Stage:
         # update enemy spawners 
         self.base_tiles.update(cam_offset, dt)
         
-        # update death tiles
-        #self.death_tiles.update(cam_offset, dt)
-
-        # check if anything is out of bounds and remove them
-        """
-        for tile in self.death_group:
-            for enemy in self.enemies:
-                if pygame.Rect.colliderect(tile.rect, enemy.hitbox_rect):
-                    enemy.death()
-        """
 
     def draw(self, screen, cam_offset):
         # blit stage_tiles 
@@ -128,12 +116,8 @@ class Stage:
 
     # ----------------------------------------- Tilemap stage generation -------------------------
 
-    def generate_stage(self, width, height, percantage_fill, paths):
+    def generate_stage(self, percantage_fill, entry_path):
         # percentage_tollerance TODO
-
-        # decide on a random weight and width
-        self.width = width
-        self.height = height
 
         # calculate number of tiles in each axis
         x_dim = (int)(self.width // self.tile_dimensions[0] + 1)
@@ -154,8 +138,8 @@ class Stage:
         first = True
         for point in range(num_of_points):
             while True:
-                x = random.randint(x_dim//6, (x_dim)//2)
-                y = random.randint(y_dim//6, (y_dim)//2)
+                x = random.randint(x_dim//6+1, (x_dim)//2)
+                y = random.randint(y_dim//6+1, (y_dim)//2)
                 if initial_grid[x][y] == -1:
                     if first:
                         # get center and spawn pos for player
@@ -168,6 +152,7 @@ class Stage:
                     else:
                         initial_grid[x][y] = 0 
                     break;
+
 
         # generate from those points
         while number_of_tiles > 0:
@@ -242,7 +227,21 @@ class Stage:
         # paths is a tuple ((x, y), (x, y), (x, y)...) indicating the direction of entry
         # -1 means not that axis, 0 means left or top, 1 means right or bottom
         
-        # print(initial_grid)
+        # print(initial_grid
+        paths = []
+        PATHS = {"top": (-1, 0), "bottom": (-1, 1), "left": (0, -1), "right": (1, -1)}
+
+            
+        # calculate position should be relevtive to the path connection
+        path = PATHS[entry_path]
+
+
+        # entry path will always be to the first
+        paths.append(PATHS.pop(entry_path))
+        for i in range(1, self.num_paths):
+            temp = PATHS.pop(random.choice(list(PATHS.keys())))
+            paths.append(temp)
+            self.exit_paths.append(temp)
         
         # middle point of the path must align with the center 2
         for path in paths:
@@ -274,8 +273,7 @@ class Stage:
                     if initial_grid[x][y] == 2 or initial_grid[x-1][y] == 2 or initial_grid[x+1][y] == 2:
                         self.threeByThree(initial_grid, x, y, 2)
                         break
-                
-        print(initial_grid)
+            
         
         # ------------------------------------- boundarys --------------------------------------------
         
@@ -316,8 +314,8 @@ class Stage:
         # recast to 0's and -1
         self.final_array = [[0 if initial_grid[i][j] == 2 else -1 for j in range(y_dim+4)] for i in range(x_dim+4)]
         self.boundary_array = [[0 if initial_grid[i][j] == -2 else -1 for j in range(y_dim+4)] for i in range(x_dim+4)]
-        #self.death_array = [[0 if self.final_array[i][j] == -1 and self.boundary_array[i][j] == -1 else -1 for j in range(y_dim+4)] for i in range(x_dim+4)]
 
+    # utility function
     def threeByThree(self, grid, x, y, value):
         grid[x][y] = value
         grid[x][y-1] = value 

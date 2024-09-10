@@ -17,7 +17,7 @@ class Tile(pygame.sprite.Sprite):
         self.width = self.image.get_width()
         self.height = self.image.get_height()
 
-        self.shoot_through = False
+        self.is_shoot_through = False
         self.spawn_tile = False
 
         self.center_pos = Point(self.pos.x + self.width/2, self.pos.y - self.height/2)

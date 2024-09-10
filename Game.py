@@ -1,7 +1,8 @@
 import pygame
 import time
 from config import *
-from Background.Stage import Stage
+from Background.StageManager import StageManager
+from Background.Stage import Stage 
 from Background.Path import Path
 from utility.Point import Point
 from sprites.Player import Player
@@ -68,10 +69,10 @@ class Game:
         enemies = pygame.sprite.Group()
         
         # background
-        stage1 = Stage(boundary, paritcles, enemies, experiance.get_group(), projectiles, players, camera.get_offset(), self.difficulty_coeff)
-        path = Path(Point(stage1.width, -stage1.height/2), Point(0, 0), 8)
-        player.set_position(stage1.player_start_pos)
-        stage1.iniciate(1)
+        stages = Stage(boundary, paritcles, enemies, experiance.get_group(), projectiles, players, camera.get_offset(), Point(0, 0))
+        #path = Path(Point(stage1.width, -stage1.height/2),Point(stage1.width*10, -stage1.height/2), (1, 0))
+        player.set_position(stages.player_start_pos)
+        stages.iniciate(1)
 
         # event varibles
         events = pygame.event.get()
@@ -97,9 +98,9 @@ class Game:
             screen.fill(BLACK)
 
             # blit calls
-            stage1.draw(screen, camera.get_offset())
+            stages.draw(screen, camera.get_offset())
             
-            path.draw(screen, camera.get_offset())
+            #path.draw(screen, camera.get_offset())
 
             experiance.draw(screen, camera.get_offset())
             
@@ -118,7 +119,7 @@ class Game:
                 particle.draw(screen, camera.get_offset())  
 
             # after rendering effects
-            stage1.draw_after(screen)
+            stages.draw_after(screen)
             
             # hud
             health.draw(screen)
@@ -134,9 +135,9 @@ class Game:
             camera.update(player.pos)
 
             # stage
-            stage1.update(camera.get_offset(), dt, self.difficulty_coeff)
+            stages.update(camera.get_offset(), dt, self.difficulty_coeff)
             
-            path.update(camera.get_offset(), dt)
+            #path.update(camera.get_offset(), dt)
 
             player.update_after_camera(camera.get_offset(), enemies)
 

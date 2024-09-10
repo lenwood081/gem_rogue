@@ -178,3 +178,196 @@ sprites\weapons\Guns\NodeBlaster.py, code is 25, comment is 4, blank is 7.
 sprites\weapons\Guns\PlasmaGun.py, code is 18, comment is 3, blank is 6.
 sprites\weapons\Weapon.py, code is 37, comment is 11, blank is 19.
 ===============================================================================
+===============================================================================
+EXTENSION NAME : linecounter
+EXTENSION VERSION : 0.2.7
+-------------------------------------------------------------------------------
+count time : 2024-09-09 22:28:06
+count workspace : c:\Users\Lennie\OneDrive\projects\gem_rogue
+total files : 172
+total code lines : 2283
+total comment lines : 635
+total blank lines : 889
+
+    statistics
+   |      extension|     total code|  total comment|    total blank|percent|
+   -------------------------------------------------------------------------
+   |            .py|           2107|            635|            884|     92|
+   |           .txt|            135|              0|              0|    5.9|
+   |               |             18|              0|              4|   0.79|
+   |            .md|              2|              0|              1|  0.088|
+   |           .gpl|             21|              0|              0|   0.92|
+   -------------------------------------------------------------------------
+.gitignore, code is 1, comment is 0, blank is 0.
+__pycache__\config.cpython-312.pyc, it is a binary file.
+__pycache__\Enemy.cpython-312.pyc, it is a binary file.
+__pycache__\Game.cpython-312.pyc, it is a binary file.
+__pycache__\Menu.cpython-312.pyc, it is a binary file.
+Actions\__pycache__\Action.cpython-312.pyc, it is a binary file.
+Actions\__pycache__\CollideAttack.cpython-312.pyc, it is a binary file.
+Actions\__pycache__\Dash.cpython-312.pyc, it is a binary file.
+Actions\__pycache__\WeaponFire.cpython-312.pyc, it is a binary file.
+Actions\Action.py, code is 52, comment is 21, blank is 24.
+Actions\CollideAttack.py, code is 12, comment is 4, blank is 6.
+Actions\Dash.py, code is 114, comment is 23, blank is 41.
+Actions\WeaponFire.py, code is 29, comment is 10, blank is 10.
+Animations\__pycache__\Animation.cpython-312.pyc, it is a binary file.
+Animations\Animation.py, code is 37, comment is 9, blank is 10.
+assets\background\ash_overlay.aseprite, it is a binary file.
+assets\background\ash_overlay.png, it is a binary file.
+assets\background\background_cobble_tile1.png, it is a binary file.
+assets\background\background_tile1.png, it is a binary file.
+assets\background\background_tile_concept1.aseprite, it is a binary file.
+assets\background\blank_tile.png, it is a binary file.
+assets\background\boundary_box.png, it is a binary file.
+assets\background\pebble-rock-ground.png, it is a binary file.
+assets\background\simple_tile_1.png, it is a binary file.
+assets\Color_Pallete\slso-clr17.gpl, code is 21, comment is 0, blank is 0.
+assets\Drops\Ex.png, it is a binary file.
+assets\Drops\Quads.png, it is a binary file.
+assets\effects\glow_add.png, it is a binary file.
+assets\effects\glow_add_circle.png, it is a binary file.
+assets\enemies\blockfodder\base.png, it is a binary file.
+assets\enemies\blockfodder\hurt.png, it is a binary file.
+assets\enemies\BlockRanged\BloackRanged.aseprite, it is a binary file.
+assets\enemies\BlockRanged\BlockRanged.png, it is a binary file.
+assets\enemies\BlockRanged\BlockRanged_hurt.png, it is a binary file.
+assets\Equipment\Dash_not_ready.png, it is a binary file.
+assets\Equipment\Dash_ready.png, it is a binary file.
+assets\HUD\BarOuter.png, it is a binary file.
+assets\player\duck.aseprite, it is a binary file.
+assets\player\duck.png, it is a binary file.
+assets\player\duck_wizard.aseprite, it is a binary file.
+assets\player\duck_wizard.png, it is a binary file.
+assets\player\Player.aseprite, it is a binary file.
+assets\player\Player_concept1.aseprite, it is a binary file.
+assets\player\Player_concept1.png, it is a binary file.
+assets\player\Player_concept1_walk1.png, it is a binary file.
+assets\player\Player_concept1_walk2.png, it is a binary file.
+assets\Projectiles\bullet_glow.aseprite, it is a binary file.
+assets\Projectiles\bullet_glow_1.png, it is a binary file.
+assets\Projectiles\NodeBullet.png, it is a binary file.
+assets\Projectiles\simple_bullet.png, it is a binary file.
+assets\Projectiles\White_bullet.png, it is a binary file.
+assets\UI\buttons\base.aseprite, it is a binary file.
+assets\UI\buttons\Enter.png, it is a binary file.
+assets\weapons\Basic_gun.png, it is a binary file.
+assets\weapons\NodeBlaster.aseprite, it is a binary file.
+assets\weapons\NodeBlaster.png, it is a binary file.
+assets\weapons\NodeBlaster1.png, it is a binary file.
+assets\weapons\NodeBlaster2.png, it is a binary file.
+assets\weapons\NodeBlaster3.png, it is a binary file.
+assets\weapons\PlasmaFlash.aseprite, it is a binary file.
+assets\weapons\PlasmaFlash.png, it is a binary file.
+assets\weapons\PlasmaGun.aseprite, it is a binary file.
+assets\weapons\PlasmaGun.png, it is a binary file.
+assets\weapons\PlasmaGun1.png, it is a binary file.
+assets\weapons\PlasmaGun2.png, it is a binary file.
+assets\weapons\PlasmaGun3.png, it is a binary file.
+Background\__pycache__\Background.cpython-312.pyc, it is a binary file.
+Background\__pycache__\Path.cpython-312.pyc, it is a binary file.
+Background\__pycache__\Stage.cpython-312.pyc, it is a binary file.
+Background\__pycache__\StageManager.cpython-312.pyc, it is a binary file.
+Background\__pycache__\Tile.cpython-312.pyc, it is a binary file.
+Background\__pycache__\TileMap.cpython-312.pyc, it is a binary file.
+Background\Background.py, code is 5, comment is 2, blank is 3.
+Background\Path.py, code is 23, comment is 8, blank is 19.
+Background\Stage.py, code is 187, comment is 70, blank is 68.
+Background\StageManager.py, code is 43, comment is 17, blank is 18.
+Background\Tile.py, code is 37, comment is 7, blank is 15.
+Background\TileMap.py, code is 40, comment is 14, blank is 8.
+Camera\__pycache__\Camera.cpython-312.pyc, it is a binary file.
+Camera\Camera.py, code is 12, comment is 5, blank is 6.
+config.py, code is 12, comment is 3, blank is 6.
+Directors\__pycache__\Card.cpython-312.pyc, it is a binary file.
+Directors\__pycache__\Director.cpython-312.pyc, it is a binary file.
+Directors\__pycache__\Enemy_Director.cpython-312.pyc, it is a binary file.
+Directors\__pycache__\Enemy_Director_Continous.cpython-312.pyc, it is a binary file.
+Directors\__pycache__\Enemy_Director_Instant.cpython-312.pyc, it is a binary file.
+Directors\Card.py, code is 8, comment is 2, blank is 2.
+Directors\Director.py, code is 57, comment is 19, blank is 17.
+Directors\Enemy_cards\__pycache__\EnemyCards.cpython-312.pyc, it is a binary file.
+Directors\Enemy_cards\EnemyCards.py, code is 7, comment is 1, blank is 1.
+Directors\Enemy_Director_Continous.py, code is 39, comment is 15, blank is 26.
+Directors\Enemy_Director_Instant.py, code is 25, comment is 8, blank is 13.
+drops\__pycache__\Experiance.cpython-312.pyc, it is a binary file.
+drops\__pycache__\ExperianceControl.cpython-312.pyc, it is a binary file.
+drops\Experiance.py, code is 28, comment is 7, blank is 16.
+drops\ExperianceControl.py, code is 20, comment is 3, blank is 5.
+drops\Items\__pycache__\Item.cpython-312.pyc, it is a binary file.
+drops\Items\Equipment\__pycache__\DashItem.cpython-312.pyc, it is a binary file.
+drops\Items\Equipment\__pycache__\PlasmaGunItem.cpython-312.pyc, it is a binary file.
+drops\Items\Equipment\DashItem.py, code is 14, comment is 2, blank is 4.
+drops\Items\Equipment\PlasmaGunItem.py, code is 16, comment is 2, blank is 4.
+drops\Items\Equipment\ReadMe.md, code is 2, comment is 0, blank is 1.
+drops\Items\Item.py, code is 13, comment is 5, blank is 8.
+drops\Items\Passive\__pycache__\Quads.cpython-312.pyc, it is a binary file.
+drops\Items\Passive\Quads.py, code is 13, comment is 3, blank is 9.
+effects\__pycache__\Particle.cpython-312.pyc, it is a binary file.
+effects\Particle.py, code is 60, comment is 13, blank is 36.
+Game.py, code is 116, comment is 45, blank is 53.
+HUD\__pycache__\ExpBar.cpython-312.pyc, it is a binary file.
+HUD\__pycache__\HealthBar.cpython-312.pyc, it is a binary file.
+HUD\ExpBar.py, code is 28, comment is 7, blank is 10.
+HUD\HealthBar.py, code is 38, comment is 1, blank is 16.
+LICENSE, code is 17, comment is 0, blank is 4.
+Main.py, code is 16, comment is 7, blank is 8.
+Menu.py, code is 35, comment is 12, blank is 12.
+menu_assests\__pycache__\Button.cpython-312.pyc, it is a binary file.
+menu_assests\__pycache__\ItemDisplay.cpython-312.pyc, it is a binary file.
+menu_assests\Button.py, code is 42, comment is 10, blank is 12.
+menu_assests\ItemDisplay.py, code is 31, comment is 4, blank is 10.
+menus\__pycache__\BlankMenu.cpython-312.pyc, it is a binary file.
+menus\__pycache__\ExitGame.cpython-312.pyc, it is a binary file.
+menus\__pycache__\ExitMenu.cpython-312.pyc, it is a binary file.
+menus\__pycache__\Menu.cpython-312.pyc, it is a binary file.
+menus\__pycache__\MenuManager.cpython-312.pyc, it is a binary file.
+menus\__pycache__\PuaseMenu.cpython-312.pyc, it is a binary file.
+menus\__pycache__\ShopMenu.cpython-312.pyc, it is a binary file.
+menus\Menu.py, code is 84, comment is 21, blank is 36.
+report.txt, code is 135, comment is 0, blank is 0.
+sprites\__pycache__\Background.cpython-312.pyc, it is a binary file.
+sprites\__pycache__\BlockFodder.cpython-312.pyc, it is a binary file.
+sprites\__pycache__\Enemy.cpython-312.pyc, it is a binary file.
+sprites\__pycache__\Experiance.cpython-312.pyc, it is a binary file.
+sprites\__pycache__\HealthBar.cpython-312.pyc, it is a binary file.
+sprites\__pycache__\ItemHolder.cpython-312.pyc, it is a binary file.
+sprites\__pycache__\Player.cpython-312.pyc, it is a binary file.
+sprites\__pycache__\Projectile.cpython-312.pyc, it is a binary file.
+sprites\__pycache__\Weapon.cpython-312.pyc, it is a binary file.
+sprites\enemies\__pycache__\BlockFodder.cpython-312.pyc, it is a binary file.
+sprites\enemies\__pycache__\BlockRanged.cpython-312.pyc, it is a binary file.
+sprites\enemies\__pycache__\Enemy.cpython-312.pyc, it is a binary file.
+sprites\enemies\BlockFodder.py, code is 16, comment is 5, blank is 9.
+sprites\enemies\BlockRanged.py, code is 51, comment is 17, blank is 23.
+sprites\enemies\Enemy.py, code is 100, comment is 32, blank is 43.
+sprites\ItemHolder.py, code is 129, comment is 51, blank is 70.
+sprites\Player.py, code is 181, comment is 72, blank is 71.
+sprites\projectiles\__pycache__\GlowBullet.cpython-312.pyc, it is a binary file.
+sprites\projectiles\__pycache__\NodeBullet.cpython-312.pyc, it is a binary file.
+sprites\projectiles\__pycache__\Projectile.cpython-312.pyc, it is a binary file.
+sprites\projectiles\__pycache__\WhiteBullet.cpython-312.pyc, it is a binary file.
+sprites\projectiles\GlowBullet.py, code is 16, comment is 3, blank is 7.
+sprites\projectiles\NodeBullet.py, code is 8, comment is 0, blank is 3.
+sprites\projectiles\Projectile.py, code is 71, comment is 27, blank is 35.
+sprites\projectiles\WhiteBullet.py, code is 7, comment is 2, blank is 5.
+sprites\weapons\__pycache__\BasicGun.cpython-312.pyc, it is a binary file.
+sprites\weapons\__pycache__\Gun.cpython-312.pyc, it is a binary file.
+sprites\weapons\__pycache__\PlasmaGun.cpython-312.pyc, it is a binary file.
+sprites\weapons\__pycache__\Weapon.cpython-312.pyc, it is a binary file.
+sprites\weapons\Guns\__pycache__\BasicGun.cpython-312.pyc, it is a binary file.
+sprites\weapons\Guns\__pycache__\Gun.cpython-312.pyc, it is a binary file.
+sprites\weapons\Guns\__pycache__\NodeBlaster.cpython-312.pyc, it is a binary file.
+sprites\weapons\Guns\__pycache__\PlasmaGun.cpython-312.pyc, it is a binary file.
+sprites\weapons\Guns\BasicGun.py, code is 14, comment is 3, blank is 7.
+sprites\weapons\Guns\Gun.py, code is 58, comment is 17, blank is 24.
+sprites\weapons\Guns\NodeBlaster.py, code is 25, comment is 4, blank is 7.
+sprites\weapons\Guns\PlasmaGun.py, code is 18, comment is 3, blank is 6.
+sprites\weapons\Weapon.py, code is 37, comment is 11, blank is 19.
+utility\__pycache__\Direction.cpython-312.pyc, it is a binary file.
+utility\__pycache__\Glow.cpython-312.pyc, it is a binary file.
+utility\__pycache__\Point.cpython-312.pyc, it is a binary file.
+utility\Direction.py, code is 21, comment is 1, blank is 7.
+utility\Glow.py, code is 16, comment is 0, blank is 5.
+utility\Point.py, code is 46, comment is 7, blank is 11.
+===============================================================================

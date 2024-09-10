@@ -36,7 +36,7 @@ class Director:
         self.credits -= cards[self.index].cost
 
         # decide on a random spawnable tile
-        tileP = None;
+        tileP = 0
         while True:
             attempt_index = random.randint(0, self.spawn_map.length)
             i = 0
@@ -55,14 +55,14 @@ class Director:
             if isinstance(tileP, Tile) == False:
                 continue;
             
-            if tileP.spawning:
+            if tileP.spawning: # type: ignore
                 continue;
 
             # else spawn
             break;
         
         # spawn there, indicate first (spawning circle)
-        tileP.spawn_enemy(cards[self.index].type(tileP.pos, self.experiance_group, self.projectile_group, self.players, self.particle_group, self.cam_offset))
+        tileP.spawn_enemy(cards[self.index].type(tileP.pos, self.experiance_group, self.projectile_group, self.players, self.particle_group, self.cam_offset)) # type: ignore
 
     # choose monster
     def choose_monster_index(self, cards):
@@ -86,5 +86,5 @@ class Director:
             self.index = -1
             return False
         
-        self.index = random.choices(index_array, prob_array)[0]
+        self.index = random.choices(index_array, prob_array)[0] # type: ignore
         return True
