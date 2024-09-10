@@ -11,7 +11,7 @@ numpy.set_printoptions(threshold=sys.maxsize)
 
 
 class Stage:
-    def __init__(self, collisions_group, particles_group, enemy_group, experiance_group, projectile_group, player_group, cam_offset, position, entry_path="left"):
+    def __init__(self, collisions_group, particles_group, enemy_group, experiance_group, projectile_group, player_group, cam_offset, position, entry_path="right"):
         # if true will remove from group, and be collected as garbage
         self.to_remove = False
         self.pos = position.copy()
@@ -28,8 +28,8 @@ class Stage:
         self.death_group = pygame.sprite.Group()
 
         # w, h
-        self.width = 2000
-        self.height = 2000
+        self.width = 1000
+        self.height = 1000
 
         # tile_arrays
         self.boundary_array = []
@@ -42,8 +42,8 @@ class Stage:
 
         # ------------------------------- tiles for background (visual and trodden on) -------------------------------
         self.tile_dimensions = (32*SCALE_FACOTOR, 32*SCALE_FACOTOR)
-        self.num_paths = random.randint(2, 4)
-        self.exit_paths = []
+        self.num_paths = random.randint(3, 4)
+        self.paths = []
 
         # tilemap
         self.generate_stage(0.7, entry_path)
@@ -108,7 +108,7 @@ class Stage:
         #self.death_tiles.draw(screen, cam_offset)
 
         # makes it dark
-        screen.blit(self.surf, (0,0), special_flags=pygame.BLEND_RGBA_SUB)
+        # screen.blit(self.surf, (0,0), special_flags=pygame.BLEND_RGBA_SUB)
 
     def draw_after(self, screen):
         screen.blit(self.surf, (0,0), special_flags=pygame.BLEND_RGBA_SUB)
@@ -228,7 +228,6 @@ class Stage:
         # -1 means not that axis, 0 means left or top, 1 means right or bottom
         
         # print(initial_grid
-        paths = []
         PATHS = {"top": (-1, 0), "bottom": (-1, 1), "left": (0, -1), "right": (1, -1)}
 
             
@@ -237,40 +236,44 @@ class Stage:
 
 
         # entry path will always be to the first
-        paths.append(PATHS.pop(entry_path))
+        self.paths.append((PATHS.pop(entry_path), []))
         for i in range(1, self.num_paths):
             temp = PATHS.pop(random.choice(list(PATHS.keys())))
-            paths.append(temp)
-            self.exit_paths.append(temp)
-        
+            self.paths.append((temp, []))
+            # exit paths need the position as well
+
         # middle point of the path must align with the center 2
-        for path in paths:
+        for path in self.paths:
             x = 0
             y = 0
             
-            if path[0] == -1:
+            if path[0][0] == -1:
                 x = self.center_point.x
-                y = path[1] * y_dim
-            if path[1] == -1:
+                y = path[0][1] * y_dim
+            if path[0][1] == -1:
                 y = self.center_point.y
-                x = path[1] * x_dim
+                x = path[0][0] * x_dim
                 
             # start from outwards and build in
             while True:
                 # x axis
-                if path[1] == -1:
-                    increment = 1 - 2 * path[0]
+                if path[0][1] == -1:
+                    increment = 1 - 2 * path[0][0]
                     x += increment
                     # check 
                     if initial_grid[x][y] == 2 or initial_grid[x][y-1] == 2 or initial_grid[x][y+1] == 2:
+                        path[1].append(self.pos.x + x*self.tile_dimensions[0]+self.tile_dimensions[0]/2)
+                        path[1].append(self.pos.y -(y*self.tile_dimensions[1] + self.tile_dimensions[1]/2))
                         self.threeByThree(initial_grid, x, y, 2)
                         break
                     
-                if path[0] == -1:
-                    increment = 1 - 2 * path[1]
+                if path[0][0] == -1:
+                    increment = 1 - 2 * path[0][1]
                     y += increment
                     # check 
                     if initial_grid[x][y] == 2 or initial_grid[x-1][y] == 2 or initial_grid[x+1][y] == 2:
+                        path[1].append(self.pos.x + x*self.tile_dimensions[0]+self.tile_dimensions[0]/2)
+                        path[1].append(self.pos.y -(y*self.tile_dimensions[1] + self.tile_dimensions[1]/2))
                         self.threeByThree(initial_grid, x, y, 2)
                         break
             

@@ -1,3 +1,4 @@
+from audioop import reverse
 import math
 from Background.Path import Path
 from Background.Stage import Stage
@@ -59,18 +60,26 @@ class StageManager:
 
     # add paths
     def add_exit_paths(self, stage:Stage, cam_offset) -> None:
-        length = 2000 # pixels
-        paths = stage.exit_paths
+        length = 4000 # pixels
+        paths = stage.paths
+        first = True
         for path in paths:
-            length_y = 4000 * min(1+path[1], 1) * (1 + -2 * path[1])
-            length_x = 4000 * min(1+path[0], 1) * (1 + -2 * path[0])
-            position = Point(stage.player_start_pos.x - length_x, stage.player_start_pos.y - length_y)
+            if first == True:
+                first = False
+                continue
+            length_y = length * min(1+path[0][1], 1) * (1 + -2 * path[0][1])
+            length_x = length * min(1+path[0][0], 1) * (1 + -2 * path[0][0])
+            position = Point(stage.player_start_pos.x - length_x , stage.player_start_pos.y + length_y)
             # add new stage
             new_stage = Stage(self.collisions, self.particles, self.enemies, self.experiance, self.projectiles, self.players, cam_offset, position)
             self.adjacent_stages.append(new_stage)
             # create path
             path_orientation = (min(1, math.fabs(length_x)), min(1, math.fabs(length_y)))
-            print(path_orientation)
-            new_path = Path(stage.player_start_pos, new_stage.player_start_pos, path_orientation, new_stage)
+            reverse = True
+            if path[0][1] == 1 or path[0][0] == 1:
+                print("reverse")
+                reverse = False
+            
+            new_path = Path(Point(path[1][0], path[1][1]), new_stage.player_start_pos, path_orientation, reverse, new_stage)
             self.paths.append(new_path)
 

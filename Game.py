@@ -69,10 +69,10 @@ class Game:
         enemies = pygame.sprite.Group()
         
         # background
-        stages = Stage(boundary, paritcles, enemies, experiance.get_group(), projectiles, players, camera.get_offset(), Point(0, 0))
+        stages = StageManager(boundary, paritcles, enemies, experiance.get_group(), projectiles, players, camera.get_offset())
         #path = Path(Point(stage1.width, -stage1.height/2),Point(stage1.width*10, -stage1.height/2), (1, 0))
-        player.set_position(stages.player_start_pos)
-        stages.iniciate(1)
+        player.set_position(stages.active_stage.player_start_pos)
+        #stages.iniciate(1)
 
         # event varibles
         events = pygame.event.get()
@@ -119,7 +119,7 @@ class Game:
                 particle.draw(screen, camera.get_offset())  
 
             # after rendering effects
-            stages.draw_after(screen)
+            #stages.draw_after(screen)
             
             # hud
             health.draw(screen)
