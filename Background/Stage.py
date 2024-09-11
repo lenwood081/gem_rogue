@@ -42,7 +42,7 @@ class Stage:
 
         # ------------------------------- tiles for background (visual and trodden on) -------------------------------
         self.tile_dimensions = (32*SCALE_FACOTOR, 32*SCALE_FACOTOR)
-        self.num_paths = random.randint(3, 4)
+        self.num_paths = random.randint(4, 4)
         self.paths = []
 
         # tilemap
@@ -263,7 +263,7 @@ class Stage:
                     # check 
                     if initial_grid[x][y] == 2 or initial_grid[x][y-1] == 2 or initial_grid[x][y+1] == 2:
                         path[1].append(self.pos.x + x*self.tile_dimensions[0]+self.tile_dimensions[0]/2)
-                        path[1].append(self.pos.y -(y*self.tile_dimensions[1] + self.tile_dimensions[1]/2))
+                        path[1].append(self.pos.y -(y*self.tile_dimensions[1]))
                         self.threeByThree(initial_grid, x, y, 2)
                         break
                     
@@ -272,7 +272,7 @@ class Stage:
                     y += increment
                     # check 
                     if initial_grid[x][y] == 2 or initial_grid[x-1][y] == 2 or initial_grid[x+1][y] == 2:
-                        path[1].append(self.pos.x + x*self.tile_dimensions[0]+self.tile_dimensions[0]/2)
+                        path[1].append(self.pos.x + x*self.tile_dimensions[0])
                         path[1].append(self.pos.y -(y*self.tile_dimensions[1] + self.tile_dimensions[1]/2))
                         self.threeByThree(initial_grid, x, y, 2)
                         break

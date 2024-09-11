@@ -21,17 +21,26 @@ class Path:
         
         self.width = 0
         self.height = 0
+        self.path_width = 4
         
         # visual 
         self.tile_dimensions = (32*SCALE_FACOTOR, 32*SCALE_FACOTOR)
         
-        self.create_path(3, start, end)
+        self.create_path(self.path_width, start, end)
 
         # base tiles
         # TODO start pos needs to be changed
-        pos = Point(start.x + self.start_orientation[0]*self.tile_dimensions[0]/2, start.y - self.start_orientation[1]*self.tile_dimensions[1]/2)
+        pos = Point(start.x + self.start_orientation[0]*self.tile_dimensions[0]/2
+                    - self.start_orientation[1]*self.tile_dimensions[0]*(self.path_width)//2,
+                    start.y - self.start_orientation[1]*self.tile_dimensions[1]/2
+                    + self.start_orientation[0]*self.tile_dimensions[1]*(self.path_width)//2)
         if reverse:
-            pos = Point(start.x - self.width*self.start_orientation[0]*self.tile_dimensions[0] - self.start_orientation[0]*(self.tile_dimensions[0] + self.tile_dimensions[0]/2), start.y + self.height*self.start_orientation[1]*self.tile_dimensions[1] + self.start_orientation[1]*(self.tile_dimensions[1]+ self.tile_dimensions[1]/2))
+            pos = Point(start.x - self.width*self.start_orientation[0]*self.tile_dimensions[0] 
+                        - self.start_orientation[0]*(self.tile_dimensions[0] + self.tile_dimensions[0]/2)
+                         - self.start_orientation[1]*self.tile_dimensions[0]*(self.path_width)//2, 
+                        start.y + self.height*self.start_orientation[1]*self.tile_dimensions[1] 
+                        + self.start_orientation[1]*(self.tile_dimensions[1]+ self.tile_dimensions[1]/2)
+                         + self.start_orientation[0]*self.tile_dimensions[1]*(self.path_width)//2)
         self.base_tiles = TileMap(self.path_grid, ["assets/background/background_cobble_tile1.png"], pos, self.none_group)
         
     # tunnel in direction
