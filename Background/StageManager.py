@@ -1,8 +1,8 @@
-from audioop import reverse
 import math
 from Background.Path import Path
 from Background.Stage import Stage
 from utility.Point import Point
+from config import SCALE_FACOTOR
 
 class StageManager:
     def __init__(self, collisions_group, particles_group, enemy_group, experiance_group, projectile_group, player_group, cam_offset):
@@ -13,6 +13,8 @@ class StageManager:
         self.collisions = collisions_group
         self.particles = particles_group
         self.players = player_group
+        
+        self.tile_dimensions = (32*SCALE_FACOTOR, 32*SCALE_FACOTOR)
 
         # each list of stages, first means active
         self.active_stage = Stage(self.collisions, self.particles, self.enemies, self.experiance, self.projectiles, self.players, cam_offset, Point(0, 0))
@@ -42,6 +44,7 @@ class StageManager:
     def update(self, cam_offset, dt, diff_coeff):
         # stage
         self.active_stage.update(cam_offset, dt, diff_coeff)
+        
         for stage in self.adjacent_stages:
            stage.update(cam_offset, dt, diff_coeff)
 
@@ -60,7 +63,7 @@ class StageManager:
 
     # add paths
     def add_exit_paths(self, stage:Stage, cam_offset) -> None:
-        length = 4000 # pixels
+        length = 40*self.tile_dimensions[0] # pixels
         paths = stage.paths
         first = True
         for path in paths:

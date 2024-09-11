@@ -15,7 +15,7 @@ class Stage:
         # if true will remove from group, and be collected as garbage
         self.to_remove = False
         self.draw_pos = position.copy()
-        self.pos = position.copy()
+
         # groups
         self.enemies = enemy_group
         self.experiance = experiance_group
@@ -36,8 +36,7 @@ class Stage:
         self.final_array = []
 
         # player start position
-        self.center_point = Point(0, 0)
-        self.player_start_pos = position.copy()
+        self.player_start_pos = Point(0, 0)
         self.iniciated = False
 
         # ------------------------------- tiles for background (visual and trodden on) -------------------------------
@@ -47,7 +46,6 @@ class Stage:
 
         # tilemap
         self.generate_stage(0.7, entry_path)
-        
         self.base_tiles = TileMap(self.final_array, ["assets/background/simple_tile_1.png"], self.draw_pos, enemy_group)
 
         # ------------------------------ tiles for collisions --------------------------------------
@@ -264,8 +262,8 @@ class Stage:
                     x += increment
                     # check 
                     if initial_grid[x][y] == 2 or initial_grid[x][y-1] == 2 or initial_grid[x][y+1] == 2:
-                        path[1].append(self.draw_pos.x + x*self.tile_dimensions[0]+self.tile_dimensions[0]/2)
-                        path[1].append(self.draw_pos.y -(y*self.tile_dimensions[1]))
+                        path[1].append(self.draw_pos.x + (x-2*increment)*self.tile_dimensions[0])
+                        path[1].append(self.draw_pos.y - (y*self.tile_dimensions[1]))
                         self.threeByThree(initial_grid, x, y, 2)
                         break
                     
@@ -275,18 +273,15 @@ class Stage:
                     # check 
                     if initial_grid[x][y] == 2 or initial_grid[x-1][y] == 2 or initial_grid[x+1][y] == 2:
                         path[1].append(self.draw_pos.x + x*self.tile_dimensions[0])
-                        path[1].append(self.draw_pos.y -(y*self.tile_dimensions[1] + self.tile_dimensions[1]/2))
+                        path[1].append(self.draw_pos.y -((y-2*increment)*self.tile_dimensions[1]))
                         self.threeByThree(initial_grid, x, y, 2)
                         break
                     
             if first:
                 first = False
-                print("draw pos before", self.draw_pos.x, self.draw_pos.y)
                 self.draw_pos = Point(self.draw_pos.x + self.draw_pos.x - self.paths[0][1][0]
-                                    , self.draw_pos.y + self.draw_pos.y - self.paths[0][1][1])
-                print("draw pos after", self.draw_pos.x, self.draw_pos.y)
-                self.pos = self.player_start_pos.copy()
-                self.player_start_pos = self.draw_pos.copy()
+                                    ,self.draw_pos.y + self.draw_pos.y - self.paths[0][1][1])
+                self.player_start_pos.move(self.draw_pos.x,self.draw_pos.y)
                 
 
         

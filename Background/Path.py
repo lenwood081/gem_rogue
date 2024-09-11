@@ -21,7 +21,7 @@ class Path:
         
         self.width = 0
         self.height = 0
-        self.path_width = 4
+        self.path_width = 6
         
         # visual 
         self.tile_dimensions = (32*SCALE_FACOTOR, 32*SCALE_FACOTOR)
@@ -30,17 +30,11 @@ class Path:
 
         # base tiles
         # TODO start pos needs to be changed
-        pos = Point(start.x + self.start_orientation[0]*self.tile_dimensions[0]/2
-                    - self.start_orientation[1]*self.tile_dimensions[0]*(self.path_width)//2,
-                    start.y - self.start_orientation[1]*self.tile_dimensions[1]/2
-                    + self.start_orientation[0]*self.tile_dimensions[1]*(self.path_width)//2)
+        pos = Point(start.x - self.start_orientation[1]*self.tile_dimensions[0]*(self.path_width)//2,
+                    start.y + self.start_orientation[0]*self.tile_dimensions[1]*(self.path_width)//2)
         if reverse:
-            pos = Point(start.x - self.width*self.start_orientation[0]*self.tile_dimensions[0] 
-                        - self.start_orientation[0]*(self.tile_dimensions[0] + self.tile_dimensions[0]/2)
-                         - self.start_orientation[1]*self.tile_dimensions[0]*(self.path_width)//2, 
-                        start.y + self.height*self.start_orientation[1]*self.tile_dimensions[1] 
-                        + self.start_orientation[1]*(self.tile_dimensions[1]+ self.tile_dimensions[1]/2)
-                         + self.start_orientation[0]*self.tile_dimensions[1]*(self.path_width)//2)
+            pos = Point(start.x - self.width*self.start_orientation[0]*self.tile_dimensions[0] - self.start_orientation[1]*self.tile_dimensions[0]*(self.path_width)//2, 
+                        start.y + self.height*self.start_orientation[1]*self.tile_dimensions[1] + self.start_orientation[0]*self.tile_dimensions[1]*(self.path_width)//2)
         self.base_tiles = TileMap(self.path_grid, ["assets/background/background_cobble_tile1.png"], pos, self.none_group)
         
     # tunnel in direction
@@ -49,7 +43,7 @@ class Path:
         self.height = (int)(self.start_orientation[1] * (math.fabs(end.y - start.y)//self.tile_dimensions[1]) + self.start_orientation[0] * path_width)
         self.width = (int)(self.start_orientation[0] * (math.fabs(end.x - start.x)//self.tile_dimensions[0]) + self.start_orientation[1] * path_width)
 
-        self.path_grid = [[0 if 0 < j < self.height and 0 < i < self.width else -1 for j in range(self.height+1)] for i in range(self.width+1)]
+        self.path_grid = [[0 if 0 < j < self.height and 0 < i < self.width else -1 for j in range(self.height)] for i in range(self.width)]
         
     def draw(self, screen, cam_offset):
         # blit stage_tiles 
