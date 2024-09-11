@@ -114,6 +114,15 @@ class Player(ItemHolder):
         self.pickup_item(Quads)
         self.pickup_item(Quads)
         self.pickup_item(Quads)
+        self.pickup_item(Quads)
+        self.pickup_item(Quads)
+        self.pickup_item(Quads)
+        self.pickup_item(Quads)
+        self.pickup_item(Quads)
+        self.pickup_item(Quads)
+        self.pickup_item(Quads)
+        self.pickup_item(Quads)
+        self.pickup_item(Quads)
         
         
 

@@ -69,17 +69,30 @@ class StageManager:
                 continue
             length_y = length * min(1+path[0][1], 1) * (1 + -2 * path[0][1])
             length_x = length * min(1+path[0][0], 1) * (1 + -2 * path[0][0])
-            position = Point(stage.player_start_pos.x - length_x , stage.player_start_pos.y + length_y)
-            # add new stage
-            new_stage = Stage(self.collisions, self.particles, self.enemies, self.experiance, self.projectiles, self.players, cam_offset, position)
-            self.adjacent_stages.append(new_stage)
-            # create path
+            position = Point(path[1][0] - length_x , path[1][1] + length_y)
+            # determine entry path orientation
             path_orientation = (min(1, math.fabs(length_x)), min(1, math.fabs(length_y)))
             reverse = True
             if path[0][1] == 1 or path[0][0] == 1:
-                print("reverse")
                 reverse = False
             
-            new_path = Path(Point(path[1][0], path[1][1]), new_stage.player_start_pos, path_orientation, reverse, new_stage)
+            PATHS = {"top": (-1, 0), "bottom": (-1, 1), "left": (0, -1), "right": (1, -1)}
+            new_path = path[0]
+            if new_path[0] == 1:
+                new_path = (0, -1)
+            elif new_path[0] == 0:
+                new_path = (1, -1)
+            elif new_path[1] == 1:
+                new_path = (-1, 0)
+            elif new_path[1] == 0:
+                new_path = (-1, 1)
+                
+            path_id = list(PATHS.keys())[list(PATHS.values()).index(new_path)]
+            # add new stage
+            new_stage = Stage(self.collisions, self.particles, self.enemies, self.experiance, self.projectiles, self.players, cam_offset, position, path_id)
+            self.adjacent_stages.append(new_stage)
+            # create path
+            
+            new_path = Path(Point(path[1][0], path[1][1]), position, path_orientation, reverse, new_stage)
             self.paths.append(new_path)
 
