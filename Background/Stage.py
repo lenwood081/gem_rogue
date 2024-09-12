@@ -104,7 +104,6 @@ class Stage:
         # blit stage_tiles 
         self.base_tiles.draw(screen, cam_offset)
         self.boundary_tiles.draw(screen, cam_offset)
-        #self.death_tiles.draw(screen, cam_offset)
 
         # makes it dark
         # screen.blit(self.surf, (0,0), special_flags=pygame.BLEND_RGBA_SUB)
@@ -279,6 +278,7 @@ class Stage:
                     
             if first:
                 first = False
+                # assigning the position to draw the top left point of the grid, reletive to the entry path
                 self.draw_pos = Point(self.draw_pos.x + self.draw_pos.x - self.paths[0][1][0]
                                     ,self.draw_pos.y + self.draw_pos.y - self.paths[0][1][1])
                 self.player_start_pos.move(self.draw_pos.x,self.draw_pos.y)

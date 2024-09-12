@@ -29,7 +29,7 @@ class Path:
         self.create_path(self.path_width, start, end)
 
         # base tiles
-        # TODO start pos needs to be changed
+        # checks whether to render in reverse essentually
         pos = Point(start.x - self.start_orientation[1]*self.tile_dimensions[0]*(self.path_width)//2,
                     start.y + self.start_orientation[0]*self.tile_dimensions[1]*(self.path_width)//2)
         if reverse:
