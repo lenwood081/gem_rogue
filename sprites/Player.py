@@ -70,10 +70,6 @@ class Player(ItemHolder):
         self.current = 0
         self.increasing = 1
 
-        # position reletive to background (centered)
-        # start in the center of the playable area
-        self.pos = Point(0, 0)
-
         # position to the center of the screen
         self.pos_screen = Point(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
 
@@ -91,7 +87,7 @@ class Player(ItemHolder):
         self.enemy_group = None
 
         # allows wall going through
-        self.trans = True
+        self.trans = False 
 
         # actions
         self.angle = 0

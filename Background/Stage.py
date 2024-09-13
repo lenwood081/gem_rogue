@@ -1,5 +1,6 @@
 import pygame
 import random
+from Background.Tile import Tile
 from config import *
 from utility.Point import Point
 from Background.TileMap import TileMap
@@ -46,11 +47,11 @@ class Stage:
 
         # tilemap
         self.generate_stage(0.7, entry_path)
-        self.base_tiles = TileMap(self.final_array, ["assets/background/simple_tile_1.png"], self.draw_pos, enemy_group)
+        self.base_tiles = TileMap(self.final_array, ["assets/background/simple_tile_1.png"], self.draw_pos, enemy_group, Tile)
 
         # ------------------------------ tiles for collisions --------------------------------------
 
-        self.boundary_tiles = TileMap(self.boundary_array, ["assets/background/boundary_box.png"], self.draw_pos, enemy_group)
+        self.boundary_tiles = TileMap(self.boundary_array, ["assets/background/boundary_box.png"], self.draw_pos, enemy_group, Tile)
         self.boundary_tiles.add_collisions(collisions_group)
 
 
@@ -58,7 +59,7 @@ class Stage:
 
         # spawn only on tilemap tiles where spawnable = True
 
-        self.instant_director = Enemy_Director_Instant(300, self.enemies, self.experiance, self.projectiles, self.particles, self.players, self.base_tiles, cam_offset)
+        self.instant_director = Enemy_Director_Instant(150, self.enemies, self.experiance, self.projectiles, self.particles, self.players, self.base_tiles, cam_offset)
         self.fast_director = Enemy_Director_Continous(self.enemies, 2, self.experiance, self.projectiles, self.particles, self.players, self.base_tiles, cam_offset)
         self.intermetdiate_director = Enemy_Director_Continous(self.enemies, 9, self.experiance, self.projectiles, self.particles, self.players, self.base_tiles, cam_offset)
         self.slow_director = Enemy_Director_Continous(self.enemies, 20, self.experiance, self.projectiles, self.particles, self.players, self.base_tiles, cam_offset)
@@ -261,6 +262,12 @@ class Stage:
                     x += increment
                     # check 
                     if initial_grid[x][y] == 2 or initial_grid[x][y-1] == 2 or initial_grid[x][y+1] == 2:
+                        # create doors
+                        initial_grid[x-2*increment][y] = -3
+                        initial_grid[x-2*increment][y+1] = -3
+                        initial_grid[x-2*increment][y-1] = -3
+                        initial_grid[x-2*increment][y+2] = -3
+                        initial_grid[x-2*increment][y-2] = -3
                         path[1].append(self.draw_pos.x + (x-2*increment)*self.tile_dimensions[0])
                         path[1].append(self.draw_pos.y - (y*self.tile_dimensions[1]))
                         self.threeByThree(initial_grid, x, y, 2)
@@ -271,6 +278,12 @@ class Stage:
                     y += increment
                     # check 
                     if initial_grid[x][y] == 2 or initial_grid[x-1][y] == 2 or initial_grid[x+1][y] == 2:
+                        # create doors
+                        initial_grid[x][y-2*increment] = -3
+                        initial_grid[x-1][y-2*increment] = -3
+                        initial_grid[x+1][y-2*increment] = -3
+                        initial_grid[x+2][y-2*increment] = -3
+                        initial_grid[x-2][y-2*increment] = -3
                         path[1].append(self.draw_pos.x + x*self.tile_dimensions[0])
                         path[1].append(self.draw_pos.y -((y-2*increment)*self.tile_dimensions[1]))
                         self.threeByThree(initial_grid, x, y, 2)
@@ -294,29 +307,29 @@ class Stage:
 
 
                     # check right 
-                    if i+1 <= x_dim+2 and initial_grid[i+1][j] != 2:
+                    if i+1 <= x_dim+2 and initial_grid[i+1][j] != 2 and initial_grid[i+1][j] != -3:
                         initial_grid[i+1][j] = -2
                     # check left 
-                    if i-1 >= 0 and initial_grid[i-1][j] != 2:
+                    if i-1 >= 0 and initial_grid[i-1][j] != 2 and initial_grid[i-1][j] != -3:
                         initial_grid[i-1][j] = -2
                     # check down
-                    if j+1 <= y_dim+2 and initial_grid[i][j+1] != 2:
+                    if j+1 <= y_dim+2 and initial_grid[i][j+1] != 2 and initial_grid[i][j+1] != -3:
                         initial_grid[i][j+1] = -2
                     # check up 
-                    if j-1 >= 0 and initial_grid[i][j-1] != 2:
+                    if j-1 >= 0 and initial_grid[i][j-1] != 2 and initial_grid[i][j-1] != -3:
                         initial_grid[i][j-1] = -2
 
                     # check diagonal lower right
-                    if i+1 <= x_dim+2 and j+1 <= y_dim+2 and initial_grid[i+1][j+1] != 2:
+                    if i+1 <= x_dim+2 and j+1 <= y_dim+2 and initial_grid[i+1][j+1] != 2 and initial_grid[i+1][j+1] != -3:
                         initial_grid[i+1][j+1] = -2
                     # check diagonal lower left
-                    if i-1 >= 0 and j+1 <= y_dim+2 and initial_grid[i-1][j+1] != 2:
+                    if i-1 >= 0 and j+1 <= y_dim+2 and initial_grid[i-1][j+1] != 2 and initial_grid[i-1][j+1] != -3:
                         initial_grid[i-1][j+1] = -2
                     # check diagonal upper right
-                    if i+1 <= x_dim+2 and j-1 >= 0 and initial_grid[i+1][j-1] != 2:
+                    if i+1 <= x_dim+2 and j-1 >= 0 and initial_grid[i+1][j-1] != 2 and initial_grid[i+1][j-1] != -3:
                         initial_grid[i+1][j-1] = -2
                     # check diagonal upper left
-                    if i-1 >= 0 and j-1 >= 0 and initial_grid[i-1][j-1] != 2:
+                    if i-1 >= 0 and j-1 >= 0 and initial_grid[i-1][j-1] != 2 and initial_grid[i-1][j-1] != -3:
                         initial_grid[i-1][j-1] = -2
                     
         # ----------------------------------------------------------------------------------------------------------------------------

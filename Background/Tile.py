@@ -30,7 +30,7 @@ class Tile(pygame.sprite.Sprite):
         self.spawning_circle = Glow.circle_surf(self.width/2, (255, 0, 0)).convert_alpha()
         self.spawning_circle.set_alpha(200)
 
-
+    # needs to be added to collision group to work
     # update rect object and spawning
     def update(self, cam_offset, dt):
         # check if spawning
@@ -57,3 +57,41 @@ class Tile(pygame.sprite.Sprite):
         self.enemy = enemy
         self.spawning = True
         self.spawn_timer = 2 * FRAMERATE
+
+class Door(Tile):
+    def __init__(self, pos, image, enemy_group):
+        super().__init__(pos, image, enemy_group)
+
+        self.open = True 
+        self.pass_group = pygame.sprite.Group()
+
+    # opens door
+    def open_door(self):
+        self.open = True
+    
+    # close door
+    def close_door(self):
+        self.open = False
+
+    # add to pass_group
+    def add_member(self, sprite):
+        self.pass_group.add(sprite)
+
+    # remove from group
+    def remove_member(self, sprite):
+        pass
+
+    # update function override to include changing image (TODO)
+    def update(self, cam_offset, dt):
+        return super().update(cam_offset, dt)
+
+    # check whether to allow a sprite to pass though
+    def enter_door(self, sprite):
+        if self.open == False:
+            return False
+        
+        # check if in pass_group
+        if self.pass_group.__contains__(sprite):
+            return True
+        
+        return False

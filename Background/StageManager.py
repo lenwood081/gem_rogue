@@ -18,6 +18,7 @@ class StageManager:
 
         # each list of stages, first means active
         self.active_stage = Stage(self.collisions, self.particles, self.enemies, self.experiance, self.projectiles, self.players, cam_offset, Point(0, 0))
+        self.active_stage.iniciate(1)
         self.adjacent_stages = []
         
         # a list of paths when a path is picked you add the path to the end of the list
@@ -96,6 +97,6 @@ class StageManager:
             self.adjacent_stages.append(new_stage)
             # create path
             
-            new_path = Path(Point(path[1][0], path[1][1]), position, path_orientation, reverse, new_stage)
+            new_path = Path(Point(path[1][0], path[1][1]), position, path_orientation, reverse, self.collisions, self.players)
             self.paths.append(new_path)
 

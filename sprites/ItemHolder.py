@@ -1,4 +1,5 @@
 import pygame
+from Background.Tile import Door
 from config import *
 from utility.Point import Point
 from utility.Direction import Direction
@@ -12,6 +13,10 @@ class ItemHolder(pygame.sprite.Sprite):
         super(ItemHolder, self).__init__()
 
         self.dt = 1
+        
+        # for boundry rect
+        self.boundary_rect = pygame.Rect(0, 0, 0, 0)
+        self.pos = Point(0, 0)
 
         # items!
         self.items = []
@@ -146,6 +151,10 @@ class ItemHolder(pygame.sprite.Sprite):
         self.immune = True
         self.immunity_frames = self.immunity_frames_gained
 
+    # death
+    def death(self):
+        self.kill()
+
     # increase speed 
     def set_speed(self, percentage):
         self.speed = self.max_speed * (1 + percentage)
@@ -182,6 +191,13 @@ class ItemHolder(pygame.sprite.Sprite):
 
         # call on self TODO update other collision detection on projectiles and enemys
         for i, tile in enumerate(collision_group):
+
+            # for doors
+            if isinstance(tile, Door):
+                if tile.enter_door(self):
+                    # skip collision detect
+                    continue
+    
             self.boundary_rect.center = (x_bound_point, y_bound_point)
             x = (int)(math.fabs(self.velocity.x // dist) + 1)
             y = (int)(math.fabs(self.velocity.y // dist) + 1)

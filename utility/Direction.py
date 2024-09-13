@@ -2,7 +2,7 @@ import math
 import pygame
 
 class Direction():
-    def __init__(self, dir):
+    def __init__(self, dir:float):
         """
         up is 90
         right is 0
