@@ -45,13 +45,32 @@ class Activator(pygame.sprite.Sprite):
     def add_sprites(self, sprite):
         self.affect_group.add(sprite)
 
+# activates if a sprite is close enough
+class DistActivator(Activator):
+    def __init__(self, height, width, pos: Point, distance, cam_offset) -> None:
+        super().__init__(height, width, pos, cam_offset)
 
+        self.activate_distance = distance*SCALE_FACOTOR
+
+    # check if the key is a match, input is acitve keys
+    def activate(self, sprite:ItemHolder, keys=None):
+        # check that it is the correct group
+        if sprite not in self.affect_group:
+            return
+
+        assert(keys!=None)
+
+        # should check the cartisian distance between the two points
+        if Point.euclidian_dist(self.pos, sprite.pos) < self.activate_distance:
+            super().activate(sprite)
+
+# activates whena  sprite is close enough and presses a key
 class KeyActivator(Activator):
     def __init__(self, height, width, pos: Point, activate_key, cam_offset) -> None:
         super().__init__(height, width, pos, cam_offset)
         
         self.activate_key = activate_key
-        self.activate_distance = 200
+        self.activate_distance = 70*SCALE_FACOTOR
 
     # check if the key is a match, input is acitve keys
     def activate(self, sprite:ItemHolder, keys=None):

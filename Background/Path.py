@@ -3,10 +3,8 @@ from Background.Tile import Door, Tile
 from Background.TileMap import TileMap, DoorMap
 from config import SCALE_FACOTOR, INTERACT_KEY
 from utility.Point import Point
-from Background.Activator import KeyActivator
+from Background.Activator import DistActivator, KeyActivator
 import math
-
-# TODO impliment doors
 
 class Path:
     def __init__(self, start, end, orientation, reverse, collisions:pygame.sprite.Group, activators:pygame.sprite.Group, players:pygame.sprite.Group):
@@ -55,11 +53,18 @@ class Path:
         self.entry_door_tiles.add_collisions(self.boundry)
         self.entry_door_tiles.add_pass_group(self.players)
 
-        # door activors (entry)
+        # ----------------------------------------------------------------- door activors (entry) ---------------------------------------------
         # center activator
         self.entry_open = KeyActivator(1, 1, start, INTERACT_KEY, 0)
         activators.add(self.entry_open)
+
+        close_pos = Point(start.x + self.start_orientation[0]*self.tile_dimensions[0] + self.start_orientation[0]*50*SCALE_FACOTOR, start.y - self.start_orientation[1]*self.tile_dimensions[1] - self.start_orientation[1]*50*SCALE_FACOTOR)
+        if reverse:
+            close_pos = Point(start.x - self.start_orientation[0]*self.tile_dimensions[0] - self.start_orientation[0]*50*SCALE_FACOTOR, start.y + self.start_orientation[1]*self.tile_dimensions[1] + self.start_orientation[1]*50*SCALE_FACOTOR)
+        self.entry_close = DistActivator(1, 1, close_pos, 30, 0)
+        activators.add(self.entry_close)
         for player in players:
+            self.entry_close.add_sprites(player)
             self.entry_open.add_sprites(player)
 
         # checks whether to render in reverse essentually
@@ -100,8 +105,10 @@ class Path:
         self.border_tiles.update(cam_offset, dt)
 
         # check if activator is open (if front is active open door, if back is active close door)
-        if self.entry_open.active:
+        if self.entry_open.active and not self.entry_close.active:
             self.entry_door_tiles.open_doors()
+        else:
+            self.entry_door_tiles.close_doors()
         self.entry_door_tiles.update(cam_offset, dt)
        
     
