@@ -71,6 +71,11 @@ class TileMap:
                 if isinstance(tile , self.tile_type):
                     tile.update(cam_offset, dt)
 
+                    
+class DoorMap(TileMap):
+    def __init__(self, index_array, tile_types, pos, enemy_group, tile_type=Door):
+        super().__init__(index_array, tile_types, pos, enemy_group, tile_type)
+
     # add pass group to door
     def add_pass_group(self, sprite):
         assert(self.tile_type == Door)
@@ -79,3 +84,22 @@ class TileMap:
             for tile in tile_row:
                 if isinstance(tile, self.tile_type):
                     tile.add_member(sprite)
+    
+    # open doors
+    def open_doors(self):
+        assert(self.tile_type == Door)
+
+        for tile_row in self.tile_array:
+            for tile in tile_row:
+                if isinstance(tile, self.tile_type):
+                    tile.open_door()
+
+    # close doors
+    def close_doors(self):
+        assert(self.tile_type == Door)
+
+        for tile_row in self.tile_array:
+            for tile in tile_row:
+                if isinstance(tile, self.tile_type):
+                    tile.close_door()
+    

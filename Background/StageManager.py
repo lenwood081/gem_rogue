@@ -5,12 +5,13 @@ from utility.Point import Point
 from config import SCALE_FACOTOR
 
 class StageManager:
-    def __init__(self, collisions_group, particles_group, enemy_group, experiance_group, projectile_group, player_group, cam_offset):
+    def __init__(self, collisions_group, activator_group, particles_group, enemy_group, experiance_group, projectile_group, player_group, cam_offset):
         # groups
         self.enemies = enemy_group
         self.experiance = experiance_group
         self.projectiles = projectile_group
         self.collisions = collisions_group
+        self.activators = activator_group
         self.particles = particles_group
         self.players = player_group
         
@@ -18,7 +19,7 @@ class StageManager:
 
         # each list of stages, first means active
         self.active_stage = Stage(self.collisions, self.particles, self.enemies, self.experiance, self.projectiles, self.players, cam_offset, Point(0, 0))
-        self.active_stage.iniciate(1)
+        # self.active_stage.iniciate(1)
         self.adjacent_stages = []
         
         # a list of paths when a path is picked you add the path to the end of the list
@@ -97,6 +98,6 @@ class StageManager:
             self.adjacent_stages.append(new_stage)
             # create path
             
-            new_path = Path(Point(path[1][0], path[1][1]), position, path_orientation, reverse, self.collisions, self.players)
+            new_path = Path(Point(path[1][0], path[1][1]), position, path_orientation, reverse, self.collisions, self.activators, self.players)
             self.paths.append(new_path)
 

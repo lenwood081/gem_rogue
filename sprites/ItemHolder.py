@@ -1,4 +1,5 @@
 import pygame
+from Background import Activator
 from Background.Tile import Door
 from config import *
 from utility.Point import Point
@@ -177,8 +178,17 @@ class ItemHolder(pygame.sprite.Sprite):
     def update_with_dt(self, dt):
         self.dt = dt
 
-    # collision detection
+    # special collision
+    def special_collision(self, activator_group, keys_pressed=None):
+        if self.trans:
+            return False
 
+        # Activators
+        for activator in activator_group: 
+            activator.activate(self, keys_pressed)
+
+
+    # collision detection
     def boundary_collision(self, collision_group, x_bound_point, y_bound_point):
         if self.trans:
             self.pos.move(self.velocity.x, self.velocity.y)
@@ -197,7 +207,7 @@ class ItemHolder(pygame.sprite.Sprite):
                 if tile.enter_door(self):
                     # skip collision detect
                     continue
-    
+
             self.boundary_rect.center = (x_bound_point, y_bound_point)
             x = (int)(math.fabs(self.velocity.x // dist) + 1)
             y = (int)(math.fabs(self.velocity.y // dist) + 1)

@@ -44,6 +44,9 @@ class Game:
         # boundary collider
         boundary = pygame.sprite.Group()
 
+        # activiators
+        activators = pygame.sprite.Group()
+
         # projectiles group
         projectiles = pygame.sprite.Group()
 
@@ -69,7 +72,7 @@ class Game:
         enemies = pygame.sprite.Group()
         
         # background
-        stages = StageManager(boundary, paritcles, enemies, experiance.get_group(), projectiles, players, camera.get_offset())
+        stages = StageManager(boundary, activators, paritcles, enemies, experiance.get_group(), projectiles, players, camera.get_offset())
         #path = Path(Point(stage1.width, -stage1.height/2),Point(stage1.width*10, -stage1.height/2), (1, 0))
         player.set_position(stages.active_stage.player_start_pos)
         #stages.iniciate(1)
@@ -131,7 +134,7 @@ class Game:
 
         def updates(dt):
             # player and camera
-            player.update(keys_pressed, mouse_pressed, boundary, dt)
+            player.update(keys_pressed, mouse_pressed, boundary, activators, dt)
             camera.update(player.pos)
 
             # stage

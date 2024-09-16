@@ -1,9 +1,13 @@
 
 # game settings
+import pygame
+
+
 SCREEN_WIDTH = 1920
 SCREEN_HEIGHT = 1080
 FRAMERATE = 60
 SCALE_FACOTOR = 2
+INTERACT_KEY = pygame.K_e
 
 # background
 BG_COLOR = (65, 68, 65)

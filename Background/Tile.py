@@ -62,7 +62,7 @@ class Door(Tile):
     def __init__(self, pos, image, enemy_group):
         super().__init__(pos, image, enemy_group)
 
-        self.open = True 
+        self.open = False
         self.pass_group = pygame.sprite.Group()
 
     # opens door
@@ -95,3 +95,7 @@ class Door(Tile):
             return True
         
         return False
+    
+class ACtivateTile(Tile):
+    def __init__(self, pos, image, enemy_group):
+        super().__init__(pos, image, enemy_group)

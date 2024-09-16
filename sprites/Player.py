@@ -111,14 +111,6 @@ class Player(ItemHolder):
         self.pickup_item(Quads)
         self.pickup_item(Quads)
         self.pickup_item(Quads)
-        self.pickup_item(Quads)
-        self.pickup_item(Quads)
-        self.pickup_item(Quads)
-        self.pickup_item(Quads)
-        self.pickup_item(Quads)
-        self.pickup_item(Quads)
-        self.pickup_item(Quads)
-        self.pickup_item(Quads)
         
         
 
@@ -192,7 +184,7 @@ class Player(ItemHolder):
     # ---------------------------------------- updates --------------------------------------------
         
     # update loop
-    def update(self, keys_pressed, mouse_pressed, boundary, dt):
+    def update(self, keys_pressed, mouse_pressed, boundary, activators, dt):
         self.update_with_dt(dt)
 
         self.move_normal = True
@@ -232,6 +224,9 @@ class Player(ItemHolder):
             self.velocity = Point(x, y)
 
         self.boundary_collision(boundary, SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
+
+        # activators
+        self.special_collision(activators, keys_pressed)
 
         # animation
         self.base_image = self.base_animate.animate(dt)
