@@ -225,7 +225,7 @@ class ItemHolder(pygame.sprite.Sprite):
                 if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
                     # top
                     if vel_y > 0:
-                        self.velocity.y = (tile.pos.y - tile.height/2 - self.height/2) - self.pos.y
+                        self.velocity.y = self.pos.y - (tile.pos.y - tile.height/2 - self.height/2)
                         self.pos.y = tile.pos.y - tile.height/2 - self.height/2
                         
                     # bottom
@@ -249,7 +249,7 @@ class ItemHolder(pygame.sprite.Sprite):
                 if pygame.Rect.colliderect(self.boundary_rect, tile.rect):
                     # left hand edge
                     if vel_x > 0:
-                        self.velocity.x = (tile.pos.x - tile.width/2 - self.width/2) - self.pos.x
+                        self.velocity.x = self.pos.x - (tile.pos.x - tile.width/2 - self.width/2)
                         self.pos.x = tile.pos.x - tile.width/2 - self.width/2
                     # right hand side
                     elif vel_x < 0:
@@ -257,8 +257,6 @@ class ItemHolder(pygame.sprite.Sprite):
                         self.pos.x = tile.pos.x + tile.width/2 + self.width/2
                     x_safe = False
                         
-
-
         if x_safe:
             self.pos.move(self.velocity.x, 0)
         

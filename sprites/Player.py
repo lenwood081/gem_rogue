@@ -221,6 +221,12 @@ class Player(ItemHolder):
             if x != 0 and y != 0:
                 x /= math.sqrt(2)
                 y /= math.sqrt(2)
+
+            # add drag when stoping
+            if not x and not y:
+                if self.velocity.x**2 > 9 or self.velocity.y**2 > 9:
+                    x = self.velocity.x*0.5*dt
+                    y = self.velocity.y*0.5*dt
             self.velocity = Point(x, y)
 
         self.boundary_collision(boundary, SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
