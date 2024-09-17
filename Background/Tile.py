@@ -4,14 +4,14 @@ from utility.Point import Point
 from utility.Glow import Glow
 
 class Tile(pygame.sprite.Sprite):
-    def __init__(self, pos, image, enemy_group):
+    def __init__(self, pos, images, enemy_group):
         super(Tile, self).__init__()
         # top left corner position
         self.pos = pos.copy()
         
 
         # image (it is assumed all tiles are 64 x 64)
-        self.image = pygame.transform.scale(pygame.image.load(image).convert_alpha(), (32*SCALE_FACOTOR, 32*SCALE_FACOTOR))
+        self.image = pygame.transform.scale(pygame.image.load(images[0]).convert_alpha(), (32*SCALE_FACOTOR, 32*SCALE_FACOTOR))
         self.rect = self.image.get_rect()
 
         self.width = self.image.get_width()
@@ -59,18 +59,22 @@ class Tile(pygame.sprite.Sprite):
         self.spawn_timer = 2 * FRAMERATE
 
 class Door(Tile):
-    def __init__(self, pos, image, enemy_group):
-        super().__init__(pos, image, enemy_group)
+    def __init__(self, pos, images,enemy_group):
+        super().__init__(pos, images, enemy_group)
 
         self.open = False
         self.pass_group = pygame.sprite.Group()
+        self.open_image = pygame.transform.scale(pygame.image.load(images[1]).convert_alpha(), (32*SCALE_FACOTOR, 32*SCALE_FACOTOR))
+        self.closed_image = pygame.transform.scale(pygame.image.load(images[0]).convert_alpha(), (32*SCALE_FACOTOR, 32*SCALE_FACOTOR))
 
     # opens door
     def open_door(self):
+        self.image = self.open_image
         self.open = True
     
     # close door
     def close_door(self):
+        self.image = self.closed_image
         self.open = False
 
     # add to pass_group

@@ -7,7 +7,10 @@ from Background.Activator import DistActivator, KeyActivator
 import math
 
 class Path:
-    def __init__(self, start, end, orientation, reverse, collisions:pygame.sprite.Group, activators:pygame.sprite.Group, players:pygame.sprite.Group):
+    def __init__(self, start, end, orientation, reverse, collisions:pygame.sprite.Group, activators:pygame.sprite.Group, players:pygame.sprite.Group, stage):
+        # destination stage
+        self.destination_stage = stage
+
         # same as in stage (0 for not axis or reletive to starting stage
         self.start_orientation = orientation
 
@@ -24,6 +27,7 @@ class Path:
         self.start_point = start.copy()
         self.end_point = end.copy()
         self.none_group = pygame.sprite.Group()
+        self.open = False
         
         self.width = 0
         self.height = 0
@@ -40,18 +44,29 @@ class Path:
 
         # create doors
         entry_door = [[0 for j in range((int)(1+self.start_orientation[0]*self.path_width))] for i in range((int)(1+self.start_orientation[1]*self.path_width))]
+        exit_door = [[0 for j in range((int)(1+self.start_orientation[0]*self.path_width))] for i in range((int)(1+self.start_orientation[1]*self.path_width))]
 
-        # remove edges
+        # remove edge s
+        entry_door[0][0] = -1
+        exit_door[0][0] = -1
         if self.start_orientation[0]:
-            entry_door[0][0] = -1
             entry_door[0][(int)(self.path_width)] = -1
+            exit_door[0][(int)(self.path_width)] = -1
         elif self.start_orientation[1]:
-            entry_door[0][0] = -1
             entry_door[(int)(self.path_width)][0] = -1
+            exit_door[(int)(self.path_width)][0] = -1
 
-        self.entry_door_tiles = DoorMap(entry_door, ["assets/background/boundary_box_blue.png"], pos, self.none_group, Door)
+        self.entry_door_tiles = DoorMap(entry_door, [["assets/background/boundary_box_blue.png", "assets/background/boundary_box_green.png"]], pos, self.none_group, Door)
         self.entry_door_tiles.add_collisions(self.boundry)
         self.entry_door_tiles.add_pass_group(self.players)
+        
+        exit_pos = Point(pos.x + self.width*self.start_orientation[0]*self.tile_dimensions[0], pos.y - self.height*self.start_orientation[1]*self.tile_dimensions[1])
+        if reverse:
+            exit_pos = Point(pos.x - self.width*self.start_orientation[0]*self.tile_dimensions[0], pos.y + self.height*self.start_orientation[1]*self.tile_dimensions[1])
+        
+        self.exit_door_tiles = DoorMap(entry_door, [["assets/background/boundary_box_blue.png", "assets/background/boundary_box_green.png"]], exit_pos, self.none_group, Door)
+        self.exit_door_tiles.add_collisions(self.boundry)
+        self.exit_door_tiles.add_pass_group(self.players)
 
         # ----------------------------------------------------------------- door activors (entry) ---------------------------------------------
         # center activator
@@ -63,18 +78,32 @@ class Path:
             close_pos = Point(start.x - self.start_orientation[0]*self.tile_dimensions[0] - self.start_orientation[0]*50*SCALE_FACOTOR, start.y + self.start_orientation[1]*self.tile_dimensions[1] + self.start_orientation[1]*50*SCALE_FACOTOR)
         self.entry_close = DistActivator(1, 1, close_pos, 30, 0)
         activators.add(self.entry_close)
+
+        self.exit_door_tiles.open_doors()
+        close_pos = Point(start.x + self.width*self.start_orientation[0]*self.tile_dimensions[0] + self.start_orientation[0]*70*SCALE_FACOTOR, start.y - self.height*self.start_orientation[1]*self.tile_dimensions[1] - self.start_orientation[1]*70*SCALE_FACOTOR)
+        if reverse:
+            close_pos = Point(start.x - self.width*self.start_orientation[0]*self.tile_dimensions[0] - self.start_orientation[0]*70*SCALE_FACOTOR, start.y + self.height*self.start_orientation[1]*self.tile_dimensions[1] + self.start_orientation[1]*70*SCALE_FACOTOR)
+        self.exit_close = DistActivator(1, 1, close_pos, 30, 0)
+        activators.add(self.exit_close)
+
         for player in players:
             self.entry_close.add_sprites(player)
             self.entry_open.add_sprites(player)
+            self.exit_close.add_sprites(player)
+
+        # -----------------------------------------------------------------------------------------------------------------------------------------
 
         # checks whether to render in reverse essentually
         if reverse:
             pos = Point(start.x - self.width*self.start_orientation[0]*self.tile_dimensions[0] - self.start_orientation[1]*self.tile_dimensions[0]*(self.path_width)//2, 
                         start.y + self.height*self.start_orientation[1]*self.tile_dimensions[1] + self.start_orientation[0]*self.tile_dimensions[1]*(self.path_width)//2)
-        self.base_tiles = TileMap(self.path_grid, ["assets/background/background_cobble_tile1.png"], pos, self.none_group, Tile)
+
+
+        
+        self.base_tiles = TileMap(self.path_grid, [["assets/background/background_cobble_tile1.png"]], pos, self.none_group, Tile)
 
         # add border tiles
-        self.border_tiles =  TileMap(self.border_grid, ["assets/background/boundary_box.png"], pos, self.none_group, Tile)
+        self.border_tiles =  TileMap(self.border_grid, [["assets/background/boundary_box.png"]], pos, self.none_group, Tile)
         self.border_tiles.add_collisions(self.boundry)
 
     # tunnel in direction
@@ -99,18 +128,31 @@ class Path:
         self.base_tiles.draw(screen, cam_offset)
         self.border_tiles.draw(screen, cam_offset)
         self.entry_door_tiles.draw(screen, cam_offset)        
+        self.exit_door_tiles.draw(screen, cam_offset)
     
-    def update(self, cam_offset, dt):
+    # returns true if the player is in the path
+    def update(self, cam_offset, dt) -> bool:
+        ret_value = False
         self.base_tiles.update(cam_offset, dt)
         self.border_tiles.update(cam_offset, dt)
 
         # check if activator is open (if front is active open door, if back is active close door)
         if self.entry_open.active and not self.entry_close.active:
             self.entry_door_tiles.open_doors()
+            self.open = True
         else:
             self.entry_door_tiles.close_doors()
+            if self.open:
+                ret_value = True
+
+        if self.exit_close.active:
+            self.exit_door_tiles.close_doors()
+            ret_value = False
+
+        self.exit_door_tiles.update(cam_offset, dt)
         self.entry_door_tiles.update(cam_offset, dt)
-       
+
+        return ret_value
     
     
         

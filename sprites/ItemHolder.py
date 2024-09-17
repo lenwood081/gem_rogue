@@ -180,8 +180,6 @@ class ItemHolder(pygame.sprite.Sprite):
 
     # special collision
     def special_collision(self, activator_group, keys_pressed=None):
-        if self.trans:
-            return False
 
         # Activators
         for activator in activator_group: 

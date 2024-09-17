@@ -12,7 +12,7 @@ numpy.set_printoptions(threshold=sys.maxsize)
 
 
 class Stage:
-    def __init__(self, collisions_group, particles_group, enemy_group, experiance_group, projectile_group, player_group, cam_offset, position, entry_path="right"):
+    def __init__(self, collisions_group, particles_group, enemy_group:pygame.sprite.Group, experiance_group, projectile_group, player_group, cam_offset, position, entry_path="right"):
         # if true will remove from group, and be collected as garbage
         self.to_remove = False
         self.draw_pos = position.copy()
@@ -47,11 +47,11 @@ class Stage:
 
         # tilemap
         self.generate_stage(0.7, entry_path)
-        self.base_tiles = TileMap(self.final_array, ["assets/background/simple_tile_1.png"], self.draw_pos, enemy_group, Tile)
+        self.base_tiles = TileMap(self.final_array, [["assets/background/simple_tile_1.png"]], self.draw_pos, enemy_group, Tile)
 
         # ------------------------------ tiles for collisions --------------------------------------
 
-        self.boundary_tiles = TileMap(self.boundary_array, ["assets/background/boundary_box.png"], self.draw_pos, enemy_group, Tile)
+        self.boundary_tiles = TileMap(self.boundary_array, [["assets/background/boundary_box.png"]], self.draw_pos, enemy_group, Tile)
         self.boundary_tiles.add_collisions(collisions_group)
 
 
@@ -75,16 +75,16 @@ class Stage:
     def iniciate(self, diff_coeff):
         self.iniciated = True
         self.instant_director.activate(diff_coeff)
+
+    # clear enemies
+    def clear_sprites(self):
+        for enemy in self.enemies:
+            enemy.kill()
     
     # kill all enemys 
     def clear(self):
         self.iniciated = False
-        for enemy in self.enemies:
-            enemy.kill()
-
-    # delete stage
-    def deactivate(self):
-        self.to_remove = True
+        self.clear_sprites()
 
     # update
     def update(self, cam_offset, dt, diff_coeff):

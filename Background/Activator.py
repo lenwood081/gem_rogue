@@ -82,7 +82,6 @@ class KeyActivator(Activator):
 
         # should check the cartisian distance between the two points
         if Point.euclidian_dist(self.pos, sprite.pos) < self.activate_distance:
-            print("close enough")
             if keys[self.activate_key]: 
                 super().activate(sprite)
         

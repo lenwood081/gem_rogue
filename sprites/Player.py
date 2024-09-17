@@ -185,6 +185,10 @@ class Player(ItemHolder):
         
     # update loop
     def update(self, keys_pressed, mouse_pressed, boundary, activators, dt):
+        # check trans
+        if keys_pressed[pygame.K_t]:
+            self.trans = (self.trans == False)
+
         self.update_with_dt(dt)
 
         self.move_normal = True
@@ -223,10 +227,10 @@ class Player(ItemHolder):
                 y /= math.sqrt(2)
 
             # add drag when stoping
-            if not x and not y:
-                if self.velocity.x**2 > 9 or self.velocity.y**2 > 9:
-                    x = self.velocity.x*0.5*dt
-                    y = self.velocity.y*0.5*dt
+            # if not x and not y:
+            #     if self.velocity.x**2 > 9 or self.velocity.y**2 > 9:
+            #         x = self.velocity.x*0.5*dt
+            #         y = self.velocity.y*0.5*dt
             self.velocity = Point(x, y)
 
         self.boundary_collision(boundary, SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
