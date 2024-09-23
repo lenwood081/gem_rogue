@@ -91,7 +91,6 @@ class Game:
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         self.pause = True
-                        print("pasuing")
                 elif event.type == QUIT:
                     return False
             return True
@@ -177,6 +176,7 @@ class Game:
         while running:
             dt = time.time() - last_time
             dt *= FRAMERATE
+            print(dt)
             last_time = time.time()
 
             # increase enemy difficulty if not paused
