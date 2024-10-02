@@ -148,7 +148,6 @@ class Game:
                 em.update(player, camera.get_offset(), boundary, dt)
 
             
-
             # projectiles
             for proj in projectiles:
                 proj.update(camera.get_offset(), boundary, dt)
