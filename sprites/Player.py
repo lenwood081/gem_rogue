@@ -28,7 +28,7 @@ class Player(ItemHolder):
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
 
         # health
-        self.health = self.max_health = 100
+        self.health = self.max_health = 10
 
         # dimensions
         self.width = self.max_width = 32*SCALE_FACOTOR
@@ -43,7 +43,7 @@ class Player(ItemHolder):
         # attacking
         self.damage = self.max_damage = 1
         self.knockback = self.max_knockback = 1
-        self.attack_rate = self.max_attack_rate = 30
+        self.attack_rate = self.max_attack_rate = 1
         self.projectile_speed = self.max_projectile_speed = 1000 / FRAMERATE
 
         # immunity_frames
@@ -94,23 +94,61 @@ class Player(ItemHolder):
         self.action_key_array = []
         
         # action keys (order is inside then outside positive to negative)
-        self.action_key_array.append(MOUSE1) # pos2
-        self.action_key_array.append(MOUSE1) # pos1
-        self.action_key_array.append(MOUSE1) # pos3
-        self.action_key_array.append(KMOD_LSHIFT) # pos4
+        
 
         # add active items
         self.active_item_cap = 4
         self.pickup_item(PlasmaGunItem) 
+        self.action_key_array.append(MOUSE1) # pos1
         self.pickup_item(PlasmaGunItem) 
+        self.action_key_array.append(MOUSE1) # pos1
         self.pickup_item(PlasmaGunItem) 
-        self.pickup_item(DashItem) 
+        self.action_key_array.append(MOUSE1) # pos1
+        self.pickup_item(PlasmaGunItem) 
+        self.action_key_array.append(MOUSE1) # pos1
+        self.pickup_item(PlasmaGunItem) 
+        self.action_key_array.append(MOUSE1) # pos1
+        self.pickup_item(PlasmaGunItem) 
+        self.action_key_array.append(MOUSE1) # pos1
+        self.pickup_item(PlasmaGunItem) 
+        self.action_key_array.append(MOUSE1) # pos1
+        self.pickup_item(PlasmaGunItem) 
+        self.action_key_array.append(MOUSE1) # pos1
+        self.pickup_item(PlasmaGunItem) 
+        self.action_key_array.append(MOUSE1) # pos1
+        self.pickup_item(PlasmaGunItem) 
+        self.action_key_array.append(MOUSE1) # pos1
+        self.pickup_item(PlasmaGunItem) 
+        self.action_key_array.append(MOUSE1) # pos1
+        
+        # self.pickup_item(DashItem) 
+        # self.action_key_array.append(KMOD_LSHIFT) # p
 
         self.pickup_item(Quads)
-        self.pickup_item(Quads)
-        self.pickup_item(Quads)
-        self.pickup_item(Quads)
-        self.pickup_item(Quads)
+        # self.pickup_item(Quads)
+        # self.pickup_item(Quads)
+        # self.pickup_item(Quads)
+        # self.pickup_item(Quads)
+        # self.pickup_item(Quads)
+        # self.pickup_item(Quads)
+        # self.pickup_item(Quads)
+        # self.pickup_item(Quads)
+        # self.pickup_item(Quads)
+        # self.pickup_item(Quads)
+        # self.pickup_item(Quads)
+        # self.pickup_item(Quads)
+        # self.pickup_item(Quads)
+        # self.pickup_item(Quads)
+        # self.pickup_item(Quads)
+        # self.pickup_item(Quads)
+        # self.pickup_item(Quads)
+        # self.pickup_item(Quads)
+        
+                
+        # damage effect for trailer
+        self.damage_surf = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.damage_surf.fill((255, 0, 0))
+        self.damage_surf.set_alpha(100)
         
         
 
@@ -139,6 +177,12 @@ class Player(ItemHolder):
         # debugging
         #pygame.draw.rect(screen, "red", self.hitbox_rect, width=2)
         #pygame.draw.rect(screen, "blue", self.rect, width=2)
+        
+        # damage
+                    
+        # add red
+        if (self.health < self.max_health/3):
+            screen.blit(self.damage_surf, (0, 0))
 
     # ------------------------------------------ facing mouse --------------------------------
 
@@ -326,5 +370,7 @@ class Player(ItemHolder):
     # set position
     def set_position(self, pos):
         self.pos = pos.copy()
+        
+    
 
 

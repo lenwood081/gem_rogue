@@ -26,6 +26,10 @@ class Game:
         self.difficulty_factor = 10
         self.time = 0
         self.pause = False
+        self.time_to_end = 4 * FRAMERATE
+        self.alpha_increase = self.time_to_end / 255
+        self.alpha_current = 0
+        self.dead = False
 
     # main game loop
     def run_game_loop(self, screen):
@@ -73,9 +77,17 @@ class Game:
         
         # background
         stages = StageManager(boundary, activators, paritcles, enemies, experiance.get_group(), projectiles, players, camera.get_offset())
-        #path = Path(Point(stage1.width, -stage1.height/2),Point(stage1.width*10, -stage1.height/2), (1, 0))
         player.set_position(stages.active_stage.player_start_pos)
-        #stages.iniciate(1)
+        
+        
+        # for effects
+        self.surf = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.surf.fill((50, 50, 50))
+
+        # fade out screen
+        fade = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
+        fade.fill((0, 0, 0))        
+        #fade.fill((255, 255, 255))        
 
         # event varibles
         events = pygame.event.get()
@@ -109,8 +121,13 @@ class Game:
             for em in enemies:
                 em.draw(screen)
 
+            # add darkness
+            screen.blit(self.surf, (0,0), special_flags=pygame.BLEND_RGBA_SUB)
+
+            
             # player
-            player.draw(screen)
+            if self.dead == False:
+                player.draw(screen)
 
             # projectiles
             for proj in projectiles:
@@ -124,8 +141,9 @@ class Game:
             #stages.draw_after(screen)
             
             # hud
-            health.draw(screen)
-            exp.draw(screen)
+            if self.dead == False:
+                health.draw(screen)
+                exp.draw(screen)
 
             # menu if paused
             if self.pause:
@@ -192,9 +210,9 @@ class Game:
                 running = quit_handler()
 
             # updates
-            if self.pause == False:
+            if self.pause == False and self.dead == False:
                 updates(dt)
-            else:
+            elif self.pause:
                 ret_val = menu.update(events)
                 if ret_val == menu.EXIT_GAME:
                     self.pause = False
@@ -207,7 +225,20 @@ class Game:
 
             # player death
             if len(players) == 0:
-                running = False
+                # turn off enemy 
+                # fade to black
+                self.dead = True
+                
+                self.alpha_current += self.alpha_increase
+                self.alpha_current = min(self.alpha_current, 255)
+                
+                fade.set_alpha((int)(self.alpha_current))
+                
+                screen.blit(fade, (0, 0))
+                
+                self.time_to_end -= 1
+                if (self.time_to_end <= 0):
+                    running = False
 
             # display
             pygame.display.update()

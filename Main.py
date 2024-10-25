@@ -1,3 +1,5 @@
+# LONE MOON 
+
 import pygame
 from config import *
 from Game import Game
@@ -18,12 +20,11 @@ main_menu.add_button("Enter", SCREEN_WIDTH/2, SCREEN_HEIGHT/2, font_size=64)
 
 # TODO main menu should have buttons to change starting run eventually
 
-# game
-game = Game()
 
 while True:
     if main_menu.start_menu(screen):
         # start game
+        game = Game()
         game.run_game_loop(screen)
     else: 
         break

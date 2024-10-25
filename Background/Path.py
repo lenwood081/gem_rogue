@@ -103,7 +103,7 @@ class Path:
         self.base_tiles = TileMap(self.path_grid, [["assets/background/background_cobble_tile1.png"]], pos, self.none_group, Tile)
 
         # add border tiles
-        self.border_tiles =  TileMap(self.border_grid, [["assets/background/boundary_box.png"]], pos, self.none_group, Tile)
+        self.border_tiles =  TileMap(self.border_grid, [["assets/background/blank_tile.png"]], pos, self.none_group, Tile)
         self.border_tiles.add_collisions(self.boundry)
 
     # tunnel in direction

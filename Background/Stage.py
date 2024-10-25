@@ -52,7 +52,7 @@ class Stage:
 
         # ------------------------------ tiles for collisions --------------------------------------
 
-        self.boundary_tiles = TileMap(self.boundary_array, [["assets/background/boundary_box.png"]], self.draw_pos, enemy_group, Tile)
+        self.boundary_tiles = TileMap(self.boundary_array, [["assets/background/blank_tile.png"]], self.draw_pos, enemy_group, Tile)
         self.boundary_tiles.add_collisions(collisions_group)
 
 
@@ -74,6 +74,7 @@ class Stage:
 
     # start enemy spawning
     def iniciate(self, diff_coeff):
+        
         self.iniciated = True
         self.instant_director.activate(diff_coeff)
 
