@@ -60,7 +60,7 @@ class Stage:
 
         # spawn only on tilemap tiles where spawnable = True
 
-        self.instant_director = Enemy_Director_Instant(150, self.enemies, self.experiance, self.projectiles, self.particles, self.players, self.base_tiles, cam_offset)
+        self.instant_director = Enemy_Director_Instant(300, self.enemies, self.experiance, self.projectiles, self.particles, self.players, self.base_tiles, cam_offset)
         self.fast_director = Enemy_Director_Continous(self.enemies, 2, self.experiance, self.projectiles, self.particles, self.players, self.base_tiles, cam_offset)
         self.intermetdiate_director = Enemy_Director_Continous(self.enemies, 9, self.experiance, self.projectiles, self.particles, self.players, self.base_tiles, cam_offset)
         self.slow_director = Enemy_Director_Continous(self.enemies, 20, self.experiance, self.projectiles, self.particles, self.players, self.base_tiles, cam_offset)
@@ -134,7 +134,7 @@ class Stage:
 
         
         # ------------------------------------ generation idea one ----------------------------------
-        """
+    
         # debuging the time sink
         print("after inital grid", time_check-time.time())
 
@@ -221,14 +221,14 @@ class Stage:
                             num_of_points_found += 1
                             incomplete = True
         
-        print("after flood fill", time_check-time.time())"""
+        print("after flood fill", time_check-time.time())
         # -------------------------------------------- method 2 cell automata with flood fill -----------------------------------------
             
 
         # -------------------------------------------- method 3 faster than method one using consecutive squares -----------------------------------------
         
         # attempt method one, but without needing to flood fill and having a shorter generation time (as these are proved to take the most computation)
-
+        """
         # debuging the time sink
         print("after inital grid", time_check-time.time())
 
@@ -254,7 +254,7 @@ class Stage:
 
         # debuging the time sink
         print("after generation", time_check-time.time())
-        """
+        
         x_start = x = random.randint(3, x_dim-2)
         y_start = y = random.randint(3, y_dim-2)
         x_add = 1
@@ -283,9 +283,9 @@ class Stage:
                 y += y_add
                 y_add = 0
                 
-        """
+        
         # ----------------------------------------------------------------------------------------------------------------------------
-        """
+        
         for generating pathways they will connect directly to the center 4 squares and span from them, they will only start generating once 
         there is no more 2's to connect to
         """

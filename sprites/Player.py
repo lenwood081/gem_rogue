@@ -43,7 +43,7 @@ class Player(ItemHolder):
         # attacking
         self.damage = self.max_damage = 1
         self.knockback = self.max_knockback = 1
-        self.attack_rate = self.max_attack_rate = 3
+        self.attack_rate = self.max_attack_rate = 30
         self.projectile_speed = self.max_projectile_speed = 1000 / FRAMERATE
 
         # immunity_frames
