@@ -226,7 +226,7 @@ class Stage:
             
 
         # -------------------------------------------- method 3 faster than method one using consecutive squares -----------------------------------------
-        """
+        
         # attempt method one, but without needing to flood fill and having a shorter generation time (as these are proved to take the most computation)
 
         # debuging the time sink
@@ -243,9 +243,10 @@ class Stage:
                 self.center_point = Point(x, y)
                 first = False
 
-            number_of_tiles -= self.threeByThree(initial_grid, x, y, 2)
-            x_add = random.randint(-2, 2)
-            y_add = random.randint(-2, 2)
+            number_of_tiles -= 1
+            self.threeByThree(initial_grid, x, y, 2)
+            x_add = random.randint(-1, 1)
+            y_add = random.randint(-1, 1)
             if 1 < x + x_add < x_dim:
                 x += x_add
             if 1 < y + y_add < y_dim:
@@ -282,7 +283,7 @@ class Stage:
                 y += y_add
                 y_add = 0
                 
-
+        """
         # ----------------------------------------------------------------------------------------------------------------------------
         """
         for generating pathways they will connect directly to the center 4 squares and span from them, they will only start generating once 
