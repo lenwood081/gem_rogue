@@ -1,4 +1,5 @@
 import pygame
+import time
 import random
 from Background.Tile import Tile
 from config import *
@@ -117,6 +118,8 @@ class Stage:
 
     def generate_stage(self, percantage_fill, entry_path):
         # percentage_tollerance TODO
+        time_check = time.time()
+        print("start time", time_check-time.time())
 
         # calculate number of tiles in each axis
         x_dim = (int)(self.width // self.tile_dimensions[0] + 1)
@@ -131,9 +134,12 @@ class Stage:
 
         
         # ------------------------------------ generation idea one ----------------------------------
+        """
+        # debuging the time sink
+        print("after inital grid", time_check-time.time())
 
         # pick points to start generation
-        num_of_points = random.randint(2, 4)
+        num_of_points = random.randint(1, 2)
         first = True
         for point in range(num_of_points):
             while True:
@@ -152,6 +158,8 @@ class Stage:
                         initial_grid[x][y] = 0 
                     break;
 
+        
+        print("after first point generation", time_check-time.time())
 
         # generate from those points
         while number_of_tiles > 0:
@@ -180,6 +188,8 @@ class Stage:
         # connected platforms
         num_of_points_found = 0
         incomplete = True
+
+        print("after first generation", time_check-time.time())
 
         # pick a point and flood fill anything not connected is discarded
         while incomplete:
@@ -210,13 +220,70 @@ class Stage:
                             initial_grid[i][j-1] = 2
                             num_of_points_found += 1
                             incomplete = True
-
-        # -------------------------------------------- method 2 cell automata with flood fill -----------------------------------------
-
-
-        # -------------------------------------------- method 3 super tiles, with bridgeing -----------------------------------------
-
         
+        print("after flood fill", time_check-time.time())"""
+        # -------------------------------------------- method 2 cell automata with flood fill -----------------------------------------
+            
+
+        # -------------------------------------------- method 3 faster than method one using consecutive squares -----------------------------------------
+        
+        # attempt method one, but without needing to flood fill and having a shorter generation time (as these are proved to take the most computation)
+
+        # debuging the time sink
+        print("after inital grid", time_check-time.time())
+
+        # pick point to start generation
+        x = random.randint(3, x_dim-2)
+        y = random.randint(3, y_dim-2)
+        first = True
+        while number_of_tiles > 0:
+            if first:
+                # get center and spawn pos for player
+                self.player_start_pos.move(x*self.tile_dimensions[0]+self.tile_dimensions[0]/2, -(y*self.tile_dimensions[1] + self.tile_dimensions[1]/2))
+                self.center_point = Point(x, y)
+                first = False
+
+            number_of_tiles -= 1
+            self.threeByThree(initial_grid, x, y, 2)
+            x_add = random.randint(-1, 1)
+            y_add = random.randint(-1, 1)
+            if 1 < x + x_add < x_dim:
+                x += x_add
+            if 1 < y + y_add < y_dim:
+                y += y_add
+
+        # debuging the time sink
+        print("after generation", time_check-time.time())
+        """
+        x_start = x = random.randint(3, x_dim-2)
+        y_start = y = random.randint(3, y_dim-2)
+        x_add = 1
+        y_add = 0
+        first = True
+        while number_of_tiles > 0:
+            if first:
+                # get center and spawn pos for player
+                self.player_start_pos.move(x*self.tile_dimensions[0]+self.tile_dimensions[0]/2, -(y*self.tile_dimensions[1] + self.tile_dimensions[1]/2))
+                self.center_point = Point(x, y)
+                first = False
+
+            
+
+            initial_grid[x][y] = 2
+            number_of_tiles -= 1
+            if x_add == 0:
+                x = x_start
+            if 1 < x + x_add < x_dim:
+                x += x_add
+            else:
+                y_add = 1
+                x_add = 0
+
+            if 1 < y + y_add < y_dim:
+                y += y_add
+                y_add = 0
+                
+        """
         # ----------------------------------------------------------------------------------------------------------------------------
         """
         for generating pathways they will connect directly to the center 4 squares and span from them, they will only start generating once 
@@ -296,8 +363,7 @@ class Stage:
                                     ,self.draw_pos.y + self.draw_pos.y - self.paths[0][1][1])
                 self.player_start_pos.move(self.draw_pos.x,self.draw_pos.y)
                 
-
-        
+        print("after paths", time_check-time.time())
         # ------------------------------------- boundarys --------------------------------------------
         
         for i in range(x_dim+4):
@@ -334,18 +400,35 @@ class Stage:
                     
         # ----------------------------------------------------------------------------------------------------------------------------
 
+        print("after border", time_check-time.time())
+
         # recast to 0's and -1
         self.final_array = [[0 if initial_grid[i][j] == 2 else -1 for j in range(y_dim+4)] for i in range(x_dim+4)]
         self.boundary_array = [[0 if initial_grid[i][j] == -2 else -1 for j in range(y_dim+4)] for i in range(x_dim+4)]
 
+        print("complete", time_check-time.time())
+
     # utility function
-    def threeByThree(self, grid, x, y, value):
+    def threeByThree(self, grid, x, y, value) -> int:
+        values = 0
+
+        values += grid[x][y] < value
         grid[x][y] = value
+        values += grid[x][y-1] < value 
         grid[x][y-1] = value 
+        values += grid[x][y+1] < value 
         grid[x][y+1] = value 
+        values += grid[x-1][y] < value 
         grid[x-1][y] = value 
+        values += grid[x-1][y-1] < value 
         grid[x-1][y-1] = value
+        values += grid[x-1][y+1] < value 
         grid[x-1][y+1] = value
+        values += grid[x+1][y] < value 
         grid[x+1][y] = value
+        values += grid[x+1][y-1] < value 
         grid[x+1][y-1] = value
+        values += grid[x+1][y+1] < value 
         grid[x+1][y+1] = value
+
+        return values
