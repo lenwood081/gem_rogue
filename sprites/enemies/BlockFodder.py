@@ -24,7 +24,7 @@ class BlockFodder(Enemy):
         self.damage = self.max_damage = 1
         self.can_attack = True
 
-        # health and armour
+        # health and armou
         self.health = self.max_health = 6
         self.armour = self.max_armour = 2
 

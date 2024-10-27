@@ -115,7 +115,7 @@ class EquipmentMenu(Menu):
         
         # item displays
         self.displays = []
-        gap_width = (SCREEN_WIDTH - 4 * IT_WIDTH)/5
+        gap_width = (SCREEN_WIDTH - 3 * IT_WIDTH)/4
 
         # main buttons
         self.add_button("Back", gap_width, 40, self.BACK, font_size=32, padding=(10, 20, 10, 20))
@@ -123,7 +123,7 @@ class EquipmentMenu(Menu):
         i = 0
         for item in player.items:
             if item.type == "Active":
-                self.displays.append(ItemDisplay(item, (IT_WIDTH/2+gap_width)+(i)*(IT_WIDTH+gap_width), 400))
+                self.displays.append(ItemDisplay(item, (IT_WIDTH/2+gap_width)+(i)*(IT_WIDTH+gap_width), SCREEN_HEIGHT/2))
                 i+=1
 
         

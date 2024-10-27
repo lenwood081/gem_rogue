@@ -60,7 +60,7 @@ class Stage:
 
         # spawn only on tilemap tiles where spawnable = True
 
-        self.instant_director = Enemy_Director_Instant(300, self.enemies, self.experiance, self.projectiles, self.particles, self.players, self.base_tiles, cam_offset)
+        self.instant_director = Enemy_Director_Instant(170, self.enemies, self.experiance, self.projectiles, self.particles, self.players, self.base_tiles, cam_offset)
         self.fast_director = Enemy_Director_Continous(self.enemies, 2, self.experiance, self.projectiles, self.particles, self.players, self.base_tiles, cam_offset)
         self.intermetdiate_director = Enemy_Director_Continous(self.enemies, 9, self.experiance, self.projectiles, self.particles, self.players, self.base_tiles, cam_offset)
         self.slow_director = Enemy_Director_Continous(self.enemies, 20, self.experiance, self.projectiles, self.particles, self.players, self.base_tiles, cam_offset)
@@ -77,6 +77,7 @@ class Stage:
         
         self.iniciated = True
         self.instant_director.activate(diff_coeff)
+        # pass
 
     # clear enemies
     def clear_sprites(self):

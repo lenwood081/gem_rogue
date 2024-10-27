@@ -19,6 +19,7 @@ from pygame.locals import (
 import math
 
 MOUSE1 = 0
+MOUSE2 = 1
 
 # TODO link weapon and projectile damage to player damage
 
@@ -28,7 +29,7 @@ class Player(ItemHolder):
         # ---------------------- ITEM HOLDER ATTRIBUTES -------------------
 
         # health
-        self.health = self.max_health = 10
+        self.health = self.max_health = 30
 
         # dimensions
         self.width = self.max_width = 32*SCALE_FACOTOR
@@ -43,7 +44,7 @@ class Player(ItemHolder):
         # attacking
         self.damage = self.max_damage = 1
         self.knockback = self.max_knockback = 1
-        self.attack_rate = self.max_attack_rate = 1
+        self.attack_rate = self.max_attack_rate = 3
         self.projectile_speed = self.max_projectile_speed = 1000 / FRAMERATE
 
         # immunity_frames
@@ -100,6 +101,7 @@ class Player(ItemHolder):
         self.active_item_cap = 4
         self.pickup_item(PlasmaGunItem) 
         self.action_key_array.append(MOUSE1) # pos1
+ 
         self.pickup_item(PlasmaGunItem) 
         self.action_key_array.append(MOUSE1) # pos1
         self.pickup_item(PlasmaGunItem) 
@@ -108,21 +110,11 @@ class Player(ItemHolder):
         self.action_key_array.append(MOUSE1) # pos1
         self.pickup_item(PlasmaGunItem) 
         self.action_key_array.append(MOUSE1) # pos1
-        self.pickup_item(PlasmaGunItem) 
-        self.action_key_array.append(MOUSE1) # pos1
-        self.pickup_item(PlasmaGunItem) 
-        self.action_key_array.append(MOUSE1) # pos1
-        self.pickup_item(PlasmaGunItem) 
-        self.action_key_array.append(MOUSE1) # pos1
-        self.pickup_item(PlasmaGunItem) 
-        self.action_key_array.append(MOUSE1) # pos1
-        self.pickup_item(PlasmaGunItem) 
-        self.action_key_array.append(MOUSE1) # pos1
-        self.pickup_item(PlasmaGunItem) 
-        self.action_key_array.append(MOUSE1) # pos1
+ 
+  
         
-        # self.pickup_item(DashItem) 
-        # self.action_key_array.append(KMOD_LSHIFT) # p
+        self.pickup_item(DashItem) 
+        self.action_key_array.append(KMOD_LSHIFT) # p
 
         self.pickup_item(Quads)
         # self.pickup_item(Quads)
@@ -181,8 +173,8 @@ class Player(ItemHolder):
         # damage
                     
         # add red
-        if (self.health < self.max_health/3):
-            screen.blit(self.damage_surf, (0, 0))
+        # if (self.health < self.max_health/3):
+        #     screen.blit(self.damage_surf, (0, 0))
 
     # ------------------------------------------ facing mouse --------------------------------
 

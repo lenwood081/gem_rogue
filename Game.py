@@ -15,7 +15,7 @@ from pygame.locals import (
     KEYDOWN,
     K_ESCAPE,
     QUIT,
-    K_p
+    K_f
 )
 
 
@@ -30,6 +30,7 @@ class Game:
         self.alpha_increase = self.time_to_end / 255
         self.alpha_current = 0
         self.dead = False
+        self.fade = False
 
     # main game loop
     def run_game_loop(self, screen):
@@ -103,6 +104,8 @@ class Game:
                 if event.type == KEYDOWN:
                     if event.key == K_ESCAPE:
                         self.pause = True
+                    elif event.key == K_f:
+                        self.fade = True
                 elif event.type == QUIT:
                     return False
             return True
@@ -229,6 +232,9 @@ class Game:
                 # fade to black
                 self.dead = True
                 
+                
+                    
+            if self.fade or self.dead:
                 self.alpha_current += self.alpha_increase
                 self.alpha_current = min(self.alpha_current, 255)
                 

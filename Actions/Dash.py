@@ -10,7 +10,7 @@ import pygame
 
 class Dash(Action):
     def __init__(self, cooldown, charges, parent):
-        super().__init__(cooldown, charges, parent, "dash", 0.1)
+        super().__init__(cooldown, charges, parent, "dash", 0.15)
 
         self.class_name = "Utility"
 
